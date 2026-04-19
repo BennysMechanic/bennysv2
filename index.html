@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Benny's MotorWorks</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' rx='6' fill='%23e63950'/><circle cx='11' cy='25' r='3.5' fill='%230f0f1a' stroke='white' stroke-width='1.5'/><circle cx='25' cy='25' r='3.5' fill='%230f0f1a' stroke='white' stroke-width='1.5'/><path d='M7 22 Q10 14 18 14 Q26 14 29 22 L29 24 Q26 23 18 23 Q10 23 7 24Z' fill='white'/><path d='M8 22 L10 17 L14 17 L16 22Z' fill='%23f5c842' opacity='0.9'/><path d='M28 22 L26 17 L22 17 L20 22Z' fill='%23f5c842' opacity='0.9'/></svg>">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-56P728MJS1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-56P728MJS1');
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+/* ─── ROOT ─── */
+:root {
+  --bg:#141414; --bg2:#1c1c1c; --bg3:#242424;
+  --accent:#e63950; --gold:#f5c842; --green:#27ae60;
+  --text:#f0f0f0; --muted:#777; --border:#333;
+  color-scheme:dark;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;height:100vh;display:flex;flex-direction:column;overflow:hidden;}
+
+/* ─── SCREENS ─── */
+.screen{display:none;flex:1;flex-direction:column;overflow:hidden;}
+.screen.active{display:flex;}
+
+/* ─── LOGIN ─── */
+#loginScreen{align-items:center;justify-content:center;background:var(--bg);}
+.login-box{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:40px 36px;width:340px;display:flex;flex-direction:column;gap:20px;}
+.login-logo{text-align:center;}
+.login-logo h1{font-size:24px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;}
+.login-logo h1 span{color:var(--accent);}
+.login-logo .ltag{font-size:9px;letter-spacing:.3em;color:var(--accent);font-family:'Share Tech Mono',monospace;text-transform:uppercase;margin-top:3px;}
+.lf{display:flex;flex-direction:column;gap:5px;}
+.lf label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-family:'Share Tech Mono',monospace;}
+.lf input{background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;padding:9px 12px;outline:none;transition:border-color .2s;width:100%;}
+.lf input:focus{border-color:var(--accent);}
+.login-err{font-size:12px;color:var(--accent);font-family:'Share Tech Mono',monospace;text-align:center;min-height:16px;}
+.login-btn{background:var(--accent);border:none;border-radius:4px;color:white;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:11px;cursor:pointer;transition:all .15s;width:100%;}
+.login-btn:hover:not(:disabled){background:#ff4d63;}
+.login-btn:disabled{opacity:.6;cursor:not-allowed;}
+
+/* ─── CHANGE PASSWORD ─── */
+#changePwScreen{align-items:center;justify-content:center;background:var(--bg);}
+.changepw-box{background:var(--bg2);border:1px solid var(--gold);border-radius:8px;padding:36px;width:360px;display:flex;flex-direction:column;gap:18px;}
+.changepw-title{font-size:14px;font-weight:700;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;font-family:'Share Tech Mono',monospace;}
+.changepw-note{font-size:12px;color:var(--muted);font-family:'Share Tech Mono',monospace;line-height:1.6;}
+
+/* ─── HEADER ─── */
+.header{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:10px 20px;border-bottom:2px solid var(--accent);background:var(--bg2);flex-wrap:wrap;gap:8px;}
+.header h1{font-size:22px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;}
+.header h1 span{color:var(--accent);}
+.header-tag{font-size:9px;letter-spacing:.3em;color:var(--accent);font-family:'Share Tech Mono',monospace;text-transform:uppercase;margin-bottom:2px;}
+.header-sub{font-size:11px;color:var(--muted);font-family:'Share Tech Mono',monospace;}
+.header-btns{display:flex;gap:8px;flex-shrink:0;align-items:center;}
+.user-badge{font-size:11px;font-family:'Share Tech Mono',monospace;color:var(--muted);background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:4px 10px;}
+.user-badge strong{color:var(--text);}
+.user-badge .role-tag{color:var(--gold);font-size:9px;letter-spacing:.1em;margin-left:5px;}
+.hdr-btn{background:transparent;border:1px solid var(--border);border-radius:4px;color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:6px 14px;cursor:pointer;transition:all .15s;}
+.hdr-btn:hover{border-color:var(--muted);color:var(--text);}
+.hdr-btn.active{background:rgba(245,200,66,.12);border-color:var(--gold);color:var(--gold);}
+.hdr-btn.danger:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ─── APP AREA ─── */
+.app{flex:1;overflow:hidden;display:flex;flex-direction:row;min-height:0;}
+.app-left{flex:1;min-width:0;display:grid;grid-template-rows:auto auto 1fr;overflow:hidden;}
+.cols-area{grid-column:1;grid-row:3;display:flex;overflow:hidden;min-height:0;}
+
+/* COLUMNS */
+.col{display:flex;flex-direction:column;overflow:hidden;min-height:0;flex-shrink:0;border-right:1px solid var(--border);min-width:120px;}
+#col-2{flex:1;min-width:150px;}
+.col-head{flex-shrink:0;padding:7px 14px;background:var(--bg2);border-bottom:1px solid var(--border);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-family:'Share Tech Mono',monospace;display:flex;align-items:center;gap:7px;}
+.col-head::before{content:'';width:4px;height:4px;background:var(--accent);border-radius:50%;flex-shrink:0;}
+.col-body{flex:1;overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:5px;background:var(--bg);}
+.col-body::-webkit-scrollbar{width:3px;}
+.col-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+
+/* RESIZE HANDLES */
+.resize-handle,.vresize-handle{width:0;flex-shrink:0;background:transparent;position:relative;z-index:5;transition:background .15s,width .15s;cursor:default;pointer-events:none;}
+.layout-mode .resize-handle,.layout-mode .vresize-handle{width:4px;background:var(--border);cursor:col-resize;pointer-events:all;}
+.layout-mode .resize-handle:hover,.resize-handle.resizing,.layout-mode .vresize-handle:hover,.vresize-handle.resizing{background:var(--accent);}
+
+/* ITEM BUTTON */
+.item-btn{background:var(--bg2);border:1px solid var(--border);border-radius:4px;color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:500;padding:5px 9px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all .12s;user-select:none;letter-spacing:.02em;gap:8px;}
+.item-btn:hover{border-color:var(--accent);color:var(--text);}
+.item-btn.selected{background:rgba(230,57,80,.12);border-color:var(--accent);color:var(--text);}
+.item-btn span:first-child{flex:1;text-align:left;}
+.item-btn .p{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap;flex-shrink:0;}
+.item-btn.selected .p{color:var(--accent);}
+
+/* LEVEL ITEM */
+.lvl-item{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:6px 9px;transition:border-color .12s;}
+.lvl-item.on{border-color:var(--accent);background:rgba(230,57,80,.08);}
+.lvl-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;cursor:pointer;}
+.lvl-name{font-size:13px;font-weight:500;color:var(--muted);transition:color .12s;}
+.lvl-item.on .lvl-name{color:var(--text);}
+.lvl-ptag{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);}
+.lvl-item.on .lvl-ptag{color:var(--accent);}
+.lvl-ctrl{display:flex;align-items:center;gap:4px;}
+.lb{width:20px;height:20px;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;font-family:'Share Tech Mono',monospace;}
+.lb:hover{border-color:var(--accent);color:var(--accent);}
+.lvl-d{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--gold);min-width:34px;text-align:center;}
+.lvl-t{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);margin-left:auto;}
+
+/* SECTION CARD */
+.section-card{background:var(--bg2);border:1px solid var(--border);border-radius:4px;overflow:hidden;display:flex;flex-direction:column;}
+.section-card-head{padding:6px 10px;background:var(--bg3);border-bottom:1px solid var(--border);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-family:'Share Tech Mono',monospace;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;}
+.section-collapse-arrow{font-size:8px;color:var(--muted);transition:transform .2s;flex-shrink:0;}
+.section-card.collapsed .section-collapse-arrow{transform:rotate(-90deg);}
+.section-card-body{padding:6px;display:flex;flex-direction:column;gap:3px;overflow:hidden;transition:max-height .25s ease,padding .25s ease;}
+.section-card.collapsed .section-card-body{max-height:0!important;padding-top:0;padding-bottom:0;}
+.layout-mode .section-card{cursor:grab;border-color:rgba(245,200,66,.3);}
+.layout-mode .section-card:hover{border-color:var(--gold);}
+.section-card.dragging{opacity:.4;}
+.drag-handle{cursor:grab;color:var(--muted);font-size:12px;display:none;user-select:none;}
+.layout-mode .drag-handle{display:block;}
+.droptarget.drag-over{background:rgba(230,57,80,.04);}
+.item-btn.dragging{opacity:.3;}
+.item-btn.drag-over-item{border-color:var(--gold);}
+.layout-mode .item-btn{cursor:grab;}
+
+/* BOTTOM BAR */
+.bottom-bar{grid-row:2;border-bottom:1px solid var(--border);background:var(--bg2);padding:8px 12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.bf{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0;}
+.fl{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-family:'Share Tech Mono',monospace;}
+input[type="text"],input[type="password"],input[type="number"]{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;padding:5px 9px;outline:none;transition:border-color .2s;}
+input[type="text"]:focus,input[type="password"]:focus,input[type="number"]:focus{border-color:var(--accent);}
+input::placeholder{color:var(--muted);font-weight:400;}
+.barrow{font-size:18px;color:var(--accent);font-weight:700;flex-shrink:0;padding-top:13px;}
+textarea{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:13px;padding:5px 9px;outline:none;resize:none;transition:border-color .2s;}
+textarea:focus{border-color:var(--accent);}
+textarea::placeholder{color:var(--muted);}
+
+/* AUTOCOMPLETE */
+.autocomplete-wrap{position:relative;width:100%;}
+.autocomplete-list{position:absolute;top:100%;left:0;right:0;z-index:1000;background:var(--bg3);border:1px solid var(--accent);border-top:none;border-radius:0 0 4px 4px;max-height:140px;overflow-y:auto;display:none;}
+.autocomplete-list.show{display:block;}
+.autocomplete-item{padding:5px 9px;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;transition:background .1s;}
+.autocomplete-item:hover,.autocomplete-item.active{background:rgba(230,57,80,.15);}
+
+/* RIGHT PANEL */
+.rpanel{flex-shrink:0;width:290px;min-width:180px;max-width:600px;display:flex;flex-direction:column;background:var(--bg2);overflow:hidden;border-left:1px solid var(--border);}
+.rhead{flex-shrink:0;padding:8px 14px;background:var(--bg2);border-bottom:1px solid var(--border);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-family:'Share Tech Mono',monospace;display:flex;align-items:center;gap:7px;}
+.rhead::before{content:'';width:6px;height:6px;background:#43b581;border-radius:50%;}
+.outbox{flex:1;overflow-y:auto;background:#1e1e1e;padding:12px 13px;font-family:'Share Tech Mono',monospace;font-size:11px;color:#d4d4d4;line-height:1.65;white-space:pre;overflow-x:auto;}
+.outbox.empty{color:#555;font-style:italic;white-space:pre-wrap;}
+.rfooter{flex-shrink:0;padding:10px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:6px;}
+.total-row{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:7px 12px;display:flex;justify-content:space-between;align-items:center;}
+.tlbl{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);font-family:'Share Tech Mono',monospace;}
+.tval{font-size:24px;font-weight:700;color:var(--gold);font-family:'Rajdhani',sans-serif;line-height:1;}
+.tval span{font-size:13px;color:var(--muted);}
+.tval.pulse{animation:totalPulse .35s ease;}
+@keyframes totalPulse{0%{transform:scale(1);}40%{transform:scale(1.18);color:#ffe066;}100%{transform:scale(1);}}
+.copy-btn{background:var(--accent);border:none;border-radius:4px;color:white;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:10px;cursor:pointer;transition:all .15s;width:100%;}
+.copy-btn:hover:not(:disabled){background:#ff4d63;}
+.copy-btn.copied{background:var(--green);}
+.copy-btn:disabled{background:var(--bg3);color:var(--muted);border:1px solid var(--border);cursor:not-allowed;opacity:.6;}
+.send-btn{background:var(--green);border:none;border-radius:4px;color:white;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:10px;cursor:pointer;transition:all .15s;width:100%;}
+.send-btn:hover:not(:disabled){background:#219a52;}
+.send-btn:disabled{background:var(--bg3);color:var(--muted);border:1px solid var(--border);cursor:not-allowed;opacity:.6;}
+.reset-btn{background:transparent;border:1px solid var(--border);border-radius:4px;color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:7px;cursor:pointer;transition:all .15s;width:100%;}
+.reset-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* CUSTOM ITEMS */
+.custom-item-row{display:flex;gap:5px;margin-bottom:5px;}
+.custom-item-row input{background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:500;padding:5px 8px;outline:none;transition:border-color .2s;}
+.custom-item-row input:focus{border-color:var(--accent);}
+.custom-item-name{flex:1;}
+.custom-item-price{width:80px;}
+.custom-add-btn{background:var(--accent);border:none;border-radius:4px;color:white;font-size:16px;cursor:pointer;padding:0 10px;transition:all .15s;flex-shrink:0;}
+.custom-add-btn:hover{background:#ff4d63;}
+.custom-item-list{display:flex;flex-direction:column;gap:3px;}
+.custom-item-entry{display:flex;align-items:center;justify-content:space-between;background:rgba(230,57,80,.08);border:1px solid rgba(230,57,80,.25);border-radius:4px;padding:5px 9px;font-size:13px;gap:6px;}
+.custom-item-entry span{flex:1;color:var(--text);}
+.custom-item-entry .ci-price{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);white-space:nowrap;}
+.custom-item-entry .ci-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:0;line-height:1;transition:color .15s;}
+.custom-item-entry .ci-del:hover{color:var(--accent);}
+
+/* DISCOUNT */
+.discount-wrap{display:flex;flex-direction:column;gap:4px;}
+.discount-row{display:flex;gap:5px;align-items:center;}
+.discount-input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:500;padding:5px 9px;outline:none;transition:border-color .2s;}
+.discount-input:focus{border-color:var(--gold);}
+.discount-apply-btn{background:var(--green);border:none;border-radius:4px;color:white;font-size:16px;cursor:pointer;padding:0 10px;transition:all .15s;flex-shrink:0;}
+.discount-apply-btn:hover{background:#219a52;}
+.discount-active-row{display:flex;align-items:center;justify-content:space-between;background:rgba(39,174,96,.1);border:1px solid rgba(39,174,96,.25);border-radius:4px;padding:5px 9px;font-size:13px;gap:6px;}
+.discount-active-row span{color:var(--text);flex:1;}
+.discount-active-price{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--green);white-space:nowrap;}
+.discount-clear-btn{background:var(--accent);border:none;border-radius:4px;color:white;font-size:16px;font-weight:700;cursor:pointer;width:28px;height:28px;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:10px 20px;font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--text);z-index:9999;transition:transform .3s ease,opacity .3s ease;opacity:0;white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+.toast.success{border-color:var(--green);color:var(--green);}
+.toast.error{border-color:var(--accent);color:var(--accent);}
+
+/* ── PRESETS MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;display:none;align-items:center;justify-content:center;}
+.modal-overlay.show{display:flex;}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:6px;width:95vw;max-width:1100px;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;}
+.modal-head{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px;flex-wrap:wrap;}
+.modal-title{font-size:15px;font-weight:700;letter-spacing:.05em;color:var(--text);}
+.modal-close{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;line-height:1;transition:color .15s;}
+.modal-close:hover{color:var(--accent);}
+.modal-body{padding:12px;overflow-y:auto;flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;align-content:start;}
+.modal-foot{padding:10px 12px;border-top:1px solid var(--border);flex-shrink:0;display:flex;gap:8px;align-items:center;}
+.tag-filter-bar{display:flex;align-items:center;gap:6px;flex:1;flex-wrap:wrap;min-width:0;}
+.tag-filter-btn{background:transparent;border:1px solid var(--border);border-radius:20px;color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;padding:3px 10px;cursor:pointer;transition:all .12s;white-space:nowrap;text-transform:uppercase;}
+.tag-filter-btn.active{background:rgba(230,57,80,.15);border-color:var(--accent);color:var(--accent);}
+.preset-item{background:var(--bg3);border:1px solid var(--border);border-radius:4px;display:flex;flex-direction:column;overflow:hidden;min-height:140px;}
+.preset-item.hidden{display:none;}
+.preset-item-tags{display:flex;flex-wrap:wrap;gap:4px;padding:6px 10px 4px;}
+.ptag{font-size:9px;letter-spacing:.08em;text-transform:uppercase;font-family:'Share Tech Mono',monospace;padding:2px 7px;border-radius:20px;border:1px solid;}
+.ptag-Opening{color:#43b581;border-color:rgba(67,181,129,.4);background:rgba(67,181,129,.08);}
+.ptag-Closing{color:#e05252;border-color:rgba(224,82,82,.4);background:rgba(224,82,82,.08);}
+.ptag-Repair{color:#f5a623;border-color:rgba(245,166,35,.4);background:rgba(245,166,35,.08);}
+.ptag-Tow{color:#7289da;border-color:rgba(114,137,218,.4);background:rgba(114,137,218,.08);}
+.ptag-Offers{color:var(--gold);border-color:rgba(245,200,66,.4);background:rgba(245,200,66,.08);}
+.preset-text-area{flex:1;width:100%;background:transparent;border:none;color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:11px;line-height:1.65;padding:6px 12px 10px;white-space:pre-wrap;word-break:break-word;overflow:hidden;}
+.preset-item-foot{padding:6px 10px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:6px;flex-shrink:0;}
+.preset-meta{display:flex;flex-direction:column;gap:1px;}
+.preset-usage{font-size:9px;letter-spacing:.1em;color:var(--muted);font-family:'Share Tech Mono',monospace;}
+.preset-last-used{font-size:9px;color:var(--muted);font-family:'Share Tech Mono',monospace;font-style:italic;}
+.preset-copy-btn{background:var(--accent);border:none;border-radius:4px;color:white;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:6px 14px;cursor:pointer;transition:all .15s;}
+.preset-copy-btn:hover{background:#ff4d63;}
+.preset-copy-btn.copied{background:var(--green);}
+.shuffle-btn{background:transparent;border:1px solid var(--border);border-radius:4px;color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;padding:5px 12px;cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0;}
+.shuffle-btn:hover{border-color:var(--gold);color:var(--gold);}
+.add-preset-btn{background:transparent;border:1px dashed var(--border);border-radius:4px;color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;letter-spacing:.08em;padding:9px 20px;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.add-preset-btn:hover{border-color:var(--accent);color:var(--accent);}
+.presets-count-badge{font-size:9px;letter-spacing:.1em;color:var(--muted);font-family:'Share Tech Mono',monospace;}
+
+/* ── ADMIN DASHBOARD ── */
+#adminScreen{background:var(--bg);flex-direction:column;}
+.admin-header{flex-shrink:0;}
+.admin-body{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:20px;}
+.admin-tabs{display:flex;gap:6px;flex-shrink:0;border-bottom:1px solid var(--border);padding:0 20px;}
+.atab{background:transparent;border:none;color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:10px 16px;cursor:pointer;transition:all .15s;border-bottom:2px solid transparent;margin-bottom:-1px;}
+.atab:hover{color:var(--text);}
+.atab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.atab-pane{display:none;}
+.atab-pane.active{display:block;}
+
+/* STAT CARDS */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 16px;}
+.stat-label{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-family:'Share Tech Mono',monospace;margin-bottom:6px;}
+.stat-val{font-size:28px;font-weight:700;font-family:'Rajdhani',sans-serif;color:var(--gold);line-height:1;}
+.stat-sub{font-size:11px;color:var(--muted);font-family:'Share Tech Mono',monospace;margin-top:3px;}
+.stat-card.green .stat-val{color:var(--green);}
+.stat-card.red .stat-val{color:var(--accent);}
+
+/* TABLES */
+.admin-table-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+.admin-table-head{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.admin-table-title{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-family:'Share Tech Mono',monospace;}
+table{width:100%;border-collapse:collapse;}
+th{text-align:left;padding:8px 12px;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);font-family:'Share Tech Mono',monospace;border-bottom:1px solid var(--border);}
+td{padding:8px 12px;font-size:13px;font-weight:500;border-bottom:1px solid rgba(51,51,51,.5);}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,.02);}
+.badge{font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-family:'Share Tech Mono',monospace;padding:2px 7px;border-radius:20px;border:1px solid;}
+.badge-admin{color:var(--gold);border-color:rgba(245,200,66,.4);background:rgba(245,200,66,.08);}
+.badge-staff{color:var(--muted);border-color:var(--border);background:var(--bg3);}
+.badge-active{color:var(--green);border-color:rgba(39,174,96,.4);background:rgba(39,174,96,.08);}
+.badge-inactive{color:var(--accent);border-color:rgba(230,57,80,.4);background:rgba(230,57,80,.08);}
+
+/* ADMIN ACTION BUTTONS */
+.act-btn{background:transparent;border:1px solid var(--border);border-radius:3px;color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;padding:3px 8px;cursor:pointer;transition:all .12s;}
+.act-btn:hover{border-color:var(--accent);color:var(--accent);}
+.act-btn.green:hover{border-color:var(--green);color:var(--green);}
+
+/* ADMIN FORMS */
+.aform{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:12px;}
+.aform-title{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-family:'Share Tech Mono',monospace;}
+.aform-row{display:flex;gap:10px;flex-wrap:wrap;}
+.aform-field{display:flex;flex-direction:column;gap:4px;flex:1;min-width:120px;}
+.aform-field label{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);font-family:'Share Tech Mono',monospace;}
+.aform-field input,.aform-field select{background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;padding:6px 9px;outline:none;transition:border-color .2s;width:100%;}
+.aform-field input:focus,.aform-field select:focus{border-color:var(--accent);}
+.aform-field select{cursor:pointer;}
+.aform-submit{background:var(--accent);border:none;border-radius:4px;color:white;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:9px 20px;cursor:pointer;transition:all .15s;align-self:flex-end;}
+.aform-submit:hover{background:#ff4d63;}
+
+/* LOADING */
+.loading-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99999;display:none;align-items:center;justify-content:center;}
+.loading-overlay.show{display:flex;}
+.spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* LAYOUT BANNER */
+#layoutBanner{display:none;grid-row:1;z-index:11;background:rgba(245,200,66,.1);border-bottom:1px solid rgba(245,200,66,.3);padding:8px 16px;align-items:center;justify-content:space-between;}
+</style>
+</head>
+<body>
+
+<!-- ── LOADING OVERLAY ── -->
+<div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div></div>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast"></div>
+
+<!-- ══════════════════════════════
+     LOGIN SCREEN
+══════════════════════════════ -->
+<div class="screen" id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="ltag">🔧 Order System v2.0.0</div>
+      <h1>Benny's <span>MotorWorks</span></h1>
+    </div>
+    <div class="lf">
+      <label>Username</label>
+      <input type="text" id="loginUser" placeholder="Enter username" autocomplete="username">
+    </div>
+    <div class="lf">
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="Enter password" autocomplete="current-password">
+    </div>
+    <div class="login-err" id="loginErr"></div>
+    <button class="login-btn" id="loginBtn" onclick="doLogin()">Sign In</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     CHANGE PASSWORD SCREEN
+══════════════════════════════ -->
+<div class="screen" id="changePwScreen">
+  <div class="changepw-box">
+    <div class="changepw-title">⚠ Password Change Required</div>
+    <div class="changepw-note">Your account requires a password change before you can continue. Choose a new password (min 6 characters).</div>
+    <div class="lf">
+      <label>Current Password</label>
+      <input type="password" id="cpCurrent" placeholder="Current password">
+    </div>
+    <div class="lf">
+      <label>New Password</label>
+      <input type="password" id="cpNew" placeholder="New password (min 6 chars)">
+    </div>
+    <div class="lf">
+      <label>Confirm New Password</label>
+      <input type="password" id="cpConfirm" placeholder="Confirm new password">
+    </div>
+    <div class="login-err" id="cpErr"></div>
+    <button class="login-btn" onclick="doChangePassword()">Update Password</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     STAFF TOOL SCREEN
+══════════════════════════════ -->
+<div class="screen" id="staffScreen">
+  <!-- PRESETS MODAL -->
+  <div class="modal-overlay" id="presetsModal">
+    <div class="modal">
+      <div class="modal-head">
+        <span class="modal-title">📋 Advertisement Presets</span>
+        <div class="tag-filter-bar" id="tagFilterBar"></div>
+        <button class="shuffle-btn" onclick="shufflePreset()">🎲 Shuffle</button>
+        <button class="modal-close" onclick="closePresets()">×</button>
+      </div>
+      <div class="modal-body" id="presetsList"></div>
+      <div class="modal-foot">
+        <span class="presets-count-badge" id="presetsCount"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="header">
+    <div>
+      <div class="header-tag">🔧 Order System v2.0.0 By Jenni</div>
+      <h1>Benny's <span>MotorWorks</span></h1>
+    </div>
+    <div class="header-sub">Staff Order Tool</div>
+    <div class="header-btns">
+      <span class="user-badge" id="userBadge"></span>
+      <button class="hdr-btn" onclick="openPresets()">📋 Presets</button>
+      <button class="hdr-btn" id="settingsBtn" onclick="toggleLayoutMode()">⚙️ Layout</button>
+      <button class="hdr-btn" id="adminDashBtn" style="display:none" onclick="showAdmin()">📊 Dashboard</button>
+      <button class="hdr-btn danger" onclick="doLogout()">Sign Out</button>
+    </div>
+  </div>
+
+  <div class="app">
+    <div class="app-left">
+      <div id="layoutBanner">
+        <span style="font-size:11px;letter-spacing:.15em;color:var(--gold);font-family:'Share Tech Mono',monospace;">⚙️ LAYOUT MODE</span>
+        <div style="display:flex;gap:8px;">
+          <button onclick="resetLayout()" style="background:transparent;border:1px solid rgba(230,57,80,.5);border-radius:3px;color:var(--accent);font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:6px 16px;cursor:pointer;">↺ Reset</button>
+          <button onclick="saveLayout()" style="background:var(--green);border:none;border-radius:3px;color:white;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:6px 16px;cursor:pointer;">✓ Done</button>
+        </div>
+      </div>
+
+      <div class="bottom-bar">
+        <div class="bf">
+          <div class="fl">👤 To (Customer)</div>
+          <div class="autocomplete-wrap">
+            <input type="text" id="toName" placeholder="e.g. Javi" autocomplete="off" oninput="onCustomerInput(this)">
+            <div class="autocomplete-list" id="autocompleteList"></div>
+          </div>
+        </div>
+        <div class="bf">
+          <div class="fl">🚘 Number Plate</div>
+          <input type="text" id="plateNum" placeholder="e.g. BRP 698" oninput="this.value=this.value.toUpperCase();update()">
+        </div>
+        <div class="bf">
+          <div class="fl">🚙 Vehicle Model</div>
+          <input type="text" id="vehicleModel" placeholder="e.g. Sultan RS" oninput="update()">
+        </div>
+        <div class="bf" style="flex:1.5;">
+          <div class="fl">📝 Notes (optional)</div>
+          <textarea id="notes" rows="1" placeholder="e.g. Emergency vehicle..." oninput="update()"></textarea>
+        </div>
+      </div>
+
+      <div class="cols-area" id="colsArea">
+        <div class="col" id="col-0"><div class="col-head">🔩 Exterior</div><div class="col-body droptarget" id="drop-0"></div></div>
+        <div class="resize-handle" id="rh-0"></div>
+        <div class="col" id="col-1"><div class="col-head">🎨 Visuals</div><div class="col-body droptarget" id="drop-1"></div></div>
+        <div class="resize-handle" id="rh-1"></div>
+        <div class="col" id="col-2"><div class="col-head">⚙️ Performance & Services</div><div class="col-body droptarget" id="drop-2"></div></div>
+      </div>
+    </div>
+
+    <div class="vresize-handle" id="vrh"></div>
+
+    <div class="rpanel" id="rpanel">
+      <div class="rhead">Discord Output</div>
+      <div class="outbox empty" id="outputBox">Fill in details above...</div>
+      <div class="rfooter">
+        <div class="total-row">
+          <span class="tlbl">Total</span>
+          <span class="tval" id="tval"><span>$</span><span id="totalAmt">0</span></span>
+        </div>
+        <button class="send-btn" id="sendBtn" onclick="submitOrder()" disabled>🔒 Fill all fields first</button>
+        <button class="copy-btn" id="copyBtn" onclick="copyOutput()" disabled>📋 Copy Receipt</button>
+        <button class="reset-btn" onclick="resetAll()">Reset Order</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     ADMIN DASHBOARD SCREEN
+══════════════════════════════ -->
+<div class="screen" id="adminScreen">
+  <div class="header admin-header">
+    <div>
+      <div class="header-tag">📊 Admin Dashboard v2.0.0</div>
+      <h1>Benny's <span>MotorWorks</span></h1>
+    </div>
+    <div class="header-sub">Admin Panel</div>
+    <div class="header-btns">
+      <span class="user-badge" id="adminUserBadge"></span>
+      <button class="hdr-btn" onclick="showStaff()">🔧 Order Tool</button>
+      <button class="hdr-btn danger" onclick="doLogout()">Sign Out</button>
+    </div>
+  </div>
+
+  <div class="admin-tabs">
+    <button class="atab active" onclick="switchAdminTab('overview')">📊 Overview</button>
+    <button class="atab" onclick="switchAdminTab('staff')">👥 Staff</button>
+    <button class="atab" onclick="switchAdminTab('orders')">📋 Orders</button>
+    <button class="atab" onclick="switchAdminTab('items')">🔩 Items</button>
+    <button class="atab" onclick="switchAdminTab('presets')">📢 Presets</button>
+  </div>
+
+  <div class="admin-body">
+    <!-- OVERVIEW -->
+    <div class="atab-pane active" id="pane-overview">
+      <div class="stat-grid" id="statGrid">
+        <div class="stat-card"><div class="stat-label">Today's Orders</div><div class="stat-val" id="st-today">—</div></div>
+        <div class="stat-card"><div class="stat-label">This Week</div><div class="stat-val" id="st-week">—</div></div>
+        <div class="stat-card"><div class="stat-label">This Month</div><div class="stat-val" id="st-month">—</div></div>
+        <div class="stat-card green"><div class="stat-label">Month Revenue</div><div class="stat-val" id="st-mrev">—</div></div>
+        <div class="stat-card green"><div class="stat-label">Total Revenue</div><div class="stat-val" id="st-trev">—</div></div>
+        <div class="stat-card"><div class="stat-label">Active Staff</div><div class="stat-val" id="st-staff">—</div></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;" id="dashGrids">
+        <div class="admin-table-wrap">
+          <div class="admin-table-head"><span class="admin-table-title">Staff Performance (Month)</span></div>
+          <table><thead><tr><th>Staff</th><th>Orders</th><th>Revenue</th></tr></thead><tbody id="staffPerfTable"></tbody></table>
+        </div>
+        <div class="admin-table-wrap">
+          <div class="admin-table-head"><span class="admin-table-title">Top Items (Month)</span></div>
+          <table><thead><tr><th>Item</th><th>Count</th><th>Revenue</th></tr></thead><tbody id="topItemsTable"></tbody></table>
+        </div>
+      </div>
+
+      <div class="admin-table-wrap" style="margin-top:16px;">
+        <div class="admin-table-head"><span class="admin-table-title">Recent Orders</span></div>
+        <table><thead><tr><th>Time</th><th>Staff</th><th>Customer</th><th>Vehicle</th><th>Total</th><th>Discord</th></tr></thead><tbody id="recentOrdersTable"></tbody></table>
+      </div>
+    </div>
+
+    <!-- STAFF -->
+    <div class="atab-pane" id="pane-staff">
+      <div class="aform" style="margin-bottom:16px;">
+        <div class="aform-title">➕ Create Staff Account</div>
+        <div class="aform-row">
+          <div class="aform-field"><label>Username</label><input type="text" id="ns-user" placeholder="e.g. jenni"></div>
+          <div class="aform-field"><label>Display Name</label><input type="text" id="ns-display" placeholder="e.g. Jenni"></div>
+          <div class="aform-field"><label>Password</label><input type="password" id="ns-pass" placeholder="Temp password"></div>
+          <div class="aform-field"><label>Role</label><select id="ns-role"><option value="staff">Staff</option><option value="admin">Admin</option></select></div>
+        </div>
+        <button class="aform-submit" onclick="createStaff()">Create Account</button>
+      </div>
+      <div class="admin-table-wrap">
+        <div class="admin-table-head"><span class="admin-table-title">All Staff</span></div>
+        <table><thead><tr><th>Username</th><th>Display Name</th><th>Role</th><th>Status</th><th>Last Login</th><th>Actions</th></tr></thead><tbody id="staffTable"></tbody></table>
+      </div>
+    </div>
+
+    <!-- ORDERS -->
+    <div class="atab-pane" id="pane-orders">
+      <div class="admin-table-wrap">
+        <div class="admin-table-head">
+          <span class="admin-table-title">All Orders</span>
+          <span id="ordersTotal" style="font-size:9px;color:var(--muted);font-family:'Share Tech Mono',monospace;"></span>
+        </div>
+        <table><thead><tr><th>Time</th><th>Staff</th><th>Customer</th><th>Plate</th><th>Vehicle</th><th>Items</th><th>Total</th><th>Discord</th></tr></thead><tbody id="allOrdersTable"></tbody></table>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:10px;justify-content:center;">
+        <button class="act-btn" onclick="loadMoreOrders()">Load More</button>
+      </div>
+    </div>
+
+    <!-- ITEMS -->
+    <div class="atab-pane" id="pane-items">
+      <div class="aform" style="margin-bottom:16px;">
+        <div class="aform-title">➕ Add Item</div>
+        <div class="aform-row">
+          <div class="aform-field"><label>Name</label><input type="text" id="ni-name" placeholder="e.g. Spoiler"></div>
+          <div class="aform-field"><label>Price ($)</label><input type="number" id="ni-price" placeholder="1500" min="0"></div>
+          <div class="aform-field"><label>Category</label>
+            <select id="ni-cat">
+              <option value="body">Body</option><option value="parts">Parts</option>
+              <option value="paints">Paints</option><option value="mattFinish">Matt Finish</option>
+              <option value="wheels">Wheels</option><option value="performance">Performance</option>
+              <option value="security">Security</option><option value="repairs">Repairs</option>
+            </select>
+          </div>
+          <div class="aform-field"><label>Max Level (optional)</label><input type="number" id="ni-maxlvl" placeholder="e.g. 3" min="1"></div>
+        </div>
+        <button class="aform-submit" onclick="createItem()">Add Item</button>
+      </div>
+      <div class="admin-table-wrap">
+        <div class="admin-table-head"><span class="admin-table-title">All Items</span></div>
+        <table><thead><tr><th>Category</th><th>Name</th><th>Price</th><th>Max Lvl</th><th>Status</th><th>Actions</th></tr></thead><tbody id="itemsTable"></tbody></table>
+      </div>
+    </div>
+
+    <!-- PRESETS ADMIN -->
+    <div class="atab-pane" id="pane-presets">
+      <div class="aform" style="margin-bottom:16px;">
+        <div class="aform-title">➕ Add Preset</div>
+        <div class="aform-row">
+          <div class="aform-field" style="flex:3"><label>Text</label><textarea id="np-text" rows="3" placeholder="Preset advertisement text..." style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Share Tech Mono',monospace;font-size:11px;padding:6px 9px;outline:none;resize:vertical;width:100%;"></textarea></div>
+          <div class="aform-field"><label>Tags (comma separated)</label><input type="text" id="np-tags" placeholder="Opening, Repair"></div>
+        </div>
+        <button class="aform-submit" onclick="createPreset()">Add Preset</button>
+      </div>
+      <div class="admin-table-wrap">
+        <div class="admin-table-head"><span class="admin-table-title">All Presets</span></div>
+        <table><thead><tr><th>Preview</th><th>Tags</th><th>Used</th><th>Actions</th></tr></thead><tbody id="presetsAdminTable"></tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── CONFIG ───
+// Change this to your Railway backend URL
+const API = 'https://YOUR-RAILWAY-APP.railway.app';
+
+// ─── AUTH STATE ───
+let authToken = null;
+let currentUser = null;
+let tokenRefreshTimer = null;
+
+// ─── API HELPER ───
+async function api(method, path, body, skipAuth = false) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (authToken && !skipAuth) headers['Authorization'] = `Bearer ${authToken}`;
+
+  const opts = { method, headers, credentials: 'include' };
+  if (body) opts.body = JSON.stringify(body);
+
+  let res = await fetch(API + path, opts);
+
+  // Auto-refresh token on 401 TOKEN_EXPIRED
+  if (res.status === 401 && !skipAuth) {
+    const data = await res.json().catch(() => ({}));
+    if (data.code === 'TOKEN_EXPIRED') {
+      const refreshed = await tryRefreshToken();
+      if (refreshed) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+        opts.headers = headers;
+        res = await fetch(API + path, opts);
+      } else {
+        forceLogout();
+        throw new Error('Session expired');
+      }
+    }
+  }
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ error: 'Network error' }));
+    throw new Error(err.error || 'Request failed');
+  }
+
+  return res.json().catch(() => ({}));
+}
+
+async function tryRefreshToken() {
+  try {
+    const data = await fetch(API + '/api/auth/refresh', {
+      method: 'POST', credentials: 'include'
+    }).then(r => r.json());
+    if (data.token) { authToken = data.token; return true; }
+    return false;
+  } catch { return false; }
+}
+
+function scheduleTokenRefresh() {
+  clearTimeout(tokenRefreshTimer);
+  // Refresh 5 min before 1hr expiry
+  tokenRefreshTimer = setTimeout(async () => {
+    const ok = await tryRefreshToken();
+    if (ok) scheduleTokenRefresh();
+    else forceLogout();
+  }, 55 * 60 * 1000);
+}
+
+// ─── TOAST ───
+let toastTimer;
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.className = 'toast', 3000);
+}
+
+// ─── LOADING ───
+function setLoading(v) { document.getElementById('loadingOverlay').classList.toggle('show', v); }
+
+// ─── SCREENS ───
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ─── LOGIN ───
+async function doLogin() {
+  const username = document.getElementById('loginUser').value.trim();
+  const password = document.getElementById('loginPass').value;
+  const errEl = document.getElementById('loginErr');
+  const btn = document.getElementById('loginBtn');
+  if (!username || !password) { errEl.textContent = 'Enter username and password'; return; }
+
+  btn.disabled = true; btn.textContent = 'Signing in...'; errEl.textContent = '';
+  try {
+    const data = await api('POST', '/api/auth/login', { username, password }, true);
+    authToken = data.token;
+    currentUser = data.user;
+
+    if (data.user.mustChangePassword) {
+      showScreen('changePwScreen');
+    } else {
+      await afterLogin();
+    }
+  } catch (err) {
+    errEl.textContent = err.message;
+  } finally {
+    btn.disabled = false; btn.textContent = 'Sign In';
+  }
+}
+
+document.getElementById('loginPass').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+async function afterLogin() {
+  scheduleTokenRefresh();
+  // Load items from backend
+  await loadItems();
+  // Set user badge
+  const badge = `<strong>${currentUser.displayName}</strong><span class="role-tag">${currentUser.role.toUpperCase()}</span>`;
+  document.getElementById('userBadge').innerHTML = badge;
+  document.getElementById('adminUserBadge').innerHTML = badge;
+  // Show admin button if admin
+  if (currentUser.role === 'admin') {
+    document.getElementById('adminDashBtn').style.display = '';
+  }
+  showScreen('staffScreen');
+}
+
+// ─── CHANGE PASSWORD ───
+async function doChangePassword() {
+  const current = document.getElementById('cpCurrent').value;
+  const newPw = document.getElementById('cpNew').value;
+  const confirm = document.getElementById('cpConfirm').value;
+  const errEl = document.getElementById('cpErr');
+
+  if (!current || !newPw || !confirm) { errEl.textContent = 'All fields required'; return; }
+  if (newPw !== confirm) { errEl.textContent = 'Passwords do not match'; return; }
+  if (newPw.length < 6) { errEl.textContent = 'Min 6 characters'; return; }
+
+  setLoading(true);
+  try {
+    await api('POST', '/api/auth/change-password', { currentPassword: current, newPassword: newPw });
+    currentUser.mustChangePassword = false;
+    showToast('Password updated!', 'success');
+    await afterLogin();
+  } catch (err) {
+    errEl.textContent = err.message;
+  } finally {
+    setLoading(false);
+  }
+}
+
+// ─── LOGOUT ───
+async function doLogout() {
+  clearTimeout(tokenRefreshTimer);
+  try { await api('POST', '/api/auth/logout'); } catch {}
+  authToken = null; currentUser = null;
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+  document.getElementById('loginErr').textContent = '';
+  showScreen('loginScreen');
+}
+
+function forceLogout() {
+  showToast('Session expired. Please sign in again.', 'error');
+  setTimeout(doLogout, 1500);
+}
+
+function showAdmin() { loadDashboard(); showScreen('adminScreen'); }
+function showStaff() { showScreen('staffScreen'); }
+
+// ─── DATA ───
+let data = { body:[], parts:[], paints:[], mattFinish:[], wheels:[], performance:[], security:[], repairs:[] };
+
+async function loadItems() {
+  try {
+    const grouped = await api('GET', '/api/items');
+    // Map backend format to internal format
+    Object.keys(data).forEach(cat => { data[cat] = (grouped[cat] || []).map(i => ({ name: i.name, price: i.price, maxLvl: i.maxLvl || null, _id: i.id })); });
+    renderLayout();
+    setupDropTargets();
+  } catch (err) {
+    showToast('Failed to load items: ' + err.message, 'error');
+  }
+}
+
+const sel = { body:new Set(), parts:new Set(), paints:new Set(), wheels:new Set(), repairs:new Set(), performance:{}, security:{}, mattFinish:new Set() };
+let customItems = [], discountAmount = 0;
+const fmt = n => Number(n).toLocaleString();
+let lastTotal = 0;
+
+// ─── CUSTOMER AUTOCOMPLETE ───
+let customerHistory = JSON.parse(localStorage.getItem('bmw-customers') || '[]');
+let acActiveIdx = -1;
+function saveCustomerHistory(name) { if (!name?.trim()) return; name = name.trim(); if (!customerHistory.includes(name)) { customerHistory.unshift(name); if (customerHistory.length > 30) customerHistory = customerHistory.slice(0, 30); localStorage.setItem('bmw-customers', JSON.stringify(customerHistory)); } }
+function onCustomerInput(inp) { update(); const val = inp.value.trim().toLowerCase(); const list = document.getElementById('autocompleteList'); acActiveIdx = -1; if (!val) { list.classList.remove('show'); list.innerHTML = ''; return; } const matches = customerHistory.filter(n => n.toLowerCase().includes(val)).slice(0, 8); if (!matches.length) { list.classList.remove('show'); list.innerHTML = ''; return; } list.innerHTML = matches.map((m, i) => `<div class="autocomplete-item" data-idx="${i}" onmousedown="selectCustomer('${m.replace(/'/g, "\\'")}',event)">${m}</div>`).join(''); list.classList.add('show'); }
+function selectCustomer(name, e) { if (e) e.preventDefault(); document.getElementById('toName').value = name; document.getElementById('autocompleteList').classList.remove('show'); update(); }
+document.addEventListener('click', e => { const list = document.getElementById('autocompleteList'); if (list && !list.contains(e.target) && e.target.id !== 'toName') list.classList.remove('show'); });
+document.getElementById('toName').addEventListener('keydown', e => { const list = document.getElementById('autocompleteList'); const items = list.querySelectorAll('.autocomplete-item'); if (!items.length) return; if (e.key === 'ArrowDown') { e.preventDefault(); acActiveIdx = Math.min(acActiveIdx + 1, items.length - 1); items.forEach((el, i) => el.classList.toggle('active', i === acActiveIdx)); } else if (e.key === 'ArrowUp') { e.preventDefault(); acActiveIdx = Math.max(acActiveIdx - 1, 0); items.forEach((el, i) => el.classList.toggle('active', i === acActiveIdx)); } else if (e.key === 'Enter' && acActiveIdx >= 0) { e.preventDefault(); selectCustomer(items[acActiveIdx].textContent, null); } else if (e.key === 'Escape') { list.classList.remove('show'); } });
+
+// ─── FULL PACKAGE ───
+function toggleFullPackage(active) { data.performance.forEach((_, i) => { sel.performance[i] = active ? data.performance[i].maxLvl : 0; updLvl('performance', i); const div = document.getElementById(`performance-${i}`); if (div) { div.querySelectorAll('.lb').forEach(btn => btn.disabled = active); div.style.opacity = active ? '0.6' : '1'; } }); }
+
+// ─── LEVELS ───
+function toggleLvl(cat, i) { sel[cat][i] = sel[cat][i] > 0 ? 0 : 1; updLvl(cat, i); update(); }
+function chLvl(cat, i, d, max) { event.stopPropagation(); sel[cat][i] = Math.min(max, Math.max(0, (sel[cat][i] || 0) + d)); updLvl(cat, i); update(); }
+function updLvl(cat, i) { const v = sel[cat][i], item = data[cat][i]; const div = document.getElementById(`${cat}-${i}`), ld = document.getElementById(`ld-${cat}-${i}`), lt = document.getElementById(`lt-${cat}-${i}`); if (!div || !ld || !lt) return; div.classList.toggle('on', v > 0); ld.textContent = v > 0 ? `LVL ${v}` : 'OFF'; lt.textContent = v > 0 ? `$${fmt(item.price * v)}` : ''; }
+
+// ─── CUSTOM ITEMS ───
+function renderCustomSection(container) { container.innerHTML = `<div class="custom-item-row"><input class="custom-item-name" type="text" id="ci-name" placeholder="Item name..."/><input class="custom-item-price" type="number" id="ci-price" placeholder="Amount" min="0"/><button class="custom-add-btn" onclick="addCustomItem()">+</button></div><div class="custom-item-list" id="ci-list"></div>`; renderCustomList(); }
+function renderCustomList() { const list = document.getElementById('ci-list'); if (!list) return; list.innerHTML = ''; customItems.forEach((item, i) => { const div = document.createElement('div'); div.className = 'custom-item-entry'; div.innerHTML = `<span>${item.name}</span><span class="ci-price">$${fmt(item.price)}</span><button class="ci-del" onclick="removeCustomItem(${i})">×</button>`; list.appendChild(div); }); }
+function addCustomItem() { const name = (document.getElementById('ci-name') || {}).value?.trim(); const price = parseInt((document.getElementById('ci-price') || {}).value) || 0; if (!name || price <= 0) return; customItems.push({ name, price }); document.getElementById('ci-name').value = ''; document.getElementById('ci-price').value = ''; renderCustomList(); update(); }
+function removeCustomItem(i) { customItems.splice(i, 1); renderCustomList(); update(); }
+
+// ─── DISCOUNT ───
+function renderDiscountSection(container) { container.innerHTML = `<div class="discount-wrap"><div class="discount-row"><input class="discount-input" type="number" id="discountInput" placeholder="Discount amount..." min="0"><button class="discount-apply-btn" onclick="applyDiscount()">+</button></div><div id="discount-display"></div></div>`; renderDiscountDisplay(); }
+function renderDiscountDisplay() { const el = document.getElementById('discount-display'); if (!el) return; if (discountAmount > 0) { el.innerHTML = `<div class="discount-active-row"><span>Discount applied</span><span class="discount-active-price">-$${fmt(discountAmount)}</span><button class="discount-clear-btn" onclick="clearDiscount()">−</button></div>`; } else { el.innerHTML = ''; } }
+function applyDiscount() { const val = parseInt((document.getElementById('discountInput') || {}).value) || 0; if (val <= 0) return; discountAmount = val; const di = document.getElementById('discountInput'); if (di) di.value = ''; renderDiscountDisplay(); update(); }
+function clearDiscount() { discountAmount = 0; renderDiscountDisplay(); update(); }
+
+// ─── GET ITEMS ───
+function getItems() { const items = []; const fpIdx = data.repairs.findIndex(r => r.name === 'Full Package'); const fp = fpIdx >= 0 && sel.repairs.has(fpIdx); sel.body.forEach(i => items.push({ name: data.body[i].name, price: data.body[i].price })); sel.parts.forEach(i => items.push({ name: data.parts[i].name, price: data.parts[i].price })); sel.paints.forEach(i => items.push({ name: data.paints[i].name, price: data.paints[i].price })); sel.wheels.forEach(i => items.push({ name: `Wheels (${data.wheels[i].name})`, price: data.wheels[i].price })); sel.repairs.forEach(i => items.push({ name: data.repairs[i].name, price: data.repairs[i].price })); if (!fp) { Object.entries(sel.performance).forEach(([i, lvl]) => { if (lvl > 0) items.push({ name: `${data.performance[i].name} (lvl ${lvl})`, price: data.performance[i].price * lvl }); }); } Object.entries(sel.security).forEach(([i, lvl]) => { if (lvl > 0) items.push({ name: `${data.security[i].name} (lvl ${lvl})`, price: data.security[i].price * lvl }); }); sel.mattFinish.forEach(i => items.push({ name: data.mattFinish[i].name, price: data.mattFinish[i].price })); customItems.forEach(item => items.push({ name: item.name, price: item.price })); return items; }
+
+// ─── UPDATE OUTPUT ───
+function update() {
+  const items = getItems();
+  const subtotal = items.reduce((s, i) => s + i.price, 0);
+  const total = Math.max(0, subtotal - discountAmount);
+  const to = document.getElementById('toName').value.trim();
+  const notes = document.getElementById('notes').value.trim();
+  const plate = document.getElementById('plateNum').value.trim();
+  const vehicle = document.getElementById('vehicleModel').value.trim();
+  const allFilled = to && plate && vehicle;
+
+  if (total !== lastTotal) { lastTotal = total; document.getElementById('tval').classList.remove('pulse'); void document.getElementById('tval').offsetWidth; document.getElementById('tval').classList.add('pulse'); }
+  document.getElementById('totalAmt').textContent = fmt(total);
+  ['sendBtn', 'copyBtn'].forEach(id => { const btn = document.getElementById(id); if (!btn) return; btn.disabled = !allFilled; if (id === 'sendBtn') btn.textContent = allFilled ? '📤 Send to Discord' : '🔒 Fill all fields first'; else btn.textContent = allFilled ? '📋 Copy Receipt' : '🔒 Fill all fields first'; });
+
+  const outEl = document.getElementById('outputBox');
+  if (!to && items.length === 0) { outEl.textContent = 'Fill in details above...'; outEl.classList.add('empty'); return; }
+
+  const now = new Date();
+  const ds = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  const ts = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: true });
+  const W = 32, line = '─'.repeat(W), dline = '━'.repeat(W);
+  let lines = [];
+  lines.push("🚗 BENNY'S MOTORWORKS"); lines.push(line);
+  lines.push(`👤 From: ${currentUser?.displayName || '?'}`);
+  lines.push(`👤 To:   ${to || '?'}`);
+  if (plate) lines.push(`🚘 Plate: ${plate}`);
+  if (vehicle) lines.push(`🚙 Vehicle: ${vehicle}`);
+  lines.push(`📅 ${ds}  ${ts}`); lines.push(line);
+  if (items.length > 0) { items.forEach(i => { const p = '$' + fmt(i.price); const d = W - i.name.length - p.length; lines.push(i.name + (d > 0 ? ' '.repeat(d) : ' ') + p); }); } else { lines.push('  (no items selected)'); }
+  lines.push(line);
+  if (discountAmount > 0) { const ds2 = '-$' + fmt(discountAmount); lines.push('Discount' + ' '.repeat(Math.max(1, W - 8 - ds2.length)) + ds2); lines.push(line); }
+  if (notes) { lines.push(`📝 ${notes}`); lines.push(line); }
+  const ts2 = '$' + fmt(total);
+  lines.push('TOTAL' + ' '.repeat(Math.max(1, W - 5 - ts2.length)) + ts2); lines.push(dline);
+  outEl.textContent = lines.join('\n'); outEl.classList.remove('empty');
+}
+
+// ─── SUBMIT ORDER (sends to backend → Discord) ───
+async function submitOrder() {
+  const to = document.getElementById('toName').value.trim();
+  const plate = document.getElementById('plateNum').value.trim();
+  const vehicle = document.getElementById('vehicleModel').value.trim();
+  const notes = document.getElementById('notes').value.trim();
+  if (!to || !plate || !vehicle) return;
+
+  const items = getItems();
+  const subtotal = items.reduce((s, i) => s + i.price, 0);
+  const total = Math.max(0, subtotal - discountAmount);
+
+  const btn = document.getElementById('sendBtn');
+  btn.disabled = true; btn.textContent = '⏳ Sending...';
+  setLoading(true);
+
+  try {
+    const result = await api('POST', '/api/orders', {
+      customerName: to, plate, vehicle, notes,
+      items, discount: discountAmount, total
+    });
+
+    saveCustomerHistory(to);
+    showToast(result.discordPosted ? '✓ Order sent to Discord!' : '✓ Order saved (Discord failed)', result.discordPosted ? 'success' : '');
+    resetAll();
+  } catch (err) {
+    showToast('Failed: ' + err.message, 'error');
+    btn.disabled = false; btn.textContent = '📤 Send to Discord';
+  } finally {
+    setLoading(false);
+  }
+}
+
+// ─── COPY ───
+function copyOutput() {
+  const text = document.getElementById('outputBox').textContent;
+  if (!text || text === 'Fill in details above...') return;
+  const wrapped = '```\n' + text + '\n```';
+  const btn = document.getElementById('copyBtn');
+  const done = () => { btn.textContent = '✓ Copied!'; btn.classList.add('copied'); setTimeout(() => { btn.textContent = '📋 Copy Receipt'; btn.classList.remove('copied'); }, 2000); };
+  if (navigator.clipboard) { navigator.clipboard.writeText(wrapped).then(done).catch(() => { fallbackCopy(wrapped); done(); }); } else { fallbackCopy(wrapped); done(); }
+}
+function fallbackCopy(text) { const ta = document.createElement('textarea'); ta.value = text; ta.style.cssText = 'position:fixed;opacity:0;'; document.body.appendChild(ta); ta.focus(); ta.select(); try { document.execCommand('copy'); } catch (e) {} document.body.removeChild(ta); }
+
+// ─── RESET ───
+function resetAll() { sel.body.clear(); sel.parts.clear(); sel.paints.clear(); sel.wheels.clear(); sel.repairs.clear(); Object.keys(sel.performance).forEach(k => sel.performance[k] = 0); Object.keys(sel.security).forEach(k => sel.security[k] = 0); sel.mattFinish.clear(); customItems = []; discountAmount = 0; const di = document.getElementById('discountInput'); if (di) di.value = ''; renderCustomList(); renderDiscountDisplay(); toggleFullPackage(false); document.querySelectorAll('.item-btn').forEach(b => b.classList.remove('selected')); data.performance.forEach((_, i) => updLvl('performance', i)); data.security.forEach((_, i) => updLvl('security', i)); ['toName', 'notes', 'plateNum', 'vehicleModel'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; }); document.getElementById('totalAmt').textContent = '0'; ['sendBtn', 'copyBtn'].forEach(id => { const el = document.getElementById(id); if (el) { el.disabled = true; el.textContent = id === 'sendBtn' ? '🔒 Fill all fields first' : '🔒 Fill all fields first'; } }); document.getElementById('autocompleteList').classList.remove('show'); update(); }
+
+// ─── SECTIONS / LAYOUT ───
+const collapsedSections = new Set(JSON.parse(localStorage.getItem('bmw-collapsed') || '[]'));
+function toggleCollapse(secId, card) { const body = card.querySelector('.section-card-body'); if (collapsedSections.has(secId)) { collapsedSections.delete(secId); card.classList.remove('collapsed'); body.style.maxHeight = '0px'; void body.offsetHeight; body.style.maxHeight = body.scrollHeight + 'px'; body.addEventListener('transitionend', () => { if (!card.classList.contains('collapsed')) body.style.maxHeight = 'none'; }, { once: true }); } else { collapsedSections.add(secId); body.style.maxHeight = body.scrollHeight + 'px'; void body.offsetHeight; card.classList.add('collapsed'); body.style.maxHeight = '0px'; } localStorage.setItem('bmw-collapsed', JSON.stringify([...collapsedSections])); }
+
+const SECTIONS = [
+  { id: 'body', label: '🚗 Body', render: el => { el.innerHTML = ''; renderSimpleInto(el, data.body, 'body'); } },
+  { id: 'parts', label: '🔩 Parts', render: el => { el.innerHTML = ''; renderSimpleInto(el, data.parts, 'parts'); } },
+  { id: 'paints', label: '🎨 Paints', render: el => { el.innerHTML = ''; renderSimpleInto(el, data.paints, 'paints'); } },
+  { id: 'mattFinish', label: '🖤 Matt Finish (+500/paint)', render: el => { el.innerHTML = ''; renderSimpleInto(el, data.mattFinish, 'mattFinish'); } },
+  { id: 'wheels', label: '🛞 Wheels', render: el => { el.innerHTML = ''; renderSimpleInto(el, data.wheels, 'wheels'); } },
+  { id: 'performance', label: '⚙️ Performance', render: el => { el.innerHTML = ''; renderLevelInto(el, data.performance, 'performance'); } },
+  { id: 'security', label: '🔒 Security', render: el => { el.innerHTML = ''; renderLevelInto(el, data.security, 'security'); } },
+  { id: 'repairs', label: '🔧 Repairs & Services', render: el => { el.innerHTML = ''; renderSimpleInto(el, data.repairs, 'repairs'); } },
+  { id: 'custom', label: '✏️ Custom Items', render: el => { el.innerHTML = ''; renderCustomSection(el); } },
+  { id: 'discount', label: '💰 Discount', render: el => { el.innerHTML = ''; renderDiscountSection(el); } },
+];
+
+const DEFAULT_LAYOUT = [[0, 1, 8], [4, 2, 3], [5, 6, 7, 9]];
+const LAYOUT_VERSION = '2.0.0';
+if (localStorage.getItem('bmw-layout-version') !== LAYOUT_VERSION) { localStorage.removeItem('bmw-layout'); localStorage.removeItem('bmw-col-widths'); localStorage.removeItem('bmw-item-orders'); localStorage.setItem('bmw-layout-version', LAYOUT_VERSION); }
+let currentLayout = JSON.parse(localStorage.getItem('bmw-layout') || 'null') || DEFAULT_LAYOUT.map(col => [...col]);
+let layoutMode = false, dragSrc = null, layoutSnapshot = null;
+function snapshotState() { layoutSnapshot = { layout: JSON.parse(JSON.stringify(currentLayout)) }; }
+function restoreSnapshot() { if (!layoutSnapshot) return; currentLayout = JSON.parse(JSON.stringify(layoutSnapshot.layout)); }
+function renderSimpleInto(container, items, cat) { items.forEach((item, i) => { const b = document.createElement('button'); b.className = 'item-btn'; b.innerHTML = `<span>${item.name}</span><span class="p">$${fmt(item.price)}</span>`; b.draggable = false; b.addEventListener('dragstart', e => { if (!layoutMode) { e.preventDefault(); return; } e.stopPropagation(); e.dataTransfer.setData('item-drag', JSON.stringify({ cat, idx: i })); e.dataTransfer.effectAllowed = 'move'; setTimeout(() => b.classList.add('dragging'), 0); }); b.addEventListener('dragend', () => b.classList.remove('dragging')); b.addEventListener('dragover', e => { if (!layoutMode || !e.dataTransfer.types.includes('item-drag')) return; e.preventDefault(); e.stopPropagation(); b.classList.add('drag-over-item'); }); b.addEventListener('dragleave', () => b.classList.remove('drag-over-item')); b.addEventListener('drop', e => { if (!layoutMode || !e.dataTransfer.types.includes('item-drag')) return; e.preventDefault(); e.stopPropagation(); b.classList.remove('drag-over-item'); const { cat: sc, idx: si } = JSON.parse(e.dataTransfer.getData('item-drag')); if (sc !== cat) return; const arr = data[cat]; const moved = arr.splice(si, 1)[0]; arr.splice(i, 0, moved); renderLayout(); setupDropTargets(); }); b.onclick = () => { if (layoutMode) return; sel[cat].has(i) ? sel[cat].delete(i) : sel[cat].add(i); b.classList.toggle('selected'); if (cat === 'repairs' && data.repairs[i]?.name === 'Full Package') toggleFullPackage(sel[cat].has(i)); update(); }; if (sel[cat] instanceof Set && sel[cat].has(i)) b.classList.add('selected'); container.appendChild(b); }); }
+function renderLevelInto(container, items, cat) { items.forEach((item, i) => { sel[cat][i] = sel[cat][i] || 0; const d = document.createElement('div'); d.className = 'lvl-item'; d.id = `${cat}-${i}`; d.innerHTML = `<div class="lvl-top" onclick="if(!layoutMode){toggleLvl('${cat}',${i})}"><span class="lvl-name">${item.name}</span><span class="lvl-ptag">$${fmt(item.price)}/lvl</span></div><div class="lvl-ctrl"><button class="lb" onclick="if(!layoutMode){chLvl('${cat}',${i},-1,${item.maxLvl})}">−</button><span class="lvl-d" id="ld-${cat}-${i}">OFF</span><button class="lb" onclick="if(!layoutMode){chLvl('${cat}',${i},1,${item.maxLvl})}">+</button><span class="lvl-t" id="lt-${cat}-${i}"></span></div>`; container.appendChild(d); if (sel[cat][i] > 0) updLvl(cat, i); }); }
+function buildCard(sectionIdx) { const sec = SECTIONS[sectionIdx]; const card = document.createElement('div'); card.className = 'section-card'; card.dataset.secIdx = sectionIdx; card.draggable = layoutMode; const isCollapsed = collapsedSections.has(sec.id); if (isCollapsed) card.classList.add('collapsed'); const head = document.createElement('div'); head.className = 'section-card-head'; head.innerHTML = `<div style="display:flex;align-items:center;gap:6px;"><span>${sec.label}</span></div><div style="display:flex;align-items:center;gap:6px;"><span class="drag-handle">⠿</span><span class="section-collapse-arrow">▾</span></div>`; head.addEventListener('click', e => { if (layoutMode) return; if (e.target.classList.contains('drag-handle')) return; toggleCollapse(sec.id, card); }); card.appendChild(head); const body = document.createElement('div'); body.className = 'section-card-body'; body.id = `sec-body-${sec.id}`; sec.render(body); if (layoutMode) body.querySelectorAll('.item-btn').forEach(b => b.draggable = true); card.appendChild(body); if (isCollapsed) { body.style.maxHeight = '0px'; } else { body.style.maxHeight = 'none'; } card.addEventListener('dragstart', e => { if (!layoutMode) { e.preventDefault(); return; } dragSrc = card; setTimeout(() => card.classList.add('dragging'), 0); e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', String(sectionIdx)); }); card.addEventListener('dragend', () => { card.classList.remove('dragging'); dragSrc = null; document.querySelectorAll('.droptarget').forEach(t => t.classList.remove('drag-over')); }); return card; }
+function renderLayout() { for (let c = 0; c < 3; c++) { const drop = document.getElementById(`drop-${c}`); if (!drop) return; drop.innerHTML = ''; currentLayout[c].forEach(secIdx => drop.appendChild(buildCard(secIdx))); } data.performance.forEach((_, i) => { const d = document.getElementById(`performance-${i}`); if (d && sel.performance[i] > 0) updLvl('performance', i); }); data.security.forEach((_, i) => { const d = document.getElementById(`security-${i}`); if (d && sel.security[i] > 0) updLvl('security', i); }); }
+function setupDropTargets() { document.querySelectorAll('.droptarget').forEach(target => { target.ondragover = e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; target.classList.add('drag-over'); }; target.ondragleave = e => { if (!target.contains(e.relatedTarget)) target.classList.remove('drag-over'); }; target.ondrop = e => { e.preventDefault(); target.classList.remove('drag-over'); if (!layoutMode) return; const si = parseInt(e.dataTransfer.getData('text/plain')); const ci = parseInt(target.id.split('-')[1]); if (isNaN(si) || isNaN(ci)) return; currentLayout = currentLayout.map(col => col.filter(i => i !== si)); currentLayout[ci].push(si); renderLayout(); setupDropTargets(); }; }); }
+function toggleLayoutMode() { layoutMode = !layoutMode; const btn = document.getElementById('settingsBtn'), banner = document.getElementById('layoutBanner'); if (layoutMode) { btn.classList.add('active'); btn.textContent = '✕ Cancel'; banner.style.display = 'flex'; snapshotState(); document.querySelector('.app').classList.add('layout-mode'); document.querySelectorAll('.section-card').forEach(c => c.draggable = true); document.querySelectorAll('.item-btn').forEach(b => b.draggable = true); setupDropTargets(); } else { btn.classList.remove('active'); btn.textContent = '⚙️ Layout'; banner.style.display = 'none'; document.querySelector('.app').classList.remove('layout-mode'); restoreSnapshot(); renderLayout(); setupDropTargets(); } }
+function saveLayout() { localStorage.setItem('bmw-layout', JSON.stringify(currentLayout)); localStorage.setItem('bmw-col-widths', JSON.stringify(getColWidths())); layoutMode = false; document.getElementById('settingsBtn').classList.remove('active'); document.getElementById('settingsBtn').textContent = '⚙️ Layout'; document.getElementById('layoutBanner').style.display = 'none'; document.querySelectorAll('.section-card').forEach(c => c.draggable = false); document.querySelector('.app').classList.remove('layout-mode'); }
+function resetLayout() { if (!confirm('Reset layout to default?')) return; localStorage.removeItem('bmw-layout'); localStorage.removeItem('bmw-col-widths'); ['col-0', 'col-1'].forEach(id => { const el = document.getElementById(id); el.style.width = ''; el.style.flex = ''; }); document.getElementById('rpanel').style.width = '290px'; currentLayout = DEFAULT_LAYOUT.map(col => [...col]); renderLayout(); setupDropTargets(); }
+
+// ─── RESIZE ───
+function initResize() { const sw = JSON.parse(localStorage.getItem('bmw-col-widths') || 'null'); if (sw) { if (sw[0]) { document.getElementById('col-0').style.width = sw[0] + 'px'; document.getElementById('col-0').style.flex = 'none'; } if (sw[1]) { document.getElementById('col-1').style.width = sw[1] + 'px'; document.getElementById('col-1').style.flex = 'none'; } if (sw[2]) document.getElementById('rpanel').style.width = sw[2] + 'px'; } [0, 1].forEach(idx => { const handle = document.getElementById(`rh-${idx}`), col = document.getElementById(`col-${idx}`); let sX, sW; handle.addEventListener('mousedown', e => { if (!layoutMode) return; sX = e.clientX; sW = col.getBoundingClientRect().width; handle.classList.add('resizing'); document.body.style.cursor = 'col-resize'; document.body.style.userSelect = 'none'; const onM = e => { const w = Math.min(document.getElementById('colsArea').getBoundingClientRect().width - 240, Math.max(120, sW + (e.clientX - sX))); col.style.width = w + 'px'; col.style.flex = 'none'; }; const onU = () => { handle.classList.remove('resizing'); document.body.style.cursor = ''; document.body.style.userSelect = ''; document.removeEventListener('mousemove', onM); document.removeEventListener('mouseup', onU); }; document.addEventListener('mousemove', onM); document.addEventListener('mouseup', onU); }); }); const vrh = document.getElementById('vrh'), rpanel = document.getElementById('rpanel'); let sX, sW; vrh.addEventListener('mousedown', e => { if (!layoutMode) return; sX = e.clientX; sW = rpanel.getBoundingClientRect().width; vrh.classList.add('resizing'); document.body.style.cursor = 'col-resize'; document.body.style.userSelect = 'none'; const onM = e => { const w = Math.min(document.querySelector('.app').getBoundingClientRect().width - 150, Math.max(180, sW - (e.clientX - sX))); rpanel.style.width = w + 'px'; }; const onU = () => { vrh.classList.remove('resizing'); document.body.style.cursor = ''; document.body.style.userSelect = ''; document.removeEventListener('mousemove', onM); document.removeEventListener('mouseup', onU); }; document.addEventListener('mousemove', onM); document.addEventListener('mouseup', onU); }); }
+function getColWidths() { return [document.getElementById('col-0').getBoundingClientRect().width, document.getElementById('col-1').getBoundingClientRect().width, document.getElementById('rpanel').getBoundingClientRect().width]; }
+
+// ─── PRESETS ───
+let presets = [];
+let activeTagFilter = 'All';
+const ALL_TAGS = ['Opening', 'Closing', 'Repair', 'Tow', 'Offers'];
+
+async function loadPresets() {
+  try {
+    presets = await api('GET', '/api/presets');
+  } catch (err) {
+    showToast('Failed to load presets', 'error');
+  }
+}
+
+function openPresets() {
+  document.getElementById('presetsModal').classList.add('show');
+  loadPresets().then(() => renderPresets());
+}
+function closePresets() { document.getElementById('presetsModal').classList.remove('show'); }
+
+function buildTagFilterBar() { const bar = document.getElementById('tagFilterBar'); bar.innerHTML = ''; const allBtn = document.createElement('button'); allBtn.className = 'tag-filter-btn' + (activeTagFilter === 'All' ? ' active' : ''); allBtn.textContent = 'All'; allBtn.onclick = () => { activeTagFilter = 'All'; renderPresets(); }; bar.appendChild(allBtn); ALL_TAGS.forEach(tag => { const btn = document.createElement('button'); btn.className = 'tag-filter-btn' + (activeTagFilter === tag ? ' active' : ''); btn.textContent = tag; btn.onclick = () => { activeTagFilter = tag; renderPresets(); }; bar.appendChild(btn); }); }
+function fmtLastUsed(ts) { if (!ts) return ''; const diff = Math.floor((Date.now() - new Date(ts)) / 1000); if (diff < 60) return 'just now'; if (diff < 3600) return `${Math.floor(diff / 60)}m ago`; if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`; if (diff < 86400 * 7) return `${Math.floor(diff / 86400)}d ago`; return new Date(ts).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }); }
+
+function renderPresets() {
+  buildTagFilterBar();
+  const list = document.getElementById('presetsList'); list.innerHTML = '';
+  const filtered = activeTagFilter === 'All' ? presets : presets.filter(p => (p.tags || []).includes(activeTagFilter));
+  if (!filtered.length) { list.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:30px;font-family:Share Tech Mono,monospace;font-size:11px;color:var(--muted);">No presets match this filter</div>'; }
+  filtered.forEach(p => {
+    const card = document.createElement('div'); card.className = 'preset-item';
+    const tagsRow = document.createElement('div'); tagsRow.className = 'preset-item-tags';
+    (p.tags || []).forEach(tag => { const span = document.createElement('span'); span.className = `ptag ptag-${tag}`; span.textContent = tag; tagsRow.appendChild(span); });
+    card.appendChild(tagsRow);
+    const textDiv = document.createElement('div'); textDiv.className = 'preset-text-area'; textDiv.textContent = p.text || ''; card.appendChild(textDiv);
+    const foot = document.createElement('div'); foot.className = 'preset-item-foot';
+    const metaDiv = document.createElement('div'); metaDiv.className = 'preset-meta'; metaDiv.innerHTML = `<span class="preset-usage">Used ${p.usageCount || 0} time${p.usageCount !== 1 ? 's' : ''}</span>${p.lastUsedAt ? `<span class="preset-last-used">Last: ${fmtLastUsed(p.lastUsedAt)}</span>` : ''}`;
+    const copyBtn = document.createElement('button'); copyBtn.className = 'preset-copy-btn'; copyBtn.textContent = '📋 Copy'; copyBtn.onclick = () => copyPresetById(p._id, p.text, copyBtn);
+    foot.appendChild(metaDiv); foot.appendChild(copyBtn); card.appendChild(foot); list.appendChild(card);
+  });
+  document.getElementById('presetsCount').textContent = `${presets.length} presets total`;
+}
+
+async function copyPresetById(id, text, btn) {
+  if (!text) return;
+  const done = () => { btn.textContent = '✓ Copied!'; btn.classList.add('copied'); setTimeout(() => { btn.textContent = '📋 Copy'; btn.classList.remove('copied'); }, 2000); };
+  if (navigator.clipboard) { navigator.clipboard.writeText(text).then(done).catch(() => { fallbackCopyText(text); done(); }); } else { fallbackCopyText(text); done(); }
+  // bump usage in background
+  try { await api('POST', `/api/presets/${id}/use`); } catch {}
+}
+function fallbackCopyText(text) { const ta = document.createElement('textarea'); ta.value = text; ta.style.cssText = 'position:fixed;opacity:0;'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); }
+
+function shufflePreset() { const visible = activeTagFilter === 'All' ? presets : presets.filter(p => (p.tags || []).includes(activeTagFilter)); if (!visible.length) return; const p = visible[Math.floor(Math.random() * visible.length)]; if (!p?.text) return; fallbackCopyText(p.text); const btn = document.querySelector('.shuffle-btn'); btn.textContent = '✓ Copied!'; setTimeout(() => btn.textContent = '🎲 Shuffle', 1500); try { api('POST', `/api/presets/${p._id}/use`); } catch {} }
+
+document.getElementById('presetsModal').addEventListener('click', e => { if (e.target === document.getElementById('presetsModal')) closePresets(); });
+
+// ─── KEYBOARD SHORTCUTS ───
+document.addEventListener('keydown', e => {
+  if (e.altKey && e.key === 'c') { e.preventDefault(); copyOutput(); }
+  else if (e.altKey && e.key === 'r') { e.preventDefault(); resetAll(); }
+  else if (e.altKey && e.key === 'p') { e.preventDefault(); openPresets(); }
+});
+
+// ─── ADMIN DASHBOARD ───
+let ordersSkip = 0;
+function switchAdminTab(tab) {
+  document.querySelectorAll('.atab').forEach((t, i) => t.classList.toggle('active', ['overview', 'staff', 'orders', 'items', 'presets'][i] === tab));
+  document.querySelectorAll('.atab-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById(`pane-${tab}`).classList.add('active');
+  if (tab === 'overview') loadDashboard();
+  else if (tab === 'staff') loadAdminStaff();
+  else if (tab === 'orders') { ordersSkip = 0; loadAdminOrders(); }
+  else if (tab === 'items') loadAdminItems();
+  else if (tab === 'presets') loadAdminPresets();
+}
+
+async function loadDashboard() {
+  try {
+    const d = await api('GET', '/api/admin/dashboard');
+    document.getElementById('st-today').textContent = d.counts.today;
+    document.getElementById('st-week').textContent = d.counts.week;
+    document.getElementById('st-month').textContent = d.counts.month;
+    document.getElementById('st-mrev').textContent = '$' + fmt(d.revenue.month);
+    document.getElementById('st-trev').textContent = '$' + fmt(d.revenue.total);
+    document.getElementById('st-staff').textContent = d.activeStaff + '/' + d.staffCount;
+
+    document.getElementById('staffPerfTable').innerHTML = d.staffStats.map(s =>
+      `<tr><td>${s.staffName}</td><td>${s.orders}</td><td style="color:var(--gold)">$${fmt(s.revenue)}</td></tr>`
+    ).join('') || '<tr><td colspan="3" style="color:var(--muted);text-align:center;">No data</td></tr>';
+
+    document.getElementById('topItemsTable').innerHTML = d.topItems.map(i =>
+      `<tr><td>${i._id}</td><td>${i.count}</td><td style="color:var(--gold)">$${fmt(i.revenue)}</td></tr>`
+    ).join('') || '<tr><td colspan="3" style="color:var(--muted);text-align:center;">No data</td></tr>';
+
+    document.getElementById('recentOrdersTable').innerHTML = d.recentOrders.map(o =>
+      `<tr><td style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">${new Date(o.createdAt).toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</td><td>${o.staffName}</td><td>${o.customerName}</td><td>${o.vehicle}</td><td style="color:var(--gold)">$${fmt(o.total)}</td><td>${o.discordPosted ? '<span style="color:var(--green)">✓</span>' : '<span style="color:var(--accent)">✗</span>'}</td></tr>`
+    ).join('') || '<tr><td colspan="6" style="color:var(--muted);text-align:center;">No orders yet</td></tr>';
+  } catch (err) { showToast('Dashboard error: ' + err.message, 'error'); }
+}
+
+async function loadAdminStaff() {
+  try {
+    const staff = await api('GET', '/api/admin/staff');
+    document.getElementById('staffTable').innerHTML = staff.map(s =>
+      `<tr>
+        <td style="font-family:'Share Tech Mono',monospace;font-size:12px">${s.username}</td>
+        <td>${s.displayName || '—'}</td>
+        <td><span class="badge badge-${s.role}">${s.role}</span></td>
+        <td><span class="badge badge-${s.isActive ? 'active' : 'inactive'}">${s.isActive ? 'Active' : 'Disabled'}</span></td>
+        <td style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">${s.lastLogin ? new Date(s.lastLogin).toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : 'Never'}</td>
+        <td style="display:flex;gap:5px;flex-wrap:wrap;">
+          <button class="act-btn" onclick="resetStaffPassword('${s._id}','${s.username}')">Reset PW</button>
+          <button class="act-btn" onclick="toggleStaffActive('${s._id}',${!s.isActive})">${s.isActive ? 'Disable' : 'Enable'}</button>
+        </td>
+      </tr>`
+    ).join('');
+  } catch (err) { showToast('Error: ' + err.message, 'error'); }
+}
+
+async function createStaff() {
+  const username = document.getElementById('ns-user').value.trim();
+  const displayName = document.getElementById('ns-display').value.trim();
+  const password = document.getElementById('ns-pass').value;
+  const role = document.getElementById('ns-role').value;
+  if (!username || !password) { showToast('Username and password required', 'error'); return; }
+  setLoading(true);
+  try {
+    await api('POST', '/api/admin/staff', { username, displayName, password, role });
+    showToast(`Account created for ${username}`, 'success');
+    ['ns-user', 'ns-display', 'ns-pass'].forEach(id => document.getElementById(id).value = '');
+    loadAdminStaff();
+  } catch (err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
+
+async function resetStaffPassword(id, username) {
+  const newPw = prompt(`Reset password for ${username}:\nEnter new password (min 6 chars):`);
+  if (!newPw) return;
+  if (newPw.length < 6) { showToast('Password too short', 'error'); return; }
+  setLoading(true);
+  try {
+    await api('POST', `/api/admin/staff/${id}/reset-password`, { newPassword: newPw });
+    showToast(`Password reset for ${username}. They must change it on next login.`, 'success');
+  } catch (err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
+
+async function toggleStaffActive(id, active) {
+  setLoading(true);
+  try {
+    await api('PATCH', `/api/admin/staff/${id}`, { isActive: active });
+    showToast(active ? 'Account enabled' : 'Account disabled', 'success');
+    loadAdminStaff();
+  } catch (err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
+
+async function loadAdminOrders(append = false) {
+  try {
+    const { orders, total } = await api('GET', `/api/admin/orders?limit=50&skip=${ordersSkip}`);
+    document.getElementById('ordersTotal').textContent = `${total} total`;
+    const rows = orders.map(o =>
+      `<tr>
+        <td style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">${new Date(o.createdAt).toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</td>
+        <td>${o.staffName}</td><td>${o.customerName}</td><td>${o.plate}</td><td>${o.vehicle}</td>
+        <td style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">${(o.items || []).length} items</td>
+        <td style="color:var(--gold)">$${fmt(o.total)}</td>
+        <td>${o.discordPosted ? '<span style="color:var(--green)">✓</span>' : '<span style="color:var(--accent)">✗</span>'}</td>
+      </tr>`
+    ).join('');
+    if (append) { document.getElementById('allOrdersTable').innerHTML += rows; }
+    else { document.getElementById('allOrdersTable').innerHTML = rows || '<tr><td colspan="8" style="color:var(--muted);text-align:center;">No orders yet</td></tr>'; }
+  } catch (err) { showToast('Error: ' + err.message, 'error'); }
+}
+
+function loadMoreOrders() { ordersSkip += 50; loadAdminOrders(true); }
+
+async function loadAdminItems() {
+  try {
+    const items = await api('GET', '/api/items/all');
+    document.getElementById('itemsTable').innerHTML = items.map(item =>
+      `<tr>
+        <td style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">${item.category}</td>
+        <td>${item.name}</td>
+        <td style="color:var(--gold)">$${fmt(item.price)}</td>
+        <td style="font-family:'Share Tech Mono',monospace;font-size:11px">${item.maxLvl || '—'}</td>
+        <td><span class="badge badge-${item.isActive ? 'active' : 'inactive'}">${item.isActive ? 'Active' : 'Hidden'}</span></td>
+        <td style="display:flex;gap:5px;">
+          <button class="act-btn" onclick="editItemPrice('${item._id}','${item.name}',${item.price})">Edit Price</button>
+          <button class="act-btn" onclick="toggleItem('${item._id}',${!item.isActive})">${item.isActive ? 'Hide' : 'Show'}</button>
+        </td>
+      </tr>`
+    ).join('');
+  } catch (err) { showToast('Error: ' + err.message, 'error'); }
+}
+
+async function createItem() {
+  const name = document.getElementById('ni-name').value.trim();
+  const price = parseInt(document.getElementById('ni-price').value) || 0;
+  const category = document.getElementById('ni-cat').value;
+  const maxLvl = parseInt(document.getElementById('ni-maxlvl').value) || null;
+  if (!name || price < 0) { showToast('Name and price required', 'error'); return; }
+  setLoading(true);
+  try {
+    await api('POST', '/api/items', { name, price, category, maxLvl });
+    showToast('Item added!', 'success');
+    ['ni-name', 'ni-price', 'ni-maxlvl'].forEach(id => document.getElementById(id).value = '');
+    loadAdminItems();
+    await loadItems(); // refresh staff tool
+  } catch (err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
+
+async function editItemPrice(id, name, currentPrice) {
+  const newPrice = prompt(`Edit price for "${name}":\nCurrent: $${fmt(currentPrice)}\nNew price:`);
+  if (newPrice === null) return;
+  const price = parseInt(newPrice);
+  if (isNaN(price) || price < 0) { showToast('Invalid price', 'error'); return; }
+  setLoading(true);
+  try {
+    await api('PATCH', `/api/items/${id}`, { price });
+    showToast('Price updated!', 'success');
+    loadAdminItems();
+    await loadItems();
+  } catch (err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
+
+async function toggleItem(id, active) {
+  setLoading(true);
+  try {
+    await api('PATCH', `/api/items/${id}`, { isActive: active });
+    showToast(active ? 'Item shown' : 'Item hidden', 'success');
+    loadAdminItems();
+    await loadItems();
+  } catch (err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
+
+async function loadAdminPresets() {
+  try {
+    const ps = await api('GET', '/api/presets');
+    document.getElementById('presetsAdminTable').innerHTML = ps.map(p =>
+      `<tr>
+        <td style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.text?.substring(0, 80)}...</td>
+        <td>${(p.tags || []).map(t => `<span class="ptag ptag-${t}">${t}</span>`).join(' ')}</td>
+        <td style="font-family:'Share Tech Mono',monospace;font-size:11px">${p.usageCount || 0}</td>
+        <td><button class="act-btn" onclick="deletePreset('${p._id}')">Delete</button></td>
+      </tr>`
+    ).join('') || '<tr><td colspan="4" style="color:var(--muted);text-align:center;">No presets</td></tr>';
+  } catch (err) { showToast('Error: ' + err.message, 'error'); }
+}
+
+async function createPreset() {
+  const text = document.getElementById('np-text').value.trim();
+  const tagsRaw = document.getElementById('np-tags').value;
+  const tags = tagsRaw.split(',').map(t => t.trim()).filter(Boolean);
+  if (!text) { showToast('Text required', 'error'); return; }
+  setLoading(true);
+  try {
+    await api('POST', '/api/presets', { text, tags, isDefault: true });
+    showToast('Preset added!', 'success');
+    document.getElementById('np-text').value = '';
+    document.getElementById('np-tags').value = '';
+    loadAdminPresets();
+  } catch (err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
+
+async function deletePreset(id) {
+  if (!confirm('Delete this preset?')) return;
+  setLoading(true);
+  try {
+    await api('DELETE', `/api/presets/${id}`);
+    showToast('Preset deleted', 'success');
+    loadAdminPresets();
+  } catch (err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
+
+// ─── INIT ───
+showScreen('loginScreen');
+initResize();
+</script>
+</body>
+</html>
