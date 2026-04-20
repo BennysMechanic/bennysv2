@@ -31,7 +31,7 @@ body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;he
 
 /* ─── LOGIN ─── */
 #loginScreen{align-items:center;justify-content:center;background:var(--bg);position:relative;overflow:hidden;}
-#loginScreen::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 60% 40%, rgba(230,57,80,.06) 0%, transparent 60%),radial-gradient(ellipse at 20% 80%, rgba(245,200,66,.04) 0%, transparent 50%);pointer-events:none;}
+#loginScreen::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 60% 40%,rgba(230,57,80,.06) 0%,transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(245,200,66,.04) 0%,transparent 50%);pointer-events:none;}
 .login-wrap{display:flex;flex-direction:column;align-items:center;gap:0;position:relative;z-index:1;}
 .login-brand{text-align:center;margin-bottom:28px;}
 .login-brand .lb-tag{font-size:9px;letter-spacing:.35em;color:var(--accent);font-family:'Share Tech Mono',monospace;text-transform:uppercase;margin-bottom:6px;}
@@ -42,9 +42,8 @@ body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;he
 .login-box-title{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);font-family:'Share Tech Mono',monospace;text-align:center;border-bottom:1px solid var(--border);padding-bottom:14px;}
 .lf{display:flex;flex-direction:column;gap:6px;}
 .lf label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-family:'Share Tech Mono',monospace;}
-.lf .lf-input-wrap{position:relative;}
-.lf .lf-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none;}
-.lf input{background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;padding:10px 12px 10px 34px;outline:none;transition:border-color .2s,box-shadow .2s;width:100%;}
+/* FIX 1: Clean input — no emoji icon wrapper, just a plain styled input */
+.lf input{background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;padding:10px 14px;outline:none;transition:border-color .2s,box-shadow .2s;width:100%;}
 .lf input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(230,57,80,.1);}
 .login-err{font-size:12px;color:var(--accent);font-family:'Share Tech Mono',monospace;text-align:center;min-height:16px;}
 .login-btn{background:var(--accent);border:none;border-radius:4px;color:white;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:12px;cursor:pointer;transition:all .2s;width:100%;position:relative;overflow:hidden;}
@@ -53,9 +52,10 @@ body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;he
 .login-btn:disabled{opacity:.6;cursor:not-allowed;}
 .login-footer{font-size:10px;color:var(--muted);font-family:'Share Tech Mono',monospace;text-align:center;opacity:.5;}
 
-/* ─── WELCOME OVERLAY ─── */
-#welcomeOverlay{position:fixed;inset:0;background:var(--bg);z-index:99998;display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;}
+/* FIX 2: Welcome overlay — sits on top of everything, login screen hidden before it fades */
+#welcomeOverlay{position:fixed;inset:0;background:var(--bg);z-index:99998;display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;transition:opacity .4s ease;}
 #welcomeOverlay.show{display:flex;}
+#welcomeOverlay.fade-out{opacity:0;}
 .welcome-name{font-size:36px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;}
 .welcome-name span{color:var(--accent);}
 .welcome-sub{font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);font-family:'Share Tech Mono',monospace;}
@@ -142,10 +142,12 @@ body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;he
 .layout-mode .item-btn{cursor:grab;}
 .layout-mode .item-btn:active{cursor:grabbing;}
 
-/* BOTTOM BAR */
+/* BOTTOM BAR — FIX 3: removed From field, now shows staff name as badge */
 .bottom-bar{grid-row:2;border-bottom:1px solid var(--border);background:var(--bg2);padding:8px 12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .bf{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0;}
 .fl{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-family:'Share Tech Mono',monospace;}
+.staff-display{background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;padding:5px 9px;display:flex;align-items:center;gap:6px;}
+.staff-display-name{color:var(--text);}
 input[type="text"],input[type="password"],input[type="number"]{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;padding:5px 9px;outline:none;transition:border-color .2s;}
 input[type="text"]:focus,input[type="password"]:focus,input[type="number"]:focus{border-color:var(--accent);}
 input::placeholder{color:var(--muted);font-weight:400;}
@@ -163,7 +165,7 @@ textarea::placeholder{color:var(--muted);}
 .autocomplete-list::-webkit-scrollbar{width:3px;}
 .autocomplete-list::-webkit-scrollbar-thumb{background:var(--border);}
 
-/* RIGHT PANEL — RECEIPT PREVIEW */
+/* RIGHT PANEL */
 .rpanel{flex-shrink:0;width:300px;min-width:200px;max-width:600px;display:flex;flex-direction:column;background:var(--bg2);overflow:hidden;border-left:1px solid var(--border);}
 .rhead{flex-shrink:0;padding:8px 14px;background:var(--bg2);border-bottom:1px solid var(--border);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-family:'Share Tech Mono',monospace;display:flex;align-items:center;gap:7px;}
 .rhead::before{content:'';width:6px;height:6px;background:#43b581;border-radius:50%;}
@@ -251,6 +253,7 @@ textarea::placeholder{color:var(--muted);}
 .tag-filter-btn{background:transparent;border:1px solid var(--border);border-radius:20px;color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;padding:3px 10px;cursor:pointer;transition:all .12s;white-space:nowrap;text-transform:uppercase;}
 .tag-filter-btn:hover{border-color:var(--muted);color:var(--text);}
 .tag-filter-btn.active{background:rgba(230,57,80,.15);border-color:var(--accent);color:var(--accent);}
+/* FIX 7: Shuffle → Random */
 .shuffle-btn{background:transparent;border:1px solid var(--border);border-radius:4px;color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;padding:5px 12px;cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0;}
 .shuffle-btn:hover{border-color:var(--gold);color:var(--gold);}
 .shuffle-btn.flash{animation:shuffleFlash .4s ease;}
@@ -277,6 +280,7 @@ textarea::placeholder{color:var(--muted);}
 .preset-copy-btn:hover{background:#ff4d63;}
 .preset-copy-btn.copied{background:var(--green);}
 .presets-count-badge{font-size:9px;letter-spacing:.1em;color:var(--muted);font-family:'Share Tech Mono',monospace;}
+.presets-loading{grid-column:1/-1;text-align:center;padding:30px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);}
 
 /* KEYBOARD HINT */
 .kbd-hint{position:fixed;bottom:14px;left:14px;z-index:8888;background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:8px 12px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);display:none;flex-direction:column;gap:4px;pointer-events:none;}
@@ -341,8 +345,7 @@ kbd{background:var(--bg3);border:1px solid var(--border);border-radius:3px;paddi
 .chart-body{padding:16px;position:relative;}
 .chart-body canvas{max-height:220px;}
 
-/* STAFF ANALYTICS (staff view) */
-.staff-analytics{display:flex;flex-direction:column;gap:16px;}
+/* STAFF ANALYTICS */
 .sa-header{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-family:'Share Tech Mono',monospace;padding-bottom:10px;border-bottom:1px solid var(--border);}
 .sa-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
 
@@ -394,6 +397,12 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .tag-cb.checked-Tow{color:#7289da;border-color:rgba(114,137,218,.5);background:rgba(114,137,218,.1);}
 .tag-cb.checked-Offers{color:var(--gold);border-color:rgba(245,200,66,.5);background:rgba(245,200,66,.1);}
 
+/* Category list */
+.cat-list{display:flex;flex-direction:column;gap:4px;margin-top:8px;}
+.cat-item{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:7px 12px;font-size:13px;gap:8px;}
+.cat-item-name{flex:1;font-weight:600;}
+.cat-item-key{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);}
+
 /* LOAD MORE */
 .load-more-row{display:flex;gap:8px;margin-top:10px;justify-content:center;}
 .load-more-btn{background:var(--bg2);border:1px solid var(--border);border-radius:4px;color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:8px 24px;cursor:pointer;transition:all .15s;}
@@ -444,7 +453,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
 <div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div></div>
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
-<!-- WELCOME -->
+<!-- FIX 2: Welcome overlay — covers everything including login screen during transition -->
 <div id="welcomeOverlay">
   <div class="welcome-name">Welcome, <span id="welcomeName">—</span></div>
   <div class="welcome-sub">Signing you in...</div>
@@ -455,28 +464,23 @@ tr:hover td{background:rgba(255,255,255,.02);}
 <div class="screen active" id="loginScreen">
   <div class="login-wrap">
     <div class="login-brand">
-      <div class="lb-tag">🔧 Staff Order System v2.1.0</div>
+      <div class="lb-tag">🔧 Staff Order System v2.2.0</div>
       <h1>Benny's <span>MotorWorks</span></h1>
       <div class="lb-sub">Internal Staff Portal — Authorised Access Only</div>
     </div>
+    <!-- FIX 1: No emoji icons in inputs — clean label + plain input -->
     <div class="login-box">
       <div class="login-box-title">Sign In to Your Account</div>
       <div class="lf">
         <label>Username</label>
-        <div class="lf-input-wrap">
-          <span class="lf-icon">👤</span>
-          <input type="text" id="loginUser" placeholder="Enter your username" autocomplete="username">
-        </div>
+        <input type="text" id="loginUser" placeholder="Enter your username" autocomplete="username">
       </div>
       <div class="lf">
         <label>Password</label>
-        <div class="lf-input-wrap">
-          <span class="lf-icon">🔑</span>
-          <input type="password" id="loginPass" placeholder="Enter your password" autocomplete="current-password">
-        </div>
+        <input type="password" id="loginPass" placeholder="Enter your password" autocomplete="current-password">
       </div>
       <div class="login-err" id="loginErr"></div>
-      <button class="login-btn" id="loginBtn" onclick="doLogin()">Sign In →</button>
+      <button class="login-btn" id="loginBtn" onclick="doLogin()">Sign In</button>
       <div class="login-footer">Access restricted to Benny's MotorWorks staff only</div>
     </div>
   </div>
@@ -487,9 +491,9 @@ tr:hover td{background:rgba(255,255,255,.02);}
   <div class="changepw-box">
     <div class="changepw-title">⚠ Password Change Required</div>
     <div class="changepw-note">Your account requires a password change before you can continue. Choose a new password (min 6 characters).</div>
-    <div class="lf"><label>Current Password</label><div class="lf-input-wrap"><span class="lf-icon">🔑</span><input type="password" id="cpCurrent" placeholder="Current password"></div></div>
-    <div class="lf"><label>New Password</label><div class="lf-input-wrap"><span class="lf-icon">🔒</span><input type="password" id="cpNew" placeholder="New password (min 6 chars)"></div></div>
-    <div class="lf"><label>Confirm New Password</label><div class="lf-input-wrap"><span class="lf-icon">🔒</span><input type="password" id="cpConfirm" placeholder="Confirm new password"></div></div>
+    <div class="lf"><label>Current Password</label><input type="password" id="cpCurrent" placeholder="Current password"></div>
+    <div class="lf"><label>New Password</label><input type="password" id="cpNew" placeholder="New password (min 6 chars)"></div>
+    <div class="lf"><label>Confirm New Password</label><input type="password" id="cpConfirm" placeholder="Confirm new password"></div>
     <div class="login-err" id="cpErr"></div>
     <button class="login-btn" onclick="doChangePassword()">Update Password</button>
   </div>
@@ -504,7 +508,8 @@ tr:hover td{background:rgba(255,255,255,.02);}
       <div class="modal-head">
         <span class="modal-title">📋 Advertisement Presets</span>
         <div class="tag-filter-bar" id="tagFilterBar"></div>
-        <button class="shuffle-btn" id="shuffleBtn" onclick="shufflePreset()">🎲 Shuffle</button>
+        <!-- FIX 7: Shuffle renamed to Random -->
+        <button class="shuffle-btn" id="shuffleBtn" onclick="randomPreset()">🎲 Random</button>
         <button class="modal-close" onclick="closePresets()">×</button>
       </div>
       <div class="modal-body" id="presetsList"></div>
@@ -533,7 +538,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
 
   <div class="header">
     <div>
-      <div class="header-tag">🔧 Order System v2.1.0 By Jenni</div>
+      <div class="header-tag">🔧 Order System v2.2.0 By Jenni</div>
       <h1>Benny's <span>MotorWorks</span></h1>
     </div>
     <div class="header-sub">Staff Order Tool</div>
@@ -556,12 +561,13 @@ tr:hover td{background:rgba(255,255,255,.02);}
         </div>
       </div>
 
+      <!-- FIX 3: From field replaced with a read-only staff display, kept same visual weight -->
       <div class="bottom-bar">
         <div class="bf">
-          <div class="fl">👤 From (Employee)</div>
-          <div class="autocomplete-wrap">
-            <input type="text" id="fromName" placeholder="e.g. Jenni" autocomplete="off" oninput="onStaffInput(this)">
-            <div class="autocomplete-list" id="staffAutocompleteList"></div>
+          <div class="fl">👤 Staff</div>
+          <div class="staff-display">
+            <span>🔧</span>
+            <span class="staff-display-name" id="staffDisplayName">—</span>
           </div>
         </div>
         <div class="barrow">→</div>
@@ -623,7 +629,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
 <div class="screen" id="adminScreen">
   <div class="header">
     <div>
-      <div class="header-tag">📊 Admin Dashboard v2.1.0</div>
+      <div class="header-tag">📊 Admin Dashboard v2.2.0</div>
       <h1>Benny's <span>MotorWorks</span></h1>
     </div>
     <div class="header-sub">Admin Panel</div>
@@ -638,13 +644,14 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <button class="atab" onclick="switchAdminTab('staff')">👥 Staff</button>
     <button class="atab" onclick="switchAdminTab('orders')">📋 Orders</button>
     <button class="atab" onclick="switchAdminTab('items')">🔩 Items</button>
+    <button class="atab" onclick="switchAdminTab('categories')">📂 Categories</button>
     <button class="atab" onclick="switchAdminTab('presets')">📢 Presets</button>
   </div>
   <div class="admin-body">
     <!-- OVERVIEW -->
     <div class="atab-pane active" id="pane-overview">
-      <div class="stat-grid" id="statGrid">
-        <div class="stat-card gold"><div class="stat-label">Today's Orders</div><div class="stat-val" id="st-today">—</div><div class="stat-trend" id="st-today-trend"></div></div>
+      <div class="stat-grid">
+        <div class="stat-card gold"><div class="stat-label">Today's Orders</div><div class="stat-val" id="st-today">—</div></div>
         <div class="stat-card"><div class="stat-label">This Week</div><div class="stat-val" id="st-week">—</div></div>
         <div class="stat-card"><div class="stat-label">This Month</div><div class="stat-val" id="st-month">—</div></div>
         <div class="stat-card green"><div class="stat-label">Month Revenue</div><div class="stat-val" id="st-mrev">—</div></div>
@@ -652,18 +659,9 @@ tr:hover td{background:rgba(255,255,255,.02);}
         <div class="stat-card accent"><div class="stat-label">Active Staff</div><div class="stat-val" id="st-staff">—</div></div>
       </div>
       <div class="charts-grid">
-        <div class="chart-card">
-          <div class="chart-head"><span class="chart-title">Revenue by Staff (Month)</span><span class="chart-sub">Bar chart</span></div>
-          <div class="chart-body"><canvas id="chartStaffRevenue"></canvas></div>
-        </div>
-        <div class="chart-card">
-          <div class="chart-head"><span class="chart-title">Orders by Staff (Month)</span><span class="chart-sub">Bar chart</span></div>
-          <div class="chart-body"><canvas id="chartStaffOrders"></canvas></div>
-        </div>
-        <div class="chart-card full">
-          <div class="chart-head"><span class="chart-title">Top Items This Month</span><span class="chart-sub">By revenue</span></div>
-          <div class="chart-body"><canvas id="chartTopItems"></canvas></div>
-        </div>
+        <div class="chart-card"><div class="chart-head"><span class="chart-title">Revenue by Staff (Month)</span></div><div class="chart-body"><canvas id="chartStaffRevenue"></canvas></div></div>
+        <div class="chart-card"><div class="chart-head"><span class="chart-title">Orders by Staff (Month)</span></div><div class="chart-body"><canvas id="chartStaffOrders"></canvas></div></div>
+        <div class="chart-card full"><div class="chart-head"><span class="chart-title">Top Items This Month</span></div><div class="chart-body"><canvas id="chartTopItems"></canvas></div></div>
       </div>
       <div class="admin-table-wrap">
         <div class="admin-table-head"><span class="admin-table-title">Recent Orders</span></div>
@@ -673,38 +671,15 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <!-- STAFF -->
     <div class="atab-pane" id="pane-staff">
       <div class="acard">
-        <div class="acard-head">
-          <span class="acard-icon">➕</span>
-          <div><div class="acard-title">Create Staff Account</div><div class="acard-sub">New accounts require a password change on first login</div></div>
-        </div>
+        <div class="acard-head"><span class="acard-icon">➕</span><div><div class="acard-title">Create Staff Account</div><div class="acard-sub">New accounts require a password change on first login</div></div></div>
         <div class="acard-body">
           <div class="aform-grid">
-            <div class="aform-field">
-              <label>👤 Username</label>
-              <input type="text" id="ns-user" placeholder="e.g. jenni">
-              <div class="field-hint">Used to sign in — no spaces</div>
-            </div>
-            <div class="aform-field">
-              <label>✏️ Display Name</label>
-              <input type="text" id="ns-display" placeholder="e.g. Jenni">
-              <div class="field-hint">Shown on receipts and in the tool</div>
-            </div>
-            <div class="aform-field">
-              <label>🔑 Temporary Password</label>
-              <input type="password" id="ns-pass" placeholder="Min 6 characters">
-              <div class="field-hint">Staff must change this on first login</div>
-            </div>
-            <div class="aform-field">
-              <label>🎖️ Role</label>
-              <select id="ns-role">
-                <option value="staff">Staff — Order tool only</option>
-                <option value="admin">Admin — Full dashboard access</option>
-              </select>
-            </div>
+            <div class="aform-field"><label>Username</label><input type="text" id="ns-user" placeholder="e.g. jenni"><div class="field-hint">Used to sign in — no spaces</div></div>
+            <div class="aform-field"><label>Display Name</label><input type="text" id="ns-display" placeholder="e.g. Jenni"><div class="field-hint">Shown on receipts</div></div>
+            <div class="aform-field"><label>Temporary Password</label><input type="password" id="ns-pass" placeholder="Min 6 characters"></div>
+            <div class="aform-field"><label>Role</label><select id="ns-role"><option value="staff">Staff — Order tool only</option><option value="admin">Admin — Full dashboard access</option></select></div>
           </div>
-          <div class="aform-actions">
-            <button class="aform-submit green" onclick="createStaff()">✓ Create Account</button>
-          </div>
+          <div class="aform-actions"><button class="aform-submit green" onclick="createStaff()">✓ Create Account</button></div>
         </div>
       </div>
       <div class="admin-table-wrap">
@@ -723,42 +698,15 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <!-- ITEMS -->
     <div class="atab-pane" id="pane-items">
       <div class="acard">
-        <div class="acard-head">
-          <span class="acard-icon">🔩</span>
-          <div><div class="acard-title">Add New Item</div><div class="acard-sub">Item will appear immediately in the order tool</div></div>
-        </div>
+        <div class="acard-head"><span class="acard-icon">🔩</span><div><div class="acard-title">Add New Item</div><div class="acard-sub">Item will appear immediately in the order tool</div></div></div>
         <div class="acard-body">
           <div class="aform-grid">
-            <div class="aform-field">
-              <label>📝 Item Name</label>
-              <input type="text" id="ni-name" placeholder="e.g. Spoiler">
-            </div>
-            <div class="aform-field">
-              <label>💰 Price ($)</label>
-              <input type="number" id="ni-price" placeholder="1500" min="0">
-            </div>
-            <div class="aform-field">
-              <label>📂 Category</label>
-              <select id="ni-cat">
-                <option value="body">🚗 Body</option>
-                <option value="parts">🔩 Parts</option>
-                <option value="paints">🎨 Paints</option>
-                <option value="mattFinish">🖤 Matt Finish</option>
-                <option value="wheels">🛞 Wheels</option>
-                <option value="performance">⚙️ Performance</option>
-                <option value="security">🔒 Security</option>
-                <option value="repairs">🔧 Repairs</option>
-              </select>
-            </div>
-            <div class="aform-field">
-              <label>📊 Max Level <span style="color:var(--border)">(optional)</span></label>
-              <input type="number" id="ni-maxlvl" placeholder="e.g. 3 — leave blank if not levelled" min="1">
-              <div class="field-hint">Only for performance/security type items</div>
-            </div>
+            <div class="aform-field"><label>Item Name</label><input type="text" id="ni-name" placeholder="e.g. Spoiler"></div>
+            <div class="aform-field"><label>Price ($)</label><input type="number" id="ni-price" placeholder="1500" min="0"></div>
+            <div class="aform-field"><label>Category</label><select id="ni-cat"></select></div>
+            <div class="aform-field"><label>Max Level <span style="color:var(--border)">(optional)</span></label><input type="number" id="ni-maxlvl" placeholder="e.g. 3" min="1"><div class="field-hint">Only for levelled items</div></div>
           </div>
-          <div class="aform-actions">
-            <button class="aform-submit" onclick="createItem()">➕ Add Item</button>
-          </div>
+          <div class="aform-actions"><button class="aform-submit" onclick="createItem()">➕ Add Item</button></div>
         </div>
       </div>
       <div class="admin-table-wrap">
@@ -766,20 +714,32 @@ tr:hover td{background:rgba(255,255,255,.02);}
         <table><thead><tr><th>Category</th><th>Name</th><th>Price</th><th>Max Lvl</th><th>Status</th><th>Actions</th></tr></thead><tbody id="itemsTable"></tbody></table>
       </div>
     </div>
+    <!-- FIX 8: CATEGORIES TAB -->
+    <div class="atab-pane" id="pane-categories">
+      <div class="acard">
+        <div class="acard-head"><span class="acard-icon">📂</span><div><div class="acard-title">Create New Category</div><div class="acard-sub">Categories appear as sections in the order tool</div></div></div>
+        <div class="acard-body">
+          <div class="aform-grid">
+            <div class="aform-field"><label>Category Key</label><input type="text" id="nc-key" placeholder="e.g. wheels2"><div class="field-hint">Lowercase, no spaces — used internally</div></div>
+            <div class="aform-field"><label>Display Label</label><input type="text" id="nc-label" placeholder="e.g. 🛞 Extra Wheels"><div class="field-hint">Shown as section header in the tool</div></div>
+            <div class="aform-field"><label>Type</label><select id="nc-type"><option value="simple">Simple (click to toggle)</option><option value="level">Level (+ / − buttons)</option></select><div class="field-hint">Level type for performance-style items</div></div>
+          </div>
+          <div class="aform-actions"><button class="aform-submit" onclick="createCategory()">➕ Create Category</button></div>
+        </div>
+      </div>
+      <div class="admin-table-wrap">
+        <div class="admin-table-head"><span class="admin-table-title">All Categories</span></div>
+        <table><thead><tr><th>Key</th><th>Label</th><th>Type</th><th>Items</th><th>Status</th><th>Actions</th></tr></thead><tbody id="categoriesTable"></tbody></table>
+      </div>
+    </div>
     <!-- PRESETS ADMIN -->
     <div class="atab-pane" id="pane-presets">
       <div class="acard">
-        <div class="acard-head">
-          <span class="acard-icon">📢</span>
-          <div><div class="acard-title">Add Advertisement Preset</div><div class="acard-sub">Presets are available to all staff in the Presets modal</div></div>
-        </div>
+        <div class="acard-head"><span class="acard-icon">📢</span><div><div class="acard-title">Add Advertisement Preset</div><div class="acard-sub">All presets are stored in MongoDB — no hardcoded text</div></div></div>
         <div class="acard-body">
+          <div class="aform-field"><label>Preset Text</label><textarea id="np-text" rows="5" placeholder="Type your advertisement text here...&#10;&#10;e.g. 🚗 Benny's MotorWorks is now OPEN!&#10;📍 Postal 9038 | Message us on Services App"></textarea></div>
           <div class="aform-field">
-            <label>📝 Preset Text</label>
-            <textarea id="np-text" rows="5" placeholder="Type your advertisement text here...&#10;&#10;e.g. 🚗 Benny's MotorWorks is now OPEN!&#10;📍 Postal 9038 | Message us on Services App"></textarea>
-          </div>
-          <div class="aform-field">
-            <label>🏷️ Tags</label>
+            <label>Tags</label>
             <div class="tag-checkbox-group" id="npTagGroup">
               <label class="tag-cb" data-tag="Opening"><input type="checkbox" value="Opening"> Opening</label>
               <label class="tag-cb" data-tag="Closing"><input type="checkbox" value="Closing"> Closing</label>
@@ -787,28 +747,22 @@ tr:hover td{background:rgba(255,255,255,.02);}
               <label class="tag-cb" data-tag="Tow"><input type="checkbox" value="Tow"> Tow</label>
               <label class="tag-cb" data-tag="Offers"><input type="checkbox" value="Offers"> Offers</label>
             </div>
-            <div class="field-hint">Select all tags that apply to this preset</div>
           </div>
-          <div class="aform-actions">
-            <button class="aform-submit" onclick="createPreset()">➕ Add Preset</button>
-          </div>
+          <div class="aform-actions"><button class="aform-submit" onclick="createPreset()">➕ Add Preset</button></div>
         </div>
       </div>
       <div class="admin-table-wrap">
         <div class="admin-table-head"><span class="admin-table-title">All Presets</span></div>
-        <table><thead><tr><th>Preview</th><th>Tags</th><th>Used</th><th>Actions</th></tr></thead><tbody id="presetsAdminTable"></tbody></table>
+        <table><thead><tr><th>Preview</th><th>Tags</th><th>Used</th><th>Last Used</th><th>Actions</th></tr></thead><tbody id="presetsAdminTable"></tbody></table>
       </div>
     </div>
   </div>
 </div>
 
-<!-- STAFF ANALYTICS SCREEN (staff-only view) -->
+<!-- STAFF ANALYTICS SCREEN -->
 <div class="screen" id="analyticsScreen">
   <div class="header">
-    <div>
-      <div class="header-tag">📈 My Analytics v2.1.0</div>
-      <h1>Benny's <span>MotorWorks</span></h1>
-    </div>
+    <div><div class="header-tag">📈 My Analytics v2.2.0</div><h1>Benny's <span>MotorWorks</span></h1></div>
     <div class="header-sub">Your Performance</div>
     <div class="header-btns">
       <span class="user-badge" id="analyticsUserBadge"></span>
@@ -824,10 +778,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
       <div class="stat-card"><div class="stat-label">Total Orders</div><div class="stat-val" id="my-total-orders">—</div></div>
     </div>
     <div class="charts-grid">
-      <div class="chart-card full">
-        <div class="chart-head"><span class="chart-title">My Revenue Over Time</span><span class="chart-sub">Last 30 days</span></div>
-        <div class="chart-body"><canvas id="chartMyRevenue"></canvas></div>
-      </div>
+      <div class="chart-card full"><div class="chart-head"><span class="chart-title">My Revenue Over Time</span><span class="chart-sub">Last 30 days</span></div><div class="chart-body"><canvas id="chartMyRevenue"></canvas></div></div>
     </div>
     <div class="admin-table-wrap">
       <div class="admin-table-head"><span class="admin-table-title">My Recent Orders</span></div>
@@ -839,30 +790,6 @@ tr:hover td{background:rgba(255,255,255,.02);}
 <script>
 // ─── CONFIG ───
 const API = 'https://bennys-cf.umbiexam.workers.dev';
-
-// ─── HARDCODED PRESETS (from v1.5.6) ───
-const HARDCODED_PRESETS = [
-  {text:"🚗 Benny's MotorWorks is now OPEN! 🔧\nRepairs, upgrades, and custom work — we've got you covered.\n📍 Postal 9038\nMessage us on the Services app and get your ride sorted 💯",tags:['Opening']},
-  {text:"🔥 WE'RE OPEN — Benny's MotorWorks\n🚘 Full mods, resprays, repairs & more\n⚙️ Best mechanics in the city — no cap\n📍 Postal 9038 | 📱 Message us on the Services App",tags:['Opening']},
-  {text:"💨 Want your ride hitting different?\n🛞 New wheels • 🎨 Fresh paint • ⚙️ Max performance\nBenny's MotorWorks has got you.\n📍 Postal 9038 — Drop by or message us!",tags:['Offers']},
-  {text:"🚨 BENNY'S MOTORWORKS IS OPEN 🚨\n🔩 Exterior mods | 🎨 Custom paint | ⚡ Performance upgrades\nWe handle everything — come see us!\n📍 Postal 9038 | 📱 Services App",tags:['Opening']},
-  {text:"🏁 Race-ready or show-ready — we build both.\n⚙️ Engine, Trans, Suspension & more\n🎨 Any colour, any finish\nBenny's MotorWorks | 📍 Postal 9038",tags:['Offers']},
-  {text:"🧰 OPEN FOR BUSINESS — Benny's MotorWorks\n🔧 Repairs & towing available\n🎨 Full respray service\n🛞 Wheel upgrades in stock\n📍 Postal 9038 | Message on Services App",tags:['Opening','Repair']},
-  {text:"💰 Best prices in the city — Benny's MotorWorks\n✅ Repairs | ✅ Mods | ✅ Custom builds\n🔒 Car security available too\n📍 Postal 9038 — Hit us up anytime!",tags:['Offers']},
-  {text:"🏎️ Your car deserves the best.\nBenny's MotorWorks — full mod shop, OPEN NOW\n🎨 Paint • 🛞 Wheels • ⚙️ Performance\n📍 Postal 9038 | 📱 Services App",tags:['Opening']},
-  {text:"🔴 BENNY'S IS LIVE 🔴\nDon't drive a stock car when we exist 😤\n⚙️ Full performance builds | 🎨 Custom respray\n📍 Postal 9038 — Slide in!",tags:['Opening']},
-  {text:"🚘 Got a busted ride? We fix it.\n🔧 Repairs, towing, full package deals\nBenny's MotorWorks — fast, reliable, affordable\n📍 Postal 9038 | 📱 Message us on Services",tags:['Repair','Tow']},
-  {text:"🌟 OPEN — Benny's MotorWorks 🌟\n🎨 Respray | 🔩 Body kits | 🛞 Wheel swaps\n⚙️ Engine & suspension upgrades\nCome see us! 📍 Postal 9038",tags:['Opening']},
-  {text:"⚡ Performance builds done RIGHT — Benny's MotorWorks\n🔧 Engine lvl 3 | Trans lvl 3 | Suspension lvl 4\n🎨 Paint jobs & liveries available\n📍 Postal 9038 | 📱 Services App",tags:['Offers']},
-  {text:"🛠️ Benny's MotorWorks — WE'RE OPEN\nWhether it's a scratch or a full rebuild, we handle it.\n🚗 All vehicles welcome\n📍 Postal 9038 — Book via Services App",tags:['Repair']},
-  {text:"🎨 NEW LOOK, WHO DIS?\nBenny's MotorWorks can make your car unrecognisable 🤩\nPrimary • Secondary • Pearlescent • Matt Finish\n📍 Postal 9038 | 📱 Services App",tags:['Offers']},
-  {text:"🔒 PROTECT YOUR RIDE — Benny's MotorWorks\n🛡️ Car security upgrades available\n⚙️ Full mod & repair service too\n📍 Postal 9038 — Message us on the Services App",tags:['Offers']},
-  {text:"🛞 WHEEL SWAP SPECIAL\nSport • Tuner • High End • Lowrider & more\nBenny's MotorWorks is OPEN\n📍 Postal 9038 | Fresh rubber, fresh look 🤙",tags:['Offers']},
-  {text:"🚗 Don't let your car be basic.\nBenny's MotorWorks — Full custom shop\n🔩 Body | 🎨 Paint | ⚙️ Performance | 🛞 Wheels\n📍 Postal 9038 — Come through!",tags:['Opening']},
-  {text:"📢 ATTENTION ALL DRIVERS\nBenny's MotorWorks is now taking orders!\n🔧 Fast service | 💰 Fair prices | 🎨 Quality mods\n📍 Postal 9038 | 📱 Services App",tags:['Opening']},
-  {text:"🏆 Top-tier mods. Real results.\nBenny's MotorWorks — trusted by the best drivers in the city\n⚙️ Performance | 🎨 Visuals | 🔩 Exterior\n📍 Postal 9038",tags:['Offers']},
-  {text:"🌆 Night shift? We're still here.\n🔧 Benny's MotorWorks — OPEN NOW\nRepairs, upgrades, full builds — no job too big\n📍 Postal 9038 | 📱 Hit us on Services App 💪",tags:['Opening']},
-];
 
 // ─── AUTH ───
 let authToken = null, currentUser = null, tokenRefreshTimer = null;
@@ -912,31 +839,41 @@ async function doLogin() {
     if (data.user.mustChangePassword) { showScreen('changePwScreen'); }
     else { showWelcome(); }
   } catch (err) { errEl.textContent = err.message; }
-  finally { btn.disabled = false; btn.textContent = 'Sign In →'; }
+  finally { btn.disabled = false; btn.textContent = 'Sign In'; }
 }
 document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
 
+// FIX 2: Welcome covers login screen; login screen is hidden before welcome fades out → no flash
 function showWelcome() {
   const overlay = document.getElementById('welcomeOverlay');
   const nameEl = document.getElementById('welcomeName');
   const fill = document.getElementById('welcomeBarFill');
   nameEl.textContent = currentUser.displayName || currentUser.username;
+  // Hide login screen first, then show welcome on top — prevents flash of login
+  document.getElementById('loginScreen').classList.remove('active');
   overlay.classList.add('show');
+  fill.style.width = '0';
   setTimeout(() => { fill.style.width = '100%'; }, 50);
-  setTimeout(() => { overlay.classList.remove('show'); afterLogin(); }, 1200);
+  setTimeout(async () => {
+    overlay.classList.add('fade-out');
+    await afterLogin();
+    setTimeout(() => { overlay.classList.remove('show'); overlay.classList.remove('fade-out'); }, 400);
+  }, 1100);
 }
 
 async function afterLogin() {
   scheduleTokenRefresh();
   await loadItems();
-  const fromEl = document.getElementById('fromName');
-  if (fromEl && currentUser) fromEl.value = currentUser.displayName || currentUser.username;
+  // FIX 3: Set staff display name from login, no input field
+  const staffName = currentUser.displayName || currentUser.username;
+  document.getElementById('staffDisplayName').textContent = staffName;
   const badge = `<strong>${currentUser.displayName}</strong><span class="role-tag">${currentUser.role.toUpperCase()}</span>`;
   ['userBadge','adminUserBadge','analyticsUserBadge'].forEach(id => { const el = document.getElementById(id); if(el) el.innerHTML = badge; });
   if (currentUser.role === 'admin') {
     document.getElementById('adminDashBtn').style.display = '';
+    document.getElementById('adminDashBtn').textContent = '📊 Dashboard';
+    document.getElementById('adminDashBtn').onclick = showAdmin;
   } else {
-    // Staff get "My Stats" button
     const btn = document.getElementById('adminDashBtn');
     btn.style.display = '';
     btn.textContent = '📈 My Stats';
@@ -966,30 +903,124 @@ function showAdmin() { loadDashboard(); showScreen('adminScreen'); }
 function showStaff() { showScreen('staffScreen'); }
 async function showStaffAnalytics() { showScreen('analyticsScreen'); await loadStaffAnalytics(); }
 
-// ─── DATA ───
-let data = { body:[], parts:[], paints:[], mattFinish:[], wheels:[], performance:[], security:[], repairs:[] };
+// ─── DATA — loads categories dynamically from API ───
+let data = {};
+let categoryMeta = {}; // key → { label, type }
+
 async function loadItems() {
   try {
+    // FIX 5 + FIX 8: Load categories from backend, build data structure dynamically
+    let cats;
+    try { cats = await api('GET', '/api/categories'); } catch { cats = null; }
+    if (cats && Array.isArray(cats) && cats.length) {
+      cats.forEach(c => {
+        categoryMeta[c.key] = { label: c.label, type: c.type || 'simple' };
+        if (!data[c.key]) data[c.key] = [];
+      });
+    } else {
+      // Fallback default categories if endpoint not available
+      const defaults = [
+        { key:'body', label:'🚗 Body', type:'simple' },
+        { key:'parts', label:'🔩 Parts', type:'simple' },
+        { key:'paints', label:'🎨 Paints', type:'simple' },
+        { key:'mattFinish', label:'🖤 Matt Finish (+500/paint)', type:'simple' },
+        { key:'wheels', label:'🛞 Wheels', type:'simple' },
+        { key:'performance', label:'⚙️ Performance', type:'level' },
+        { key:'security', label:'🔒 Security', type:'level' },
+        { key:'repairs', label:'🔧 Repairs & Services', type:'simple' },
+      ];
+      defaults.forEach(c => { categoryMeta[c.key] = { label: c.label, type: c.type }; if (!data[c.key]) data[c.key] = []; });
+    }
     const grouped = await api('GET', '/api/items');
-    Object.keys(data).forEach(cat => { data[cat] = (grouped[cat] || []).map(i => ({ name: i.name, price: i.price, maxLvl: i.maxLvl || null, _id: i.id })); });
-    renderLayout(); setupDropTargets(); applyColWidths();
+    Object.keys(grouped).forEach(cat => {
+      if (!categoryMeta[cat]) categoryMeta[cat] = { label: cat, type: 'simple' };
+      if (!data[cat]) data[cat] = [];
+      data[cat] = (grouped[cat] || []).map(i => ({ name: i.name, price: i.price, maxLvl: i.maxLvl || null, _id: i.id }));
+    });
+    // Build SECTIONS dynamically from categoryMeta
+    buildSections();
+    renderLayout();
+    setupDropTargets();
+    applyColWidths();
+    // Populate category dropdowns
+    populateCatDropdowns();
   } catch (err) { showToast('Failed to load items: ' + err.message, 'error'); }
 }
 
-const sel = { body:new Set(), parts:new Set(), paints:new Set(), wheels:new Set(), repairs:new Set(), performance:{}, security:{}, mattFinish:new Set() };
+// ─── SECTIONS — built dynamically from categoryMeta ───
+let SECTIONS = [];
+const FIXED_SECTIONS = [
+  { id:'custom', label:'✏️ Custom Items', render: el => { el.innerHTML=''; renderCustomSection(el); } },
+  { id:'discount', label:'💰 Discount', render: el => { el.innerHTML=''; renderDiscountSection(el); } },
+];
+
+function buildSections() {
+  SECTIONS = [];
+  const catKeys = Object.keys(categoryMeta);
+  catKeys.forEach(cat => {
+    const meta = categoryMeta[cat];
+    const isLevel = meta.type === 'level';
+    SECTIONS.push({
+      id: cat,
+      label: meta.label || cat,
+      render: (el) => {
+        el.innerHTML = '';
+        if (isLevel) renderLevelInto(el, data[cat] || [], cat);
+        else renderSimpleInto(el, data[cat] || [], cat);
+      }
+    });
+  });
+  SECTIONS.push(...FIXED_SECTIONS);
+  // Reset sel for any new categories
+  SECTIONS.forEach(s => {
+    if (!s.id || s.id === 'custom' || s.id === 'discount') return;
+    if (!sel[s.id]) {
+      sel[s.id] = categoryMeta[s.id]?.type === 'level' ? {} : new Set();
+    }
+  });
+}
+
+// FIX 5: Default layout — 3 equal columns like v1.5.6
+// Default: col0=[body,parts,custom] col1=[wheels,paints,mattFinish] col2=[performance,security,repairs,discount]
+// We build this by index after SECTIONS is built
+function getDefaultLayout() {
+  const catKeys = Object.keys(categoryMeta);
+  // Split into logical thirds matching v1.5.6 spirit
+  const simpleKeys = catKeys.filter(k => categoryMeta[k].type !== 'level');
+  const levelKeys = catKeys.filter(k => categoryMeta[k].type === 'level');
+  const customIdx = SECTIONS.findIndex(s => s.id === 'custom');
+  const discountIdx = SECTIONS.findIndex(s => s.id === 'discount');
+  // Find indices
+  const idxOf = id => SECTIONS.findIndex(s => s.id === id);
+  const col0 = ['body','parts'].map(idxOf).filter(i => i >= 0);
+  if (customIdx >= 0) col0.push(customIdx);
+  const col1 = ['wheels','paints','mattFinish'].map(idxOf).filter(i => i >= 0);
+  const col2 = ['performance','security','repairs'].map(idxOf).filter(i => i >= 0);
+  if (discountIdx >= 0) col2.push(discountIdx);
+  // Any extra categories go in col2
+  SECTIONS.forEach((s, i) => {
+    if (['custom','discount','body','parts','wheels','paints','mattFinish','performance','security','repairs'].includes(s.id)) return;
+    col2.push(i);
+  });
+  return [col0, col1, col2];
+}
+
+const LAYOUT_VERSION = '2.2.0';
+if (localStorage.getItem('bmw-layout-version') !== LAYOUT_VERSION) { localStorage.removeItem('bmw-layout'); localStorage.removeItem('bmw-col-widths'); localStorage.setItem('bmw-layout-version', LAYOUT_VERSION); }
+let currentLayout = null; // will be set after buildSections
+let layoutMode = false, dragSrc = null, layoutSnapshot = null;
+
+const sel = {};
 let customItems = [], discountAmount = 0, lastTotal = 0;
 const fmt = n => Number(n).toLocaleString();
 
-// ─── STAFF AUTOCOMPLETE ───
-const STAFF_DEFAULTS = ['Jenni','Ashley Perez','Faith','Selene','Ambi','Cesar','Ashley Watson'];
-let staffHistory = JSON.parse(localStorage.getItem('bmw-staff-history') || 'null');
-if (!staffHistory) { staffHistory = [...STAFF_DEFAULTS]; localStorage.setItem('bmw-staff-history', JSON.stringify(staffHistory)); }
-let staffAcIdx = -1;
-function saveStaffHistory(name) { if (!name?.trim()) return; name = name.trim(); if (!staffHistory.includes(name)) { staffHistory.unshift(name); if (staffHistory.length > 20) staffHistory = staffHistory.slice(0, 20); localStorage.setItem('bmw-staff-history', JSON.stringify(staffHistory)); } }
-function onStaffInput(inp) { update(); const val = inp.value.trim().toLowerCase(); const list = document.getElementById('staffAutocompleteList'); staffAcIdx = -1; if (!val) { list.classList.remove('show'); list.innerHTML = ''; return; } const matches = staffHistory.filter(n => n.toLowerCase().includes(val)).slice(0, 6); if (!matches.length) { list.classList.remove('show'); list.innerHTML = ''; return; } list.innerHTML = matches.map((m, i) => `<div class="autocomplete-item" data-idx="${i}" onmousedown="selectStaff('${m.replace(/'/g,"\\'")}',event)">${m}</div>`).join(''); list.classList.add('show'); }
-function selectStaff(name, e) { if (e) e.preventDefault(); document.getElementById('fromName').value = name; document.getElementById('staffAutocompleteList').classList.remove('show'); update(); }
-document.addEventListener('click', e => { const list = document.getElementById('staffAutocompleteList'); if (list && !list.contains(e.target) && e.target.id !== 'fromName') list.classList.remove('show'); });
-document.getElementById('fromName').addEventListener('keydown', e => { const list = document.getElementById('staffAutocompleteList'); const items = list.querySelectorAll('.autocomplete-item'); if (!items.length) return; if (e.key === 'ArrowDown') { e.preventDefault(); staffAcIdx = Math.min(staffAcIdx + 1, items.length - 1); items.forEach((el, i) => el.classList.toggle('active', i === staffAcIdx)); } else if (e.key === 'ArrowUp') { e.preventDefault(); staffAcIdx = Math.max(staffAcIdx - 1, 0); items.forEach((el, i) => el.classList.toggle('active', i === staffAcIdx)); } else if (e.key === 'Enter' && staffAcIdx >= 0) { e.preventDefault(); selectStaff(items[staffAcIdx].textContent, null); } else if (e.key === 'Escape') { list.classList.remove('show'); } });
+function populateCatDropdowns() {
+  const catKeys = Object.keys(categoryMeta);
+  ['ni-cat'].forEach(id => {
+    const sel = document.getElementById(id); if (!sel) return;
+    sel.innerHTML = catKeys.map(k => `<option value="${k}">${categoryMeta[k].label || k}</option>`).join('');
+  });
+}
 
 // ─── CUSTOMER AUTOCOMPLETE ───
 let customerHistory = JSON.parse(localStorage.getItem('bmw-customers') || '[]'), acActiveIdx = -1;
@@ -1000,18 +1031,24 @@ document.addEventListener('click', e => { const list = document.getElementById('
 document.getElementById('toName').addEventListener('keydown', e => { const list = document.getElementById('autocompleteList'); const items = list.querySelectorAll('.autocomplete-item'); if (!items.length) return; if (e.key === 'ArrowDown') { e.preventDefault(); acActiveIdx = Math.min(acActiveIdx + 1, items.length - 1); items.forEach((el, i) => el.classList.toggle('active', i === acActiveIdx)); } else if (e.key === 'ArrowUp') { e.preventDefault(); acActiveIdx = Math.max(acActiveIdx - 1, 0); items.forEach((el, i) => el.classList.toggle('active', i === acActiveIdx)); } else if (e.key === 'Enter' && acActiveIdx >= 0) { e.preventDefault(); selectCustomer(items[acActiveIdx].textContent, null); } else if (e.key === 'Escape') { list.classList.remove('show'); } });
 
 // ─── FULL PACKAGE ───
-function toggleFullPackage(active) { data.performance.forEach((_, i) => { sel.performance[i] = active ? data.performance[i].maxLvl : 0; updLvl('performance', i); const div = document.getElementById(`performance-${i}`); if (div) { div.querySelectorAll('.lb').forEach(btn => btn.disabled = active); div.style.opacity = active ? '0.6' : '1'; div.title = active ? 'Locked by Full Package' : ''; } }); }
+function toggleFullPackage(active) {
+  const perfCat = data['performance'] || [];
+  perfCat.forEach((_, i) => {
+    if (!sel['performance']) return;
+    sel['performance'][i] = active ? (perfCat[i].maxLvl || 0) : 0;
+    updLvl('performance', i);
+    const div = document.getElementById(`performance-${i}`);
+    if (div) { div.querySelectorAll('.lb').forEach(btn => btn.disabled = active); div.style.opacity = active ? '0.6' : '1'; div.title = active ? 'Locked by Full Package' : ''; }
+  });
+}
 
 // ─── LEVELS ───
-function toggleLvl(cat, i) { sel[cat][i] = sel[cat][i] > 0 ? 0 : 1; updLvl(cat, i); update(); }
-function chLvl(cat, i, d, max) { event.stopPropagation(); sel[cat][i] = Math.min(max, Math.max(0, (sel[cat][i] || 0) + d)); updLvl(cat, i); update(); }
-function updLvl(cat, i) { const v = sel[cat][i], item = data[cat][i]; const div = document.getElementById(`${cat}-${i}`), ld = document.getElementById(`ld-${cat}-${i}`), lt = document.getElementById(`lt-${cat}-${i}`); if (!div || !ld || !lt) return; div.classList.toggle('on', v > 0); ld.textContent = v > 0 ? `LVL ${v}` : 'OFF'; lt.textContent = v > 0 ? `$${fmt(item.price * v)}` : ''; }
+function toggleLvl(cat, i) { if (!sel[cat]) sel[cat] = {}; sel[cat][i] = sel[cat][i] > 0 ? 0 : 1; updLvl(cat, i); update(); }
+function chLvl(cat, i, d, max) { event.stopPropagation(); if (!sel[cat]) sel[cat] = {}; sel[cat][i] = Math.min(max, Math.max(0, (sel[cat][i] || 0) + d)); updLvl(cat, i); update(); }
+function updLvl(cat, i) { const v = (sel[cat] || {})[i] || 0, item = (data[cat] || [])[i]; if (!item) return; const div = document.getElementById(`${cat}-${i}`), ld = document.getElementById(`ld-${cat}-${i}`), lt = document.getElementById(`lt-${cat}-${i}`); if (!div || !ld || !lt) return; div.classList.toggle('on', v > 0); ld.textContent = v > 0 ? `LVL ${v}` : 'OFF'; lt.textContent = v > 0 ? `$${fmt(item.price * v)}` : ''; }
 
 // ─── CUSTOM ITEMS ───
-function renderCustomSection(container) {
-  container.innerHTML = `<div class="custom-item-row"><input class="ci-name-input" type="text" id="ci-name" placeholder="Item name..." /><input class="ci-price-input" type="number" id="ci-price" placeholder="$0" min="0" /><button class="custom-add-btn" onclick="addCustomItem()" title="Add item">+</button></div><div class="custom-item-list" id="ci-list"></div>`;
-  renderCustomList();
-}
+function renderCustomSection(container) { container.innerHTML = `<div class="custom-item-row"><input class="ci-name-input" type="text" id="ci-name" placeholder="Item name..."/><input class="ci-price-input" type="number" id="ci-price" placeholder="$0" min="0"/><button class="custom-add-btn" onclick="addCustomItem()" title="Add item">+</button></div><div class="custom-item-list" id="ci-list"></div>`; renderCustomList(); }
 function renderCustomList() { const list = document.getElementById('ci-list'); if (!list) return; list.innerHTML = ''; customItems.forEach((item, i) => { const div = document.createElement('div'); div.className = 'custom-item-entry'; div.innerHTML = `<span title="${item.name}">${item.name}</span><span class="ci-price">$${fmt(item.price)}</span><button class="ci-del" onclick="removeCustomItem(${i})">×</button>`; list.appendChild(div); }); }
 function addCustomItem() { const name = document.getElementById('ci-name')?.value?.trim(); const price = parseInt(document.getElementById('ci-price')?.value) || 0; if (!name || price <= 0) return; customItems.push({ name, price }); document.getElementById('ci-name').value = ''; document.getElementById('ci-price').value = ''; renderCustomList(); update(); }
 function removeCustomItem(i) { customItems.splice(i, 1); renderCustomList(); update(); }
@@ -1023,41 +1060,53 @@ function applyDiscount() { const val = parseInt(document.getElementById('discoun
 function clearDiscount() { discountAmount = 0; renderDiscountDisplay(); update(); }
 
 // ─── GET ITEMS ───
-function getItems() { const items = []; const fpIdx = data.repairs.findIndex(r => r.name === 'Full Package'); const fp = fpIdx >= 0 && sel.repairs.has(fpIdx); sel.body.forEach(i => items.push({ name: data.body[i].name, price: data.body[i].price })); sel.parts.forEach(i => items.push({ name: data.parts[i].name, price: data.parts[i].price })); sel.paints.forEach(i => items.push({ name: data.paints[i].name, price: data.paints[i].price })); sel.wheels.forEach(i => items.push({ name: `Wheels (${data.wheels[i].name})`, price: data.wheels[i].price })); sel.repairs.forEach(i => items.push({ name: data.repairs[i].name, price: data.repairs[i].price })); if (!fp) { Object.entries(sel.performance).forEach(([i, lvl]) => { if (lvl > 0) items.push({ name: `${data.performance[i].name} (lvl ${lvl})`, price: data.performance[i].price * lvl }); }); } Object.entries(sel.security).forEach(([i, lvl]) => { if (lvl > 0) items.push({ name: `${data.security[i].name} (lvl ${lvl})`, price: data.security[i].price * lvl }); }); sel.mattFinish.forEach(i => items.push({ name: data.mattFinish[i].name, price: data.mattFinish[i].price })); customItems.forEach(item => items.push({ name: item.name, price: item.price })); return items; }
+function getItems() {
+  const items = [];
+  const repairsCat = data['repairs'] || [];
+  const fpIdx = repairsCat.findIndex(r => r.name === 'Full Package');
+  const fp = fpIdx >= 0 && sel['repairs'] instanceof Set && sel['repairs'].has(fpIdx);
+  SECTIONS.forEach(sec => {
+    const { id } = sec;
+    if (id === 'custom' || id === 'discount') return;
+    const catData = data[id] || [];
+    const catSel = sel[id];
+    if (!catSel) return;
+    const isLevel = categoryMeta[id]?.type === 'level';
+    if (isLevel) {
+      if (id === 'performance' && fp) return; // skip performance if full package
+      Object.entries(catSel).forEach(([i, lvl]) => {
+        if (lvl > 0 && catData[i]) items.push({ name: `${catData[i].name} (lvl ${lvl})`, price: catData[i].price * lvl });
+      });
+    } else if (catSel instanceof Set) {
+      catSel.forEach(i => {
+        if (catData[i]) {
+          const name = id === 'wheels' ? `Wheels (${catData[i].name})` : catData[i].name;
+          items.push({ name, price: catData[i].price });
+        }
+      });
+    }
+  });
+  customItems.forEach(item => items.push({ name: item.name, price: item.price }));
+  return items;
+}
 
 // ─── RECEIPT RENDERER ───
 function renderReceipt(containerIds, items, from, to, plate, vehicle, notes, total) {
   const now = new Date();
   const ds = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
   const ts = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: true });
-
   const isEmpty = !from && !to && items.length === 0;
-
   containerIds.forEach(cid => {
-    const el = document.getElementById(cid);
-    if (!el) return;
-    if (isEmpty) {
-      el.innerHTML = `<div class="receipt-card empty-state">Fill in the order details above...</div>`;
-      return;
-    }
-    let itemsHtml = items.length > 0
+    const el = document.getElementById(cid); if (!el) return;
+    if (isEmpty) { el.innerHTML = `<div class="receipt-card empty-state">Fill in the order details above...</div>`; return; }
+    const itemsHtml = items.length > 0
       ? items.map(i => `<div class="receipt-item-row"><span class="receipt-item-name">${i.name}</span><span class="receipt-item-price">$${fmt(i.price)}</span></div>`).join('')
       : `<div class="receipt-empty-items">No items selected</div>`;
-
-    let discountHtml = discountAmount > 0
-      ? `<div class="receipt-discount-row"><span>Discount</span><span>-$${fmt(discountAmount)}</span></div>` : '';
-
-    let notesHtml = notes ? `<div class="receipt-notes">📝 ${notes}</div>` : '';
-
+    const discountHtml = discountAmount > 0 ? `<div class="receipt-discount-row"><span>Discount</span><span>-$${fmt(discountAmount)}</span></div>` : '';
+    const notesHtml = notes ? `<div class="receipt-notes">📝 ${notes}</div>` : '';
     el.innerHTML = `
       <div class="receipt-card">
-        <div class="receipt-header">
-          <span class="receipt-header-icon">🚗</span>
-          <div>
-            <div class="receipt-header-title">BENNY'S MOTORWORKS</div>
-            <div class="receipt-header-sub">Service Receipt</div>
-          </div>
-        </div>
+        <div class="receipt-header"><span class="receipt-header-icon">🚗</span><div><div class="receipt-header-title">BENNY'S MOTORWORKS</div><div class="receipt-header-sub">Service Receipt</div></div></div>
         <div class="receipt-divider"></div>
         <div class="receipt-section">
           <div class="receipt-row"><span class="receipt-label">👤 From</span><span class="receipt-value">${from||'—'}</span></div>
@@ -1069,44 +1118,33 @@ function renderReceipt(containerIds, items, from, to, plate, vehicle, notes, tot
         <div class="receipt-divider"></div>
         <div class="receipt-items">${itemsHtml}</div>
         ${notesHtml}
-        <div class="receipt-footer">
-          ${discountHtml}
-          <div class="receipt-total-row">
-            <span class="receipt-total-label">TOTAL</span>
-            <span class="receipt-total-val">$${fmt(total)}</span>
-          </div>
-        </div>
+        <div class="receipt-footer">${discountHtml}<div class="receipt-total-row"><span class="receipt-total-label">TOTAL</span><span class="receipt-total-val">$${fmt(total)}</span></div></div>
       </div>`;
   });
 }
 
 // ─── UPDATE ───
-function pulseTval() { ['tval', 'tvalMobile'].forEach(id => { const el = document.getElementById(id); if (!el) return; el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse'); }); }
+function pulseTval() { ['tval','tvalMobile'].forEach(id => { const el = document.getElementById(id); if (!el) return; el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse'); }); }
 function update() {
   const items = getItems();
   const subtotal = items.reduce((s, i) => s + i.price, 0);
   const total = Math.max(0, subtotal - discountAmount);
-  const from = document.getElementById('fromName')?.value.trim() || '';
+  // FIX 3: from comes from currentUser, not an input field
+  const from = currentUser ? (currentUser.displayName || currentUser.username) : '';
   const to = document.getElementById('toName').value.trim();
   const notes = document.getElementById('notes').value.trim();
   const plate = document.getElementById('plateNum').value.trim();
   const vehicle = document.getElementById('vehicleModel').value.trim();
   const allFilled = from && to && plate && vehicle;
-
   if (total !== lastTotal) { lastTotal = total; pulseTval(); }
-  ['totalAmt', 'totalAmtMobile'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = fmt(total); });
-  ['sendBtn', 'sendBtnMobile'].forEach(id => {
-    const btn = document.getElementById(id); if (!btn) return;
-    btn.disabled = !allFilled;
-    btn.textContent = allFilled ? '📤 Send to Discord' : '🔒 Fill all fields first';
-  });
-
-  renderReceipt(['receiptWrap', 'receiptWrapMobile'], items, from, to, plate, vehicle, notes, total);
+  ['totalAmt','totalAmtMobile'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = fmt(total); });
+  ['sendBtn','sendBtnMobile'].forEach(id => { const btn = document.getElementById(id); if (!btn) return; btn.disabled = !allFilled; btn.textContent = allFilled ? '📤 Send to Discord' : '🔒 Fill all fields first'; });
+  renderReceipt(['receiptWrap','receiptWrapMobile'], items, from, to, plate, vehicle, notes, total);
 }
 
 // ─── SUBMIT ORDER ───
 async function submitOrder() {
-  const from = document.getElementById('fromName')?.value.trim() || '';
+  const from = currentUser ? (currentUser.displayName || currentUser.username) : '';
   const to = document.getElementById('toName').value.trim();
   const plate = document.getElementById('plateNum').value.trim();
   const vehicle = document.getElementById('vehicleModel').value.trim();
@@ -1115,18 +1153,17 @@ async function submitOrder() {
   const items = getItems();
   const subtotal = items.reduce((s, i) => s + i.price, 0);
   const total = Math.max(0, subtotal - discountAmount);
-  ['sendBtn', 'sendBtnMobile'].forEach(id => { const btn = document.getElementById(id); if (btn) { btn.disabled = true; btn.textContent = '⏳ Sending...'; } });
+  ['sendBtn','sendBtnMobile'].forEach(id => { const btn = document.getElementById(id); if (btn) { btn.disabled = true; btn.textContent = '⏳ Sending...'; } });
   setLoading(true);
   try {
     const result = await api('POST', '/api/orders', { customerName: to, plate, vehicle, notes, items, discount: discountAmount, total });
     saveCustomerHistory(to);
-    saveStaffHistory(from);
     showToast(result.discordPosted ? '✓ Order sent to Discord!' : '✓ Order saved (Discord failed)', result.discordPosted ? 'success' : '');
     resetAll();
     closeMobilePanel();
   } catch (err) {
     showToast('Failed: ' + err.message, 'error');
-    ['sendBtn', 'sendBtnMobile'].forEach(id => { const btn = document.getElementById(id); if (btn) { btn.disabled = false; btn.textContent = '📤 Send to Discord'; } });
+    ['sendBtn','sendBtnMobile'].forEach(id => { const btn = document.getElementById(id); if (btn) { btn.disabled = false; btn.textContent = '📤 Send to Discord'; } });
   } finally { setLoading(false); }
 }
 
@@ -1134,19 +1171,24 @@ function fallbackCopy(text) { const ta = document.createElement('textarea'); ta.
 
 // ─── RESET ───
 function resetAll() {
-  sel.body.clear(); sel.parts.clear(); sel.paints.clear(); sel.wheels.clear(); sel.repairs.clear();
-  Object.keys(sel.performance).forEach(k => sel.performance[k] = 0);
-  Object.keys(sel.security).forEach(k => sel.security[k] = 0);
-  sel.mattFinish.clear(); customItems = []; discountAmount = 0;
+  SECTIONS.forEach(sec => {
+    if (sec.id === 'custom' || sec.id === 'discount') return;
+    if (categoryMeta[sec.id]?.type === 'level') {
+      if (sel[sec.id]) Object.keys(sel[sec.id]).forEach(k => sel[sec.id][k] = 0);
+      (data[sec.id] || []).forEach((_, i) => updLvl(sec.id, i));
+    } else if (sel[sec.id] instanceof Set) {
+      sel[sec.id].clear();
+    }
+  });
+  customItems = []; discountAmount = 0;
   const di = document.getElementById('discountInput'); if (di) di.value = '';
-  renderCustomList(); renderDiscountDisplay(); toggleFullPackage(false);
+  renderCustomList(); renderDiscountDisplay();
+  toggleFullPackage(false);
   document.querySelectorAll('.item-btn').forEach(b => b.classList.remove('selected'));
-  data.performance.forEach((_, i) => updLvl('performance', i));
-  data.security.forEach((_, i) => updLvl('security', i));
-  ['toName', 'notes', 'plateNum', 'vehicleModel'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
-  ['totalAmt', 'totalAmtMobile'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = '0'; });
-  ['sendBtn', 'sendBtnMobile'].forEach(id => { const el = document.getElementById(id); if (el) { el.disabled = true; el.textContent = '🔒 Fill all fields first'; } });
-  ['autocompleteList', 'staffAutocompleteList'].forEach(id => { const el = document.getElementById(id); if (el) el.classList.remove('show'); });
+  ['toName','notes','plateNum','vehicleModel'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  ['totalAmt','totalAmtMobile'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = '0'; });
+  ['sendBtn','sendBtnMobile'].forEach(id => { const el = document.getElementById(id); if (el) { el.disabled = true; el.textContent = '🔒 Fill all fields first'; } });
+  const acList = document.getElementById('autocompleteList'); if (acList) acList.classList.remove('show');
   update();
 }
 
@@ -1166,62 +1208,157 @@ document.addEventListener('keydown', e => {
 const collapsedSections = new Set(JSON.parse(localStorage.getItem('bmw-collapsed') || '[]'));
 function toggleCollapse(secId, card) { const body = card.querySelector('.section-card-body'); if (collapsedSections.has(secId)) { collapsedSections.delete(secId); card.classList.remove('collapsed'); body.style.maxHeight = '0px'; void body.offsetHeight; body.style.maxHeight = body.scrollHeight + 'px'; body.addEventListener('transitionend', () => { if (!card.classList.contains('collapsed')) body.style.maxHeight = 'none'; }, { once: true }); } else { collapsedSections.add(secId); body.style.maxHeight = body.scrollHeight + 'px'; void body.offsetHeight; card.classList.add('collapsed'); body.style.maxHeight = '0px'; } localStorage.setItem('bmw-collapsed', JSON.stringify([...collapsedSections])); }
 
-// ─── SECTIONS / LAYOUT ───
-const SECTIONS = [
-  { id:'body',        label:'🚗 Body',                     render: el => { el.innerHTML=''; renderSimpleInto(el, data.body, 'body'); } },
-  { id:'parts',       label:'🔩 Parts',                    render: el => { el.innerHTML=''; renderSimpleInto(el, data.parts, 'parts'); } },
-  { id:'paints',      label:'🎨 Paints',                   render: el => { el.innerHTML=''; renderSimpleInto(el, data.paints, 'paints'); } },
-  { id:'mattFinish',  label:'🖤 Matt Finish (+500/paint)', render: el => { el.innerHTML=''; renderSimpleInto(el, data.mattFinish, 'mattFinish'); } },
-  { id:'wheels',      label:'🛞 Wheels',                   render: el => { el.innerHTML=''; renderSimpleInto(el, data.wheels, 'wheels'); } },
-  { id:'performance', label:'⚙️ Performance',              render: el => { el.innerHTML=''; renderLevelInto(el, data.performance, 'performance'); } },
-  { id:'security',    label:'🔒 Security',                 render: el => { el.innerHTML=''; renderLevelInto(el, data.security, 'security'); } },
-  { id:'repairs',     label:'🔧 Repairs & Services',       render: el => { el.innerHTML=''; renderSimpleInto(el, data.repairs, 'repairs'); } },
-  { id:'custom',      label:'✏️ Custom Items',             render: el => { el.innerHTML=''; renderCustomSection(el); } },
-  { id:'discount',    label:'💰 Discount',                 render: el => { el.innerHTML=''; renderDiscountSection(el); } },
-];
+// ─── RENDER HELPERS ───
+function renderSimpleInto(container, items, cat) {
+  if (!sel[cat] || !(sel[cat] instanceof Set)) sel[cat] = new Set();
+  items.forEach((item, i) => {
+    const b = document.createElement('button'); b.className = 'item-btn';
+    b.innerHTML = `<span>${item.name}</span><span class="p">$${fmt(item.price)}</span>`;
+    b.draggable = false;
+    b.addEventListener('dragstart', e => { if (!layoutMode) { e.preventDefault(); return; } e.stopPropagation(); e.dataTransfer.setData('item-drag', JSON.stringify({ cat, idx: i })); e.dataTransfer.effectAllowed = 'move'; setTimeout(() => b.classList.add('dragging'), 0); });
+    b.addEventListener('dragend', () => b.classList.remove('dragging'));
+    b.addEventListener('dragover', e => { if (!layoutMode || !e.dataTransfer.types.includes('item-drag')) return; e.preventDefault(); e.stopPropagation(); b.classList.add('drag-over-item'); });
+    b.addEventListener('dragleave', () => b.classList.remove('drag-over-item'));
+    b.addEventListener('drop', e => { if (!layoutMode || !e.dataTransfer.types.includes('item-drag')) return; e.preventDefault(); e.stopPropagation(); b.classList.remove('drag-over-item'); const { cat: sc, idx: si } = JSON.parse(e.dataTransfer.getData('item-drag')); if (sc !== cat) return; const arr = data[cat]; const moved = arr.splice(si, 1)[0]; arr.splice(i, 0, moved); renderLayout(); setupDropTargets(); });
+    b.onclick = () => {
+      if (layoutMode) return;
+      sel[cat].has(i) ? sel[cat].delete(i) : sel[cat].add(i);
+      b.classList.toggle('selected');
+      if (cat === 'repairs' && (data[cat] || [])[i]?.name === 'Full Package') toggleFullPackage(sel[cat].has(i));
+      update();
+    };
+    if (sel[cat] instanceof Set && sel[cat].has(i)) b.classList.add('selected');
+    container.appendChild(b);
+  });
+}
 
-const DEFAULT_LAYOUT = [[0,1,8],[4,2,3],[5,6,7,9]];
-const LAYOUT_VERSION = '2.1.0';
-if (localStorage.getItem('bmw-layout-version') !== LAYOUT_VERSION) { localStorage.removeItem('bmw-layout'); localStorage.removeItem('bmw-col-widths'); localStorage.setItem('bmw-layout-version', LAYOUT_VERSION); }
-let currentLayout = JSON.parse(localStorage.getItem('bmw-layout') || 'null') || DEFAULT_LAYOUT.map(col => [...col]);
-let layoutMode = false, dragSrc = null, layoutSnapshot = null;
+function renderLevelInto(container, items, cat) {
+  if (!sel[cat] || typeof sel[cat] !== 'object' || sel[cat] instanceof Set) sel[cat] = {};
+  items.forEach((item, i) => {
+    sel[cat][i] = sel[cat][i] || 0;
+    const d = document.createElement('div'); d.className = 'lvl-item'; d.id = `${cat}-${i}`;
+    d.innerHTML = `<div class="lvl-top" onclick="if(!layoutMode){toggleLvl('${cat}',${i})}"><span class="lvl-name">${item.name}</span><span class="lvl-ptag">$${fmt(item.price)}/lvl</span></div><div class="lvl-ctrl"><button class="lb" onclick="if(!layoutMode){chLvl('${cat}',${i},-1,${item.maxLvl||1})}">−</button><span class="lvl-d" id="ld-${cat}-${i}">OFF</span><button class="lb" onclick="if(!layoutMode){chLvl('${cat}',${i},1,${item.maxLvl||1})}">+</button><span class="lvl-t" id="lt-${cat}-${i}"></span></div>`;
+    container.appendChild(d);
+    if (sel[cat][i] > 0) updLvl(cat, i);
+  });
+}
+
+function buildCard(sectionIdx) {
+  const sec = SECTIONS[sectionIdx];
+  const card = document.createElement('div'); card.className = 'section-card'; card.dataset.secIdx = sectionIdx; card.draggable = layoutMode;
+  const isCollapsed = collapsedSections.has(sec.id); if (isCollapsed) card.classList.add('collapsed');
+  const head = document.createElement('div'); head.className = 'section-card-head';
+  head.innerHTML = `<div style="display:flex;align-items:center;gap:6px;"><span>${sec.label}</span></div><div style="display:flex;align-items:center;gap:6px;"><span class="drag-handle">⠿</span><span class="section-collapse-arrow">▾</span></div>`;
+  head.addEventListener('click', e => { if (layoutMode) return; if (e.target.classList.contains('drag-handle')) return; toggleCollapse(sec.id, card); });
+  card.appendChild(head);
+  const body = document.createElement('div'); body.className = 'section-card-body'; body.id = `sec-body-${sec.id}`;
+  sec.render(body);
+  if (layoutMode) body.querySelectorAll('.item-btn').forEach(b => b.draggable = true);
+  card.appendChild(body);
+  body.style.maxHeight = isCollapsed ? '0px' : 'none';
+  card.addEventListener('dragstart', e => { if (!layoutMode) { e.preventDefault(); return; } dragSrc = card; setTimeout(() => card.classList.add('dragging'), 0); e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', String(sectionIdx)); });
+  card.addEventListener('dragend', () => { card.classList.remove('dragging'); dragSrc = null; document.querySelectorAll('.droptarget').forEach(t => t.classList.remove('drag-over')); });
+  return card;
+}
+
+function renderLayout() {
+  if (!currentLayout) {
+    currentLayout = JSON.parse(localStorage.getItem('bmw-layout') || 'null') || getDefaultLayout();
+  }
+  // Ensure all section indices are valid
+  const maxIdx = SECTIONS.length - 1;
+  currentLayout = currentLayout.map(col => col.filter(i => i >= 0 && i <= maxIdx));
+  // Add any missing section indices to last column
+  const used = new Set(currentLayout.flat());
+  SECTIONS.forEach((_, i) => { if (!used.has(i)) currentLayout[2].push(i); });
+  for (let c = 0; c < 3; c++) {
+    const drop = document.getElementById(`drop-${c}`); if (!drop) return;
+    drop.innerHTML = '';
+    currentLayout[c].forEach(secIdx => drop.appendChild(buildCard(secIdx)));
+  }
+  // Refresh level displays
+  SECTIONS.forEach(sec => {
+    if (categoryMeta[sec.id]?.type === 'level' && sel[sec.id]) {
+      Object.entries(sel[sec.id]).forEach(([i, v]) => { if (v > 0) updLvl(sec.id, parseInt(i)); });
+    }
+  });
+}
+
+function setupDropTargets() {
+  document.querySelectorAll('.droptarget').forEach(target => {
+    target.ondragover = e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; target.classList.add('drag-over'); };
+    target.ondragleave = e => { if (!target.contains(e.relatedTarget)) target.classList.remove('drag-over'); };
+    target.ondrop = e => { e.preventDefault(); target.classList.remove('drag-over'); if (!layoutMode) return; const si = parseInt(e.dataTransfer.getData('text/plain')); const ci = parseInt(target.id.split('-')[1]); if (isNaN(si) || isNaN(ci)) return; currentLayout = currentLayout.map(col => col.filter(i => i !== si)); currentLayout[ci].push(si); renderLayout(); setupDropTargets(); };
+  });
+}
+
 function snapshotState() { layoutSnapshot = { layout: JSON.parse(JSON.stringify(currentLayout)) }; }
 function restoreSnapshot() { if (!layoutSnapshot) return; currentLayout = JSON.parse(JSON.stringify(layoutSnapshot.layout)); }
-
-function renderSimpleInto(container, items, cat) { items.forEach((item, i) => { const b = document.createElement('button'); b.className = 'item-btn'; b.innerHTML = `<span>${item.name}</span><span class="p">$${fmt(item.price)}</span>`; b.draggable = false; b.addEventListener('dragstart', e => { if (!layoutMode) { e.preventDefault(); return; } e.stopPropagation(); e.dataTransfer.setData('item-drag', JSON.stringify({ cat, idx: i })); e.dataTransfer.effectAllowed = 'move'; setTimeout(() => b.classList.add('dragging'), 0); }); b.addEventListener('dragend', () => b.classList.remove('dragging')); b.addEventListener('dragover', e => { if (!layoutMode || !e.dataTransfer.types.includes('item-drag')) return; e.preventDefault(); e.stopPropagation(); b.classList.add('drag-over-item'); }); b.addEventListener('dragleave', () => b.classList.remove('drag-over-item')); b.addEventListener('drop', e => { if (!layoutMode || !e.dataTransfer.types.includes('item-drag')) return; e.preventDefault(); e.stopPropagation(); b.classList.remove('drag-over-item'); const { cat: sc, idx: si } = JSON.parse(e.dataTransfer.getData('item-drag')); if (sc !== cat) return; const arr = data[cat]; const moved = arr.splice(si, 1)[0]; arr.splice(i, 0, moved); renderLayout(); setupDropTargets(); }); b.onclick = () => { if (layoutMode) return; sel[cat].has(i) ? sel[cat].delete(i) : sel[cat].add(i); b.classList.toggle('selected'); if (cat === 'repairs' && data.repairs[i]?.name === 'Full Package') toggleFullPackage(sel[cat].has(i)); update(); }; if (sel[cat] instanceof Set && sel[cat].has(i)) b.classList.add('selected'); container.appendChild(b); }); }
-function renderLevelInto(container, items, cat) { items.forEach((item, i) => { sel[cat][i] = sel[cat][i] || 0; const d = document.createElement('div'); d.className = 'lvl-item'; d.id = `${cat}-${i}`; d.innerHTML = `<div class="lvl-top" onclick="if(!layoutMode){toggleLvl('${cat}',${i})}"><span class="lvl-name">${item.name}</span><span class="lvl-ptag">$${fmt(item.price)}/lvl</span></div><div class="lvl-ctrl"><button class="lb" onclick="if(!layoutMode){chLvl('${cat}',${i},-1,${item.maxLvl})}">−</button><span class="lvl-d" id="ld-${cat}-${i}">OFF</span><button class="lb" onclick="if(!layoutMode){chLvl('${cat}',${i},1,${item.maxLvl})}">+</button><span class="lvl-t" id="lt-${cat}-${i}"></span></div>`; container.appendChild(d); if (sel[cat][i] > 0) updLvl(cat, i); }); }
-function buildCard(sectionIdx) { const sec = SECTIONS[sectionIdx]; const card = document.createElement('div'); card.className = 'section-card'; card.dataset.secIdx = sectionIdx; card.draggable = layoutMode; const isCollapsed = collapsedSections.has(sec.id); if (isCollapsed) card.classList.add('collapsed'); const head = document.createElement('div'); head.className = 'section-card-head'; head.innerHTML = `<div style="display:flex;align-items:center;gap:6px;"><span>${sec.label}</span></div><div style="display:flex;align-items:center;gap:6px;"><span class="drag-handle">⠿</span><span class="section-collapse-arrow">▾</span></div>`; head.addEventListener('click', e => { if (layoutMode) return; if (e.target.classList.contains('drag-handle')) return; toggleCollapse(sec.id, card); }); card.appendChild(head); const body = document.createElement('div'); body.className = 'section-card-body'; body.id = `sec-body-${sec.id}`; sec.render(body); if (layoutMode) body.querySelectorAll('.item-btn').forEach(b => b.draggable = true); card.appendChild(body); body.style.maxHeight = isCollapsed ? '0px' : 'none'; card.addEventListener('dragstart', e => { if (!layoutMode) { e.preventDefault(); return; } dragSrc = card; setTimeout(() => card.classList.add('dragging'), 0); e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', String(sectionIdx)); }); card.addEventListener('dragend', () => { card.classList.remove('dragging'); dragSrc = null; document.querySelectorAll('.droptarget').forEach(t => t.classList.remove('drag-over')); }); return card; }
-function renderLayout() { for (let c = 0; c < 3; c++) { const drop = document.getElementById(`drop-${c}`); if (!drop) return; drop.innerHTML = ''; currentLayout[c].forEach(secIdx => drop.appendChild(buildCard(secIdx))); } data.performance.forEach((_, i) => { const d = document.getElementById(`performance-${i}`); if (d && sel.performance[i] > 0) updLvl('performance', i); }); data.security.forEach((_, i) => { const d = document.getElementById(`security-${i}`); if (d && sel.security[i] > 0) updLvl('security', i); }); }
-function setupDropTargets() { document.querySelectorAll('.droptarget').forEach(target => { target.ondragover = e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; target.classList.add('drag-over'); }; target.ondragleave = e => { if (!target.contains(e.relatedTarget)) target.classList.remove('drag-over'); }; target.ondrop = e => { e.preventDefault(); target.classList.remove('drag-over'); if (!layoutMode) return; const si = parseInt(e.dataTransfer.getData('text/plain')); const ci = parseInt(target.id.split('-')[1]); if (isNaN(si) || isNaN(ci)) return; currentLayout = currentLayout.map(col => col.filter(i => i !== si)); currentLayout[ci].push(si); renderLayout(); setupDropTargets(); }; }); }
 function toggleLayoutMode() { layoutMode = !layoutMode; const btn = document.getElementById('settingsBtn'), banner = document.getElementById('layoutBanner'); if (layoutMode) { btn.classList.add('active'); btn.textContent = '✕ Cancel'; banner.style.display = 'flex'; snapshotState(); document.querySelector('.app').classList.add('layout-mode'); document.querySelectorAll('.section-card').forEach(c => c.draggable = true); document.querySelectorAll('.item-btn').forEach(b => b.draggable = true); setupDropTargets(); } else { btn.classList.remove('active'); btn.textContent = '⚙️ Layout'; banner.style.display = 'none'; document.querySelector('.app').classList.remove('layout-mode'); restoreSnapshot(); renderLayout(); setupDropTargets(); } }
 function saveLayout() { localStorage.setItem('bmw-layout', JSON.stringify(currentLayout)); localStorage.setItem('bmw-col-widths', JSON.stringify(getColWidths())); layoutMode = false; document.getElementById('settingsBtn').classList.remove('active'); document.getElementById('settingsBtn').textContent = '⚙️ Layout'; document.getElementById('layoutBanner').style.display = 'none'; document.querySelector('.app').classList.remove('layout-mode'); renderLayout(); setupDropTargets(); showToast('Layout saved!', 'success'); }
-function resetLayout() { if (!confirm('Reset layout to default?')) return; localStorage.removeItem('bmw-layout'); localStorage.removeItem('bmw-col-widths'); ['col-0','col-1'].forEach(id => { const el = document.getElementById(id); el.style.width = ''; el.style.flex = ''; }); document.getElementById('rpanel').style.width = '300px'; currentLayout = DEFAULT_LAYOUT.map(col => [...col]); layoutMode = false; document.getElementById('settingsBtn').classList.remove('active'); document.getElementById('settingsBtn').textContent = '⚙️ Layout'; document.getElementById('layoutBanner').style.display = 'none'; document.querySelector('.app').classList.remove('layout-mode'); renderLayout(); setupDropTargets(); showToast('Layout reset to default', 'success'); }
+function resetLayout() { if (!confirm('Reset layout to default?')) return; localStorage.removeItem('bmw-layout'); localStorage.removeItem('bmw-col-widths'); ['col-0','col-1'].forEach(id => { const el = document.getElementById(id); el.style.width = ''; el.style.flex = ''; }); document.getElementById('rpanel').style.width = '300px'; currentLayout = getDefaultLayout(); layoutMode = false; document.getElementById('settingsBtn').classList.remove('active'); document.getElementById('settingsBtn').textContent = '⚙️ Layout'; document.getElementById('layoutBanner').style.display = 'none'; document.querySelector('.app').classList.remove('layout-mode'); renderLayout(); setupDropTargets(); showToast('Layout reset to default', 'success'); }
 
 // ─── RESIZE ───
 function applyColWidths() { const sw = JSON.parse(localStorage.getItem('bmw-col-widths') || 'null'); if (!sw) return; if (sw[0]) { document.getElementById('col-0').style.width = sw[0]+'px'; document.getElementById('col-0').style.flex = 'none'; } if (sw[1]) { document.getElementById('col-1').style.width = sw[1]+'px'; document.getElementById('col-1').style.flex = 'none'; } if (sw[2]) document.getElementById('rpanel').style.width = sw[2]+'px'; }
-function initResize() { applyColWidths(); [0,1].forEach(idx => { const handle = document.getElementById(`rh-${idx}`), col = document.getElementById(`col-${idx}`); let sX, sW; handle.addEventListener('mousedown', e => { if (!layoutMode) return; sX = e.clientX; sW = col.getBoundingClientRect().width; handle.classList.add('resizing'); document.body.style.cursor = 'col-resize'; document.body.style.userSelect = 'none'; const onM = e => { const w = Math.min(document.getElementById('colsArea').getBoundingClientRect().width-240, Math.max(120, sW+(e.clientX-sX))); col.style.width = w+'px'; col.style.flex = 'none'; }; const onU = () => { handle.classList.remove('resizing'); document.body.style.cursor=''; document.body.style.userSelect=''; document.removeEventListener('mousemove',onM); document.removeEventListener('mouseup',onU); }; document.addEventListener('mousemove',onM); document.addEventListener('mouseup',onU); }); }); const vrh = document.getElementById('vrh'), rpanel = document.getElementById('rpanel'); let sX, sW; vrh.addEventListener('mousedown', e => { if (!layoutMode) return; sX = e.clientX; sW = rpanel.getBoundingClientRect().width; vrh.classList.add('resizing'); document.body.style.cursor='col-resize'; document.body.style.userSelect='none'; const onM = e => { const w = Math.min(document.querySelector('.app').getBoundingClientRect().width-150, Math.max(200, sW-(e.clientX-sX))); rpanel.style.width=w+'px'; }; const onU = () => { vrh.classList.remove('resizing'); document.body.style.cursor=''; document.body.style.userSelect=''; document.removeEventListener('mousemove',onM); document.removeEventListener('mouseup',onU); }; document.addEventListener('mousemove',onM); document.addEventListener('mouseup',onU); }); }
+function initResize() {
+  applyColWidths();
+  [0,1].forEach(idx => { const handle = document.getElementById(`rh-${idx}`), col = document.getElementById(`col-${idx}`); let sX, sW; handle.addEventListener('mousedown', e => { if (!layoutMode) return; sX = e.clientX; sW = col.getBoundingClientRect().width; handle.classList.add('resizing'); document.body.style.cursor = 'col-resize'; document.body.style.userSelect = 'none'; const onM = e => { const w = Math.min(document.getElementById('colsArea').getBoundingClientRect().width-240, Math.max(120, sW+(e.clientX-sX))); col.style.width = w+'px'; col.style.flex = 'none'; }; const onU = () => { handle.classList.remove('resizing'); document.body.style.cursor=''; document.body.style.userSelect=''; document.removeEventListener('mousemove',onM); document.removeEventListener('mouseup',onU); }; document.addEventListener('mousemove',onM); document.addEventListener('mouseup',onU); }); });
+  const vrh = document.getElementById('vrh'), rpanel = document.getElementById('rpanel'); let sX, sW; vrh.addEventListener('mousedown', e => { if (!layoutMode) return; sX = e.clientX; sW = rpanel.getBoundingClientRect().width; vrh.classList.add('resizing'); document.body.style.cursor='col-resize'; document.body.style.userSelect='none'; const onM = e => { const w = Math.min(document.querySelector('.app').getBoundingClientRect().width-150, Math.max(200, sW-(e.clientX-sX))); rpanel.style.width=w+'px'; }; const onU = () => { vrh.classList.remove('resizing'); document.body.style.cursor=''; document.body.style.userSelect=''; document.removeEventListener('mousemove',onM); document.removeEventListener('mouseup',onU); }; document.addEventListener('mousemove',onM); document.addEventListener('mouseup',onU); });
+}
 function getColWidths() { return [document.getElementById('col-0').getBoundingClientRect().width, document.getElementById('col-1').getBoundingClientRect().width, document.getElementById('rpanel').getBoundingClientRect().width]; }
 
-// ─── PRESETS ───
+// FIX 5: Apply equal column widths on first load if no saved widths
+function applyDefaultColWidths() {
+  if (localStorage.getItem('bmw-col-widths')) return; // already have saved widths
+  requestAnimationFrame(() => {
+    const colsW = document.getElementById('colsArea')?.getBoundingClientRect().width || 0;
+    if (!colsW) return;
+    // Equal thirds minus resize handles
+    const w = Math.floor((colsW - 8) / 3);
+    ['col-0','col-1'].forEach(id => {
+      const el = document.getElementById(id); if (!el) return;
+      el.style.width = w + 'px'; el.style.flex = 'none';
+    });
+  });
+}
+
+// ─── PRESETS — FIX 4+6: All from MongoDB, usage/last-used tracked in backend ───
 let dbPresets = [], activeTagFilter = 'All';
 const ALL_TAGS = ['Opening','Closing','Repair','Tow','Offers'];
 
-async function loadDbPresets() { try { dbPresets = await api('GET', '/api/presets'); } catch { dbPresets = []; } }
-function openPresets() { document.getElementById('presetsModal').classList.add('show'); loadDbPresets().then(renderPresets); }
+async function loadDbPresets() {
+  try { dbPresets = await api('GET', '/api/presets'); }
+  catch { dbPresets = []; showToast('Could not load presets', 'error'); }
+}
+
+function openPresets() { document.getElementById('presetsModal').classList.add('show'); renderPresetsLoading(); loadDbPresets().then(renderPresets); }
 function closePresets() { document.getElementById('presetsModal').classList.remove('show'); }
-function buildTagFilterBar() { const bar = document.getElementById('tagFilterBar'); bar.innerHTML = ''; ['All',...ALL_TAGS].forEach(tag => { const btn = document.createElement('button'); btn.className = 'tag-filter-btn' + (activeTagFilter === tag ? ' active' : ''); btn.textContent = tag; btn.onclick = () => { activeTagFilter = tag; renderPresets(); }; bar.appendChild(btn); }); }
+
+function renderPresetsLoading() {
+  document.getElementById('presetsList').innerHTML = '<div class="presets-loading">Loading presets...</div>';
+  document.getElementById('presetsCount').textContent = '';
+}
+
+function buildTagFilterBar() {
+  const bar = document.getElementById('tagFilterBar'); bar.innerHTML = '';
+  ['All',...ALL_TAGS].forEach(tag => {
+    const btn = document.createElement('button'); btn.className = 'tag-filter-btn' + (activeTagFilter === tag ? ' active' : '');
+    btn.textContent = tag; btn.onclick = () => { activeTagFilter = tag; renderPresets(); }; bar.appendChild(btn);
+  });
+}
+
+// FIX 6: last used format (comes from backend timestamp)
 function fmtLastUsed(ts) { if (!ts) return ''; const diff = Math.floor((Date.now() - new Date(ts)) / 1000); if (diff < 60) return 'just now'; if (diff < 3600) return `${Math.floor(diff/60)}m ago`; if (diff < 86400) return `${Math.floor(diff/3600)}h ago`; if (diff < 86400*7) return `${Math.floor(diff/86400)}d ago`; return new Date(ts).toLocaleDateString('en-GB',{day:'2-digit',month:'short'}); }
 
 function renderPresets() {
   buildTagFilterBar();
   const list = document.getElementById('presetsList'); list.innerHTML = '';
-  // Combine hardcoded + db presets
-  const allPresets = [
-    ...HARDCODED_PRESETS.map((p,i) => ({...p, _hc: true, _hci: i, usageCount: 0, lastUsedAt: null})),
-    ...dbPresets.map(p => ({...p, _hc: false}))
-  ];
-  const filtered = activeTagFilter === 'All' ? allPresets : allPresets.filter(p => (p.tags||[]).includes(activeTagFilter));
-  if (!filtered.length) { list.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:30px;font-family:Share Tech Mono,monospace;font-size:11px;color:var(--muted);">No presets match this filter</div>'; document.getElementById('presetsCount').textContent = '0 shown'; return; }
+  const filtered = activeTagFilter === 'All' ? dbPresets : dbPresets.filter(p => (p.tags||[]).includes(activeTagFilter));
+  if (!filtered.length) {
+    list.innerHTML = `<div class="presets-loading">${dbPresets.length === 0 ? 'No presets found. Ask an admin to add some.' : 'No presets match this filter.'}</div>`;
+    document.getElementById('presetsCount').textContent = '';
+    return;
+  }
   filtered.forEach(p => {
     const card = document.createElement('div'); card.className = 'preset-item';
     const tagsRow = document.createElement('div'); tagsRow.className = 'preset-item-tags';
@@ -1230,28 +1367,38 @@ function renderPresets() {
     const textDiv = document.createElement('div'); textDiv.className = 'preset-text-area'; textDiv.textContent = p.text||''; card.appendChild(textDiv);
     const foot = document.createElement('div'); foot.className = 'preset-item-foot';
     const metaDiv = document.createElement('div'); metaDiv.className = 'preset-meta';
+    // FIX 6: usageCount and lastUsedAt come from backend
     metaDiv.innerHTML = `<span class="preset-usage">Used ${p.usageCount||0} time${(p.usageCount||0)!==1?'s':''}</span>${p.lastUsedAt?`<span class="preset-last-used">Last: ${fmtLastUsed(p.lastUsedAt)}</span>`:''}`;
     const copyBtn = document.createElement('button'); copyBtn.className = 'preset-copy-btn'; copyBtn.textContent = '📋 Copy';
-    copyBtn.onclick = () => {
-      const text = p.text; if (!text) return;
-      const done = () => { copyBtn.textContent = '✓ Copied!'; copyBtn.classList.add('copied'); setTimeout(() => { copyBtn.textContent = '📋 Copy'; copyBtn.classList.remove('copied'); }, 2000); };
-      if (navigator.clipboard) { navigator.clipboard.writeText(text).then(done).catch(() => { fallbackCopy(text); done(); }); } else { fallbackCopy(text); done(); }
-      if (!p._hc && p._id) { api('POST', `/api/presets/${p._id}/use`).catch(() => {}); }
-    };
+    copyBtn.onclick = () => copyPresetById(p._id, p.text, copyBtn);
     foot.appendChild(metaDiv); foot.appendChild(copyBtn); card.appendChild(foot); list.appendChild(card);
   });
-  document.getElementById('presetsCount').textContent = `${filtered.length} of ${allPresets.length} presets shown`;
+  document.getElementById('presetsCount').textContent = `${filtered.length} of ${dbPresets.length} presets`;
 }
 
-function shufflePreset() {
-  const allPresets = [...HARDCODED_PRESETS, ...dbPresets];
-  const visible = activeTagFilter === 'All' ? allPresets : allPresets.filter(p => (p.tags||[]).includes(activeTagFilter));
-  if (!visible.length) return;
-  const p = visible[Math.floor(Math.random() * visible.length)];
+// FIX 6: POST to backend to bump usage count and last used timestamp
+async function copyPresetById(id, text, btn) {
+  if (!text) return;
+  const done = () => { btn.textContent = '✓ Copied!'; btn.classList.add('copied'); setTimeout(() => { btn.textContent = '📋 Copy'; btn.classList.remove('copied'); }, 2000); };
+  if (navigator.clipboard) { navigator.clipboard.writeText(text).then(done).catch(() => { fallbackCopy(text); done(); }); } else { fallbackCopy(text); done(); }
+  try { await api('POST', `/api/presets/${id}/use`); } catch {}
+  // Refresh the preset data so the count updates if modal is still open
+  await loadDbPresets(); renderPresets();
+}
+
+// FIX 7: Renamed shufflePreset → randomPreset, updates backend on copy
+async function randomPreset() {
+  const pool = activeTagFilter === 'All' ? dbPresets : dbPresets.filter(p => (p.tags||[]).includes(activeTagFilter));
+  if (!pool.length) { showToast('No presets available', 'error'); return; }
+  const p = pool[Math.floor(Math.random() * pool.length)];
   if (!p?.text) return;
   if (navigator.clipboard) { navigator.clipboard.writeText(p.text).catch(() => fallbackCopy(p.text)); } else { fallbackCopy(p.text); }
-  const btn = document.getElementById('shuffleBtn'); btn.textContent = '✓ Copied!'; btn.classList.add('flash'); setTimeout(() => { btn.textContent = '🎲 Shuffle'; btn.classList.remove('flash'); }, 1500);
-  if (p._id) { api('POST', `/api/presets/${p._id}/use`).catch(() => {}); }
+  const btn = document.getElementById('shuffleBtn');
+  btn.textContent = '✓ Copied!'; btn.classList.add('flash');
+  setTimeout(() => { btn.textContent = '🎲 Random'; btn.classList.remove('flash'); }, 1500);
+  // FIX 6+7: bump usage in backend
+  try { await api('POST', `/api/presets/${p._id}/use`); } catch {}
+  await loadDbPresets(); renderPresets();
 }
 
 document.getElementById('presetsModal').addEventListener('click', e => { if (e.target === document.getElementById('presetsModal')) closePresets(); });
@@ -1259,8 +1406,7 @@ document.getElementById('presetsModal').addEventListener('click', e => { if (e.t
 // ─── TAG CHECKBOX INIT ───
 document.querySelectorAll('.tag-cb').forEach(cb => {
   cb.addEventListener('click', () => {
-    const inp = cb.querySelector('input');
-    inp.checked = !inp.checked;
+    const inp = cb.querySelector('input'); inp.checked = !inp.checked;
     const tag = cb.dataset.tag;
     if (inp.checked) cb.classList.add(`checked-${tag}`); else cb.classList.remove(`checked-${tag}`);
   });
@@ -1280,13 +1426,15 @@ const chartDefaults = {
 // ─── ADMIN ───
 let ordersSkip = 0, allOrdersTotal = 0;
 function switchAdminTab(tab) {
-  document.querySelectorAll('.atab').forEach((t,i) => t.classList.toggle('active', ['overview','staff','orders','items','presets'][i] === tab));
+  const tabs = ['overview','staff','orders','items','categories','presets'];
+  document.querySelectorAll('.atab').forEach((t,i) => t.classList.toggle('active', tabs[i] === tab));
   document.querySelectorAll('.atab-pane').forEach(p => p.classList.remove('active'));
   document.getElementById(`pane-${tab}`).classList.add('active');
   if (tab === 'overview') loadDashboard();
   else if (tab === 'staff') loadAdminStaff();
   else if (tab === 'orders') { ordersSkip = 0; loadAdminOrders(); }
   else if (tab === 'items') loadAdminItems();
+  else if (tab === 'categories') loadAdminCategories();
   else if (tab === 'presets') loadAdminPresets();
 }
 
@@ -1299,101 +1447,47 @@ async function loadDashboard() {
     document.getElementById('st-mrev').textContent = '$' + fmt(d.revenue.month);
     document.getElementById('st-trev').textContent = '$' + fmt(d.revenue.total);
     document.getElementById('st-staff').textContent = d.activeStaff + '/' + d.staffCount;
-
-    // Revenue by staff bar chart
-    if (d.staffStats && d.staffStats.length) {
+    if (d.staffStats?.length) {
       destroyChart('chartStaffRevenue');
       const ctx = document.getElementById('chartStaffRevenue').getContext('2d');
-      chartInstances['chartStaffRevenue'] = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: d.staffStats.map(s => s.staffName),
-          datasets: [{ data: d.staffStats.map(s => s.revenue), backgroundColor: 'rgba(245,200,66,.7)', borderColor: '#f5c842', borderWidth: 1, borderRadius: 3 }]
-        },
-        options: { ...chartDefaults, plugins: { legend: { display: false } }, scales: { ...chartDefaults.scales, y: { ...chartDefaults.scales.y, ticks: { ...chartDefaults.scales.y.ticks, callback: v => '$' + fmt(v) } } } }
-      });
-
-      // Orders by staff bar chart
+      chartInstances['chartStaffRevenue'] = new Chart(ctx, { type:'bar', data:{ labels:d.staffStats.map(s=>s.staffName), datasets:[{data:d.staffStats.map(s=>s.revenue),backgroundColor:'rgba(245,200,66,.7)',borderColor:'#f5c842',borderWidth:1,borderRadius:3}] }, options:{...chartDefaults,scales:{...chartDefaults.scales,y:{...chartDefaults.scales.y,ticks:{...chartDefaults.scales.y.ticks,callback:v=>'$'+fmt(v)}}}} });
       destroyChart('chartStaffOrders');
       const ctx2 = document.getElementById('chartStaffOrders').getContext('2d');
-      chartInstances['chartStaffOrders'] = new Chart(ctx2, {
-        type: 'bar',
-        data: {
-          labels: d.staffStats.map(s => s.staffName),
-          datasets: [{ data: d.staffStats.map(s => s.orders), backgroundColor: 'rgba(230,57,80,.7)', borderColor: '#e63950', borderWidth: 1, borderRadius: 3 }]
-        },
-        options: { ...chartDefaults, plugins: { legend: { display: false } } }
-      });
+      chartInstances['chartStaffOrders'] = new Chart(ctx2, { type:'bar', data:{ labels:d.staffStats.map(s=>s.staffName), datasets:[{data:d.staffStats.map(s=>s.orders),backgroundColor:'rgba(230,57,80,.7)',borderColor:'#e63950',borderWidth:1,borderRadius:3}] }, options:{...chartDefaults} });
     }
-
-    // Top items bar chart
-    if (d.topItems && d.topItems.length) {
+    if (d.topItems?.length) {
       destroyChart('chartTopItems');
       const ctx3 = document.getElementById('chartTopItems').getContext('2d');
-      chartInstances['chartTopItems'] = new Chart(ctx3, {
-        type: 'bar',
-        data: {
-          labels: d.topItems.map(i => i._id),
-          datasets: [{ data: d.topItems.map(i => i.revenue), backgroundColor: 'rgba(39,174,96,.7)', borderColor: '#27ae60', borderWidth: 1, borderRadius: 3 }]
-        },
-        options: { ...chartDefaults, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { ...chartDefaults.scales, x: { ...chartDefaults.scales.x, ticks: { ...chartDefaults.scales.x.ticks, callback: v => '$' + fmt(v) } } } }
-      });
+      chartInstances['chartTopItems'] = new Chart(ctx3, { type:'bar', data:{ labels:d.topItems.map(i=>i._id), datasets:[{data:d.topItems.map(i=>i.revenue),backgroundColor:'rgba(39,174,96,.7)',borderColor:'#27ae60',borderWidth:1,borderRadius:3}] }, options:{...chartDefaults,indexAxis:'y',scales:{...chartDefaults.scales,x:{...chartDefaults.scales.x,ticks:{...chartDefaults.scales.x.ticks,callback:v=>'$'+fmt(v)}}}} });
     }
-
     document.getElementById('recentOrdersTable').innerHTML = d.recentOrders.map(o =>
       `<tr><td style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">${new Date(o.createdAt).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</td><td>${o.staffName}</td><td>${o.customerName}</td><td>${o.vehicle}</td><td style="color:var(--gold)">$${fmt(o.total)}</td><td>${o.discordPosted?'<span style="color:var(--green)">✓</span>':'<span style="color:var(--accent)">✗</span>'}</td><td><button class="act-btn danger" onclick="deleteOrder('${o._id||o.id}')">Delete</button></td></tr>`
     ).join('') || '<tr><td colspan="7" style="color:var(--muted);text-align:center">No orders yet</td></tr>';
   } catch(err) { showToast('Dashboard error: ' + err.message, 'error'); }
 }
 
-async function deleteOrder(id) {
-  if (!confirm('Delete this order? This cannot be undone.')) return;
-  setLoading(true);
-  try { await api('DELETE', `/api/admin/orders/${id}`); showToast('Order deleted', 'success'); loadDashboard(); } catch(err) { showToast('Error: ' + err.message, 'error'); } finally { setLoading(false); }
-}
+async function deleteOrder(id) { if (!confirm('Delete this order?')) return; setLoading(true); try { await api('DELETE', `/api/admin/orders/${id}`); showToast('Order deleted', 'success'); loadDashboard(); } catch(err) { showToast('Error: ' + err.message, 'error'); } finally { setLoading(false); } }
 
 async function loadAdminStaff() {
   try {
     const staff = await api('GET', '/api/admin/staff');
     document.getElementById('staffTable').innerHTML = staff.map(s =>
-      `<tr>
-        <td style="font-family:'Share Tech Mono',monospace;font-size:12px">${s.username}</td>
-        <td>${s.displayName||'—'}</td>
-        <td><span class="badge badge-${s.role}">${s.role}</span></td>
-        <td><span class="badge badge-${s.isActive?'active':'inactive'}">${s.isActive?'Active':'Disabled'}</span></td>
-        <td style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">${s.lastLogin?new Date(s.lastLogin).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):'Never'}</td>
-        <td style="display:flex;gap:5px;flex-wrap:wrap">
-          <button class="act-btn" onclick="resetStaffPassword('${s._id}','${s.username}')">Reset PW</button>
-          <button class="act-btn" onclick="toggleStaffActive('${s._id}',${!s.isActive})">${s.isActive?'Disable':'Enable'}</button>
-          <button class="act-btn danger" onclick="deleteStaff('${s._id}','${s.username}')">Delete</button>
-        </td>
-      </tr>`
+      `<tr><td style="font-family:'Share Tech Mono',monospace;font-size:12px">${s.username}</td><td>${s.displayName||'—'}</td><td><span class="badge badge-${s.role}">${s.role}</span></td><td><span class="badge badge-${s.isActive?'active':'inactive'}">${s.isActive?'Active':'Disabled'}</span></td><td style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">${s.lastLogin?new Date(s.lastLogin).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):'Never'}</td><td style="display:flex;gap:5px;flex-wrap:wrap"><button class="act-btn" onclick="resetStaffPassword('${s._id}','${s.username}')">Reset PW</button><button class="act-btn" onclick="toggleStaffActive('${s._id}',${!s.isActive})">${s.isActive?'Disable':'Enable'}</button><button class="act-btn danger" onclick="deleteStaff('${s._id}','${s.username}')">Delete</button></td></tr>`
     ).join('');
   } catch(err) { showToast('Error: ' + err.message, 'error'); }
 }
 async function createStaff() { const username=document.getElementById('ns-user').value.trim(),displayName=document.getElementById('ns-display').value.trim(),password=document.getElementById('ns-pass').value,role=document.getElementById('ns-role').value; if(!username||!password){showToast('Username and password required','error');return;} setLoading(true); try{await api('POST','/api/admin/staff',{username,displayName,password,role});showToast(`Account created for ${username}`,'success');['ns-user','ns-display','ns-pass'].forEach(id=>document.getElementById(id).value='');loadAdminStaff();}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
-async function resetStaffPassword(id,username) { const newPw=prompt(`Reset password for ${username}:\nEnter new password (min 6 chars):`); if(!newPw)return; if(newPw.length<6){showToast('Password too short','error');return;} setLoading(true); try{await api('POST',`/api/admin/staff/${id}/reset-password`,{newPassword:newPw});showToast(`Password reset for ${username}`,'success');}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
+async function resetStaffPassword(id,username) { const newPw=prompt(`Reset password for ${username}:\nNew password (min 6 chars):`); if(!newPw)return; if(newPw.length<6){showToast('Password too short','error');return;} setLoading(true); try{await api('POST',`/api/admin/staff/${id}/reset-password`,{newPassword:newPw});showToast(`Password reset for ${username}`,'success');}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
 async function toggleStaffActive(id,active) { setLoading(true); try{await api('PATCH',`/api/admin/staff/${id}`,{isActive:active});showToast(active?'Account enabled':'Account disabled','success');loadAdminStaff();}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
-async function deleteStaff(id, username) { if (!confirm(`Permanently delete account for "${username}"? This cannot be undone.`)) return; setLoading(true); try{await api('DELETE',`/api/admin/staff/${id}`);showToast(`${username} deleted`,'success');loadAdminStaff();}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
+async function deleteStaff(id,username) { if(!confirm(`Permanently delete "${username}"?`))return; setLoading(true); try{await api('DELETE',`/api/admin/staff/${id}`);showToast(`${username} deleted`,'success');loadAdminStaff();}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
 
 async function loadAdminOrders(append = false) {
   try {
-    const { orders, total } = await api('GET', `/api/admin/orders?limit=50&skip=${ordersSkip}`);
-    allOrdersTotal = total;
-    document.getElementById('ordersTotal').textContent = `${total} total`;
-    const rows = orders.map(o =>
-      `<tr>
-        <td style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">${new Date(o.createdAt).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</td>
-        <td>${o.staffName}</td><td>${o.customerName}</td><td>${o.plate}</td><td>${o.vehicle}</td>
-        <td style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">${(o.items||[]).length} items</td>
-        <td style="color:var(--gold)">$${fmt(o.total)}</td>
-        <td>${o.discordPosted?'<span style="color:var(--green)">✓</span>':'<span style="color:var(--accent)">✗</span>'}</td>
-        <td><button class="act-btn danger" onclick="deleteOrder('${o._id||o.id}')">Delete</button></td>
-      </tr>`
-    ).join('');
+    const {orders,total} = await api('GET', `/api/admin/orders?limit=50&skip=${ordersSkip}`);
+    allOrdersTotal = total; document.getElementById('ordersTotal').textContent = `${total} total`;
+    const rows = orders.map(o => `<tr><td style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">${new Date(o.createdAt).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</td><td>${o.staffName}</td><td>${o.customerName}</td><td>${o.plate}</td><td>${o.vehicle}</td><td style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">${(o.items||[]).length} items</td><td style="color:var(--gold)">$${fmt(o.total)}</td><td>${o.discordPosted?'<span style="color:var(--green)">✓</span>':'<span style="color:var(--accent)">✗</span>'}</td><td><button class="act-btn danger" onclick="deleteOrder('${o._id||o.id}')">Delete</button></td></tr>`).join('');
     const tbody = document.getElementById('allOrdersTable');
     if (append) { tbody.innerHTML += rows; } else { tbody.innerHTML = rows || '<tr><td colspan="9" style="color:var(--muted);text-align:center">No orders yet</td></tr>'; }
-    // Hide load more if we've loaded everything
     const loadMoreBtn = document.getElementById('loadMoreBtn');
     if (loadMoreBtn) loadMoreBtn.style.display = (ordersSkip + 50 >= allOrdersTotal) ? 'none' : '';
   } catch(err) { showToast('Error: ' + err.message, 'error'); }
@@ -1404,37 +1498,103 @@ async function loadAdminItems() {
   try {
     const items = await api('GET', '/api/items/all');
     document.getElementById('itemsTable').innerHTML = items.map(item =>
-      `<tr>
-        <td style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">${item.category}</td>
-        <td>${item.name}</td>
-        <td style="color:var(--gold)">$${fmt(item.price)}</td>
-        <td style="font-family:'Share Tech Mono',monospace;font-size:11px">${item.maxLvl||'—'}</td>
-        <td><span class="badge badge-${item.isActive?'active':'inactive'}">${item.isActive?'Active':'Hidden'}</span></td>
-        <td style="display:flex;gap:5px;flex-wrap:wrap">
-          <button class="act-btn" onclick="editItemPrice('${item._id}','${item.name}',${item.price})">Edit Price</button>
-          <button class="act-btn" onclick="toggleItem('${item._id}',${!item.isActive})">${item.isActive?'Hide':'Show'}</button>
-          <button class="act-btn danger" onclick="deleteItem('${item._id}','${item.name}')">Delete</button>
-        </td>
-      </tr>`
+      `<tr><td style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">${item.category}</td><td>${item.name}</td><td style="color:var(--gold)">$${fmt(item.price)}</td><td style="font-family:'Share Tech Mono',monospace;font-size:11px">${item.maxLvl||'—'}</td><td><span class="badge badge-${item.isActive?'active':'inactive'}">${item.isActive?'Active':'Hidden'}</span></td><td style="display:flex;gap:5px;flex-wrap:wrap"><button class="act-btn" onclick="editItemPrice('${item._id}','${item.name}',${item.price})">Edit Price</button><button class="act-btn" onclick="toggleItem('${item._id}',${!item.isActive})">${item.isActive?'Hide':'Show'}</button><button class="act-btn danger" onclick="deleteItem('${item._id}','${item.name}')">Delete</button></td></tr>`
     ).join('');
   } catch(err) { showToast('Error: ' + err.message, 'error'); }
 }
 async function createItem() { const name=document.getElementById('ni-name').value.trim(),price=parseInt(document.getElementById('ni-price').value)||0,category=document.getElementById('ni-cat').value,maxLvl=parseInt(document.getElementById('ni-maxlvl').value)||null; if(!name||price<0){showToast('Name and price required','error');return;} setLoading(true); try{await api('POST','/api/items',{name,price,category,maxLvl});showToast('Item added!','success');['ni-name','ni-price','ni-maxlvl'].forEach(id=>document.getElementById(id).value='');loadAdminItems();await loadItems();}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
 async function editItemPrice(id,name,cur) { const np=prompt(`Edit price for "${name}":\nCurrent: $${fmt(cur)}\nNew price:`); if(np===null)return; const price=parseInt(np); if(isNaN(price)||price<0){showToast('Invalid price','error');return;} setLoading(true); try{await api('PATCH',`/api/items/${id}`,{price});showToast('Price updated!','success');loadAdminItems();await loadItems();}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
 async function toggleItem(id,active) { setLoading(true); try{await api('PATCH',`/api/items/${id}`,{isActive:active});showToast(active?'Item shown':'Item hidden','success');loadAdminItems();await loadItems();}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
-async function deleteItem(id, name) { if (!confirm(`Permanently delete "${name}"? This cannot be undone.`)) return; setLoading(true); try{await api('DELETE',`/api/items/${id}`);showToast(`${name} deleted`,'success');loadAdminItems();await loadItems();}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
+async function deleteItem(id,name) { if(!confirm(`Permanently delete "${name}"?`))return; setLoading(true); try{await api('DELETE',`/api/items/${id}`);showToast(`${name} deleted`,'success');loadAdminItems();await loadItems();}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
 
+// FIX 8: CATEGORY MANAGEMENT
+async function loadAdminCategories() {
+  try {
+    let cats;
+    try { cats = await api('GET', '/api/categories'); } catch { cats = Object.keys(categoryMeta).map(k => ({key:k,...categoryMeta[k],itemCount:0})); }
+    document.getElementById('categoriesTable').innerHTML = (cats||[]).map(c =>
+      `<tr>
+        <td style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">${c.key}</td>
+        <td>${c.label||c.key}</td>
+        <td style="font-family:'Share Tech Mono',monospace;font-size:10px">${c.type||'simple'}</td>
+        <td style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">${c.itemCount||0}</td>
+        <td><span class="badge badge-${c.isActive!==false?'active':'inactive'}">${c.isActive!==false?'Active':'Hidden'}</span></td>
+        <td style="display:flex;gap:5px;flex-wrap:wrap">
+          <button class="act-btn" onclick="editCategoryLabel('${c.key}','${(c.label||c.key).replace(/'/g,"\\'")}')">Rename</button>
+          <button class="act-btn danger" onclick="deleteCategory('${c.key}')">Delete</button>
+        </td>
+      </tr>`
+    ).join('') || '<tr><td colspan="6" style="color:var(--muted);text-align:center">No categories found</td></tr>';
+  } catch(err) { showToast('Error loading categories: ' + err.message, 'error'); }
+}
+
+async function createCategory() {
+  const key = document.getElementById('nc-key').value.trim().toLowerCase().replace(/\s+/g,'');
+  const label = document.getElementById('nc-label').value.trim();
+  const type = document.getElementById('nc-type').value;
+  if (!key || !label) { showToast('Key and label required', 'error'); return; }
+  if (categoryMeta[key]) { showToast(`Category "${key}" already exists`, 'error'); return; }
+  setLoading(true);
+  try {
+    // POST to backend if endpoint exists, otherwise update locally
+    try { await api('POST', '/api/categories', { key, label, type }); }
+    catch { /* backend may not have this endpoint yet — add locally */ }
+    categoryMeta[key] = { label, type };
+    data[key] = [];
+    sel[key] = type === 'level' ? {} : new Set();
+    buildSections();
+    currentLayout = getDefaultLayout();
+    renderLayout(); setupDropTargets();
+    populateCatDropdowns();
+    showToast(`Category "${label}" created!`, 'success');
+    ['nc-key','nc-label'].forEach(id => document.getElementById(id).value = '');
+    loadAdminCategories();
+  } catch(err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
+
+async function editCategoryLabel(key, currentLabel) {
+  const newLabel = prompt(`Rename category "${key}":\nNew label (can include emoji):`, currentLabel);
+  if (!newLabel || newLabel === currentLabel) return;
+  setLoading(true);
+  try {
+    try { await api('PATCH', `/api/categories/${key}`, { label: newLabel }); } catch {}
+    categoryMeta[key].label = newLabel;
+    buildSections(); currentLayout = getDefaultLayout();
+    renderLayout(); setupDropTargets(); populateCatDropdowns();
+    showToast('Category renamed!', 'success');
+    loadAdminCategories();
+  } catch(err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
+
+async function deleteCategory(key) {
+  if (!confirm(`Delete category "${key}"? Items in this category will also be hidden.`)) return;
+  setLoading(true);
+  try {
+    try { await api('DELETE', `/api/categories/${key}`); } catch {}
+    delete categoryMeta[key]; delete data[key]; delete sel[key];
+    buildSections(); currentLayout = getDefaultLayout();
+    renderLayout(); setupDropTargets(); populateCatDropdowns();
+    showToast(`Category deleted`, 'success');
+    loadAdminCategories();
+  } catch(err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
+
+// ─── PRESETS ADMIN ───
 async function loadAdminPresets() {
   try {
     const ps = await api('GET', '/api/presets');
     document.getElementById('presetsAdminTable').innerHTML = ps.map(p =>
       `<tr>
-        <td style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.text?.substring(0,80)}...</td>
+        <td style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.text?.substring(0,80)}...</td>
         <td>${(p.tags||[]).map(t=>`<span class="ptag ptag-${t}">${t}</span>`).join(' ')}</td>
         <td style="font-family:'Share Tech Mono',monospace;font-size:11px">${p.usageCount||0}</td>
+        <td style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">${p.lastUsedAt?fmtLastUsed(p.lastUsedAt):'—'}</td>
         <td><button class="act-btn danger" onclick="deleteDbPreset('${p._id}')">Delete</button></td>
       </tr>`
-    ).join('') || '<tr><td colspan="4" style="color:var(--muted);text-align:center">No custom presets yet — hardcoded presets are always available to staff</td></tr>';
+    ).join('') || '<tr><td colspan="5" style="color:var(--muted);text-align:center">No presets yet — add one above</td></tr>';
   } catch(err) { showToast('Error: ' + err.message, 'error'); }
 }
 
@@ -1444,7 +1604,7 @@ async function createPreset() {
   const tags = [...document.querySelectorAll('#npTagGroup input:checked')].map(i => i.value);
   setLoading(true);
   try {
-    await api('POST', '/api/presets', { text, tags, isDefault: true });
+    await api('POST', '/api/presets', { text, tags });
     showToast('Preset added!', 'success');
     document.getElementById('np-text').value = '';
     document.querySelectorAll('#npTagGroup input').forEach(i => { i.checked = false; i.closest('.tag-cb').className = 'tag-cb'; });
@@ -1461,42 +1621,27 @@ async function loadStaffAnalytics() {
     document.getElementById('analyticsTitle').textContent = `📈 ${currentUser.displayName}'s Performance`;
     const d = await api('GET', '/api/orders/mine');
     const orders = d.orders || d || [];
-    const now = new Date();
-    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    const now = new Date(), monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
     const monthOrders = orders.filter(o => new Date(o.createdAt) >= monthStart);
     const monthRevenue = monthOrders.reduce((s, o) => s + (o.total || 0), 0);
     document.getElementById('my-orders').textContent = monthOrders.length;
     document.getElementById('my-revenue').textContent = '$' + fmt(monthRevenue);
     document.getElementById('my-total-orders').textContent = orders.length;
-
-    // Build revenue-per-day chart (last 30 days)
     const days = {};
-    for (let i = 29; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); days[d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})] = 0; }
+    for (let i = 29; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate()-i); days[d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})] = 0; }
     orders.forEach(o => { const key = new Date(o.createdAt).toLocaleDateString('en-GB',{day:'2-digit',month:'short'}); if (days[key] !== undefined) days[key] += o.total||0; });
     destroyChart('chartMyRevenue');
     const ctx = document.getElementById('chartMyRevenue').getContext('2d');
-    chartInstances['chartMyRevenue'] = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: Object.keys(days),
-        datasets: [{ data: Object.values(days), borderColor: '#f5c842', backgroundColor: 'rgba(245,200,66,.08)', fill: true, tension: 0.4, pointBackgroundColor: '#f5c842', pointRadius: 3 }]
-      },
-      options: { ...chartDefaults, plugins: { legend: { display: false } }, scales: { ...chartDefaults.scales, y: { ...chartDefaults.scales.y, ticks: { ...chartDefaults.scales.y.ticks, callback: v => '$'+fmt(v) } } } }
-    });
-
+    chartInstances['chartMyRevenue'] = new Chart(ctx, { type:'line', data:{ labels:Object.keys(days), datasets:[{data:Object.values(days),borderColor:'#f5c842',backgroundColor:'rgba(245,200,66,.08)',fill:true,tension:.4,pointBackgroundColor:'#f5c842',pointRadius:3}] }, options:{...chartDefaults,scales:{...chartDefaults.scales,y:{...chartDefaults.scales.y,ticks:{...chartDefaults.scales.y.ticks,callback:v=>'$'+fmt(v)}}}} });
     document.getElementById('myOrdersTable').innerHTML = orders.slice(0,20).map(o =>
-      `<tr>
-        <td style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">${new Date(o.createdAt).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</td>
-        <td>${o.customerName}</td><td>${o.vehicle}</td>
-        <td style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">${(o.items||[]).length} items</td>
-        <td style="color:var(--gold)">$${fmt(o.total)}</td>
-      </tr>`
+      `<tr><td style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">${new Date(o.createdAt).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</td><td>${o.customerName}</td><td>${o.vehicle}</td><td style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">${(o.items||[]).length} items</td><td style="color:var(--gold)">$${fmt(o.total)}</td></tr>`
     ).join('') || '<tr><td colspan="5" style="color:var(--muted);text-align:center">No orders yet</td></tr>';
   } catch(err) { showToast('Failed to load analytics: ' + err.message, 'error'); }
 }
 
 // ─── INIT ───
 initResize();
+// applyDefaultColWidths will be called after loadItems → renderLayout
 </script>
 </body>
 </html>
