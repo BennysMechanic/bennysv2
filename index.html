@@ -1356,7 +1356,39 @@ function snapshotState() { layoutSnapshot = { layout: JSON.parse(JSON.stringify(
 function restoreSnapshot() { if (!layoutSnapshot) return; currentLayout = JSON.parse(JSON.stringify(layoutSnapshot.layout)); }
 function toggleLayoutMode() { layoutMode = !layoutMode; const btn = document.getElementById('settingsBtn'), banner = document.getElementById('layoutBanner'); if (layoutMode) { btn.classList.add('active'); btn.textContent = '✕ Cancel'; banner.style.display = 'flex'; snapshotState(); document.querySelector('.app').classList.add('layout-mode'); document.querySelectorAll('.section-card').forEach(c => c.draggable = true); document.querySelectorAll('.item-btn').forEach(b => b.draggable = true); setupDropTargets(); } else { btn.classList.remove('active'); btn.textContent = '⚙️ Layout'; banner.style.display = 'none'; document.querySelector('.app').classList.remove('layout-mode'); restoreSnapshot(); renderLayout(); setupDropTargets(); } }
 function saveLayout() { localStorage.setItem('bmw-layout', JSON.stringify(currentLayout)); localStorage.setItem('bmw-col-widths', JSON.stringify(getColWidths())); layoutMode = false; document.getElementById('settingsBtn').classList.remove('active'); document.getElementById('settingsBtn').textContent = '⚙️ Layout'; document.getElementById('layoutBanner').style.display = 'none'; document.querySelector('.app').classList.remove('layout-mode'); renderLayout(); setupDropTargets(); showToast('Layout saved!', 'success'); }
-function resetLayout() { if (!confirm('Reset layout to default?')) return; localStorage.removeItem('bmw-layout'); localStorage.removeItem('bmw-col-widths'); ['col-0','col-1'].forEach(id => { const el = document.getElementById(id); el.style.width = ''; el.style.flex = ''; }); document.getElementById('rpanel').style.width = '300px'; currentLayout = getDefaultLayout(); layoutMode = false; document.getElementById('settingsBtn').classList.remove('active'); document.getElementById('settingsBtn').textContent = '⚙️ Layout'; document.getElementById('layoutBanner').style.display = 'none'; document.querySelector('.app').classList.remove('layout-mode'); renderLayout(); setupDropTargets(); showToast('Layout reset to default', 'success'); }
+function resetLayout() {
+  if (!confirm('Reset layout to default?')) return;
+  localStorage.removeItem('bmw-layout');
+  localStorage.removeItem('bmw-col-widths');
+  // Clear any inline widths first
+  ['col-0','col-1'].forEach(id => { const el = document.getElementById(id); el.style.width = ''; el.style.flex = ''; });
+  document.getElementById('rpanel').style.width = '300px';
+  currentLayout = getDefaultLayout();
+  layoutMode = false;
+  document.getElementById('settingsBtn').classList.remove('active');
+  document.getElementById('settingsBtn').textContent = '⚙️ Layout';
+  document.getElementById('layoutBanner').style.display = 'none';
+  document.querySelector('.app').classList.remove('layout-mode');
+  renderLayout();
+  setupDropTargets();
+  // Force equal column widths after DOM has updated
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      const colsArea = document.getElementById('colsArea');
+      if (!colsArea) return;
+      const colsW = colsArea.getBoundingClientRect().width;
+      if (!colsW) return;
+      const w = Math.floor((colsW - 8) / 3);
+      ['col-0','col-1'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.style.width = w + 'px';
+        el.style.flex = 'none';
+      });
+    });
+  });
+  showToast('Layout reset to default', 'success');
+}
 
 // ─── RESIZE ───
 function applyColWidths() { const sw = JSON.parse(localStorage.getItem('bmw-col-widths') || 'null'); if (!sw) return; if (sw[0]) { document.getElementById('col-0').style.width = sw[0]+'px'; document.getElementById('col-0').style.flex = 'none'; } if (sw[1]) { document.getElementById('col-1').style.width = sw[1]+'px'; document.getElementById('col-1').style.flex = 'none'; } if (sw[2]) document.getElementById('rpanel').style.width = sw[2]+'px'; }
@@ -1367,17 +1399,20 @@ function initResize() {
 }
 function getColWidths() { return [document.getElementById('col-0').getBoundingClientRect().width, document.getElementById('col-1').getBoundingClientRect().width, document.getElementById('rpanel').getBoundingClientRect().width]; }
 
-// FIX 5: Apply equal column widths on first load if no saved widths
+// Apply equal column widths on first load if no saved widths
 function applyDefaultColWidths() {
-  if (localStorage.getItem('bmw-col-widths')) return; // already have saved widths
+  if (localStorage.getItem('bmw-col-widths')) return;
   requestAnimationFrame(() => {
-    const colsW = document.getElementById('colsArea')?.getBoundingClientRect().width || 0;
-    if (!colsW) return;
-    // Equal thirds minus resize handles
-    const w = Math.floor((colsW - 8) / 3);
-    ['col-0','col-1'].forEach(id => {
-      const el = document.getElementById(id); if (!el) return;
-      el.style.width = w + 'px'; el.style.flex = 'none';
+    requestAnimationFrame(() => {
+      const colsArea = document.getElementById('colsArea');
+      if (!colsArea) return;
+      const colsW = colsArea.getBoundingClientRect().width;
+      if (!colsW) return;
+      const w = Math.floor((colsW - 8) / 3);
+      ['col-0','col-1'].forEach(id => {
+        const el = document.getElementById(id); if (!el) return;
+        el.style.width = w + 'px'; el.style.flex = 'none';
+      });
     });
   });
 }
