@@ -361,6 +361,11 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .badge{font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-family:'Share Tech Mono',monospace;padding:2px 7px;border-radius:20px;border:1px solid;}
 .badge-admin{color:var(--gold);border-color:rgba(245,200,66,.4);background:rgba(245,200,66,.08);}
 .badge-staff{color:var(--muted);border-color:var(--border);background:var(--bg3);}
+.badge-trainee{color:#aaa;border-color:rgba(170,170,170,.4);background:rgba(170,170,170,.06);}
+.badge-mechanic{color:#7289da;border-color:rgba(114,137,218,.4);background:rgba(114,137,218,.08);}
+.badge-senior_mechanic{color:#f5a623;border-color:rgba(245,166,35,.4);background:rgba(245,166,35,.08);}
+.badge-manager{color:var(--gold);border-color:rgba(245,200,66,.4);background:rgba(245,200,66,.08);}
+.badge-owner{color:#e63950;border-color:rgba(230,57,80,.4);background:rgba(230,57,80,.1);}
 .badge-active{color:var(--green);border-color:rgba(39,174,96,.4);background:rgba(39,174,96,.08);}
 .badge-inactive{color:var(--accent);border-color:rgba(230,57,80,.4);background:rgba(230,57,80,.08);}
 .act-btn{background:transparent;border:1px solid var(--border);border-radius:3px;color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;padding:3px 8px;cursor:pointer;transition:all .12s;}
@@ -464,7 +469,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
 <div class="screen active" id="loginScreen">
   <div class="login-wrap">
     <div class="login-brand">
-      <div class="lb-tag">🔧 Staff Order System v2.2.0</div>
+      <div class="header-tag">🔧 Staff Order System v2.3.0</div>
       <h1>Benny's <span>MotorWorks</span></h1>
       <div class="lb-sub">Internal Staff Portal — Authorised Access Only</div>
     </div>
@@ -538,7 +543,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
 
   <div class="header">
     <div>
-      <div class="header-tag">🔧 Order System v2.2.0 By Jenni</div>
+      <div class="header-tag">🔧 Order System v2.3.0 By Jenni</div>
       <h1>Benny's <span>MotorWorks</span></h1>
     </div>
     <div class="header-sub">Staff Order Tool</div>
@@ -629,7 +634,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
 <div class="screen" id="adminScreen">
   <div class="header">
     <div>
-      <div class="header-tag">📊 Admin Dashboard v2.2.0</div>
+      <div class="header-tag">📊 Admin Dashboard v2.3.0</div>
       <h1>Benny's <span>MotorWorks</span></h1>
     </div>
     <div class="header-sub">Admin Panel</div>
@@ -658,10 +663,15 @@ tr:hover td{background:rgba(255,255,255,.02);}
         <div class="stat-card green"><div class="stat-label">Total Revenue</div><div class="stat-val" id="st-trev">—</div></div>
         <div class="stat-card accent"><div class="stat-label">Active Staff</div><div class="stat-val" id="st-staff">—</div></div>
       </div>
+      <div style="display:flex;gap:6px;align-items:center;margin-bottom:12px;">
+        <span style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-family:'Share Tech Mono',monospace;">Chart period:</span>
+        <button id="periodWeekBtn" class="act-btn" style="border-color:var(--accent);color:var(--accent);" onclick="setChartPeriod('week')">This Week</button>
+        <button id="periodMonthBtn" class="act-btn" onclick="setChartPeriod('month')">This Month</button>
+      </div>
       <div class="charts-grid">
-        <div class="chart-card"><div class="chart-head"><span class="chart-title">Revenue by Staff (Month)</span></div><div class="chart-body"><canvas id="chartStaffRevenue"></canvas></div></div>
-        <div class="chart-card"><div class="chart-head"><span class="chart-title">Orders by Staff (Month)</span></div><div class="chart-body"><canvas id="chartStaffOrders"></canvas></div></div>
-        <div class="chart-card full"><div class="chart-head"><span class="chart-title">Top Items This Month</span></div><div class="chart-body"><canvas id="chartTopItems"></canvas></div></div>
+        <div class="chart-card"><div class="chart-head"><span class="chart-title" id="chartRevenueTitle">Revenue by Staff (Week)</span></div><div class="chart-body"><canvas id="chartStaffRevenue"></canvas></div></div>
+        <div class="chart-card"><div class="chart-head"><span class="chart-title" id="chartOrdersTitle">Orders by Staff (Week)</span></div><div class="chart-body"><canvas id="chartStaffOrders"></canvas></div></div>
+        <div class="chart-card full"><div class="chart-head"><span class="chart-title" id="chartItemsTitle">Top Items (Week)</span></div><div class="chart-body"><canvas id="chartTopItems"></canvas></div></div>
       </div>
       <div class="admin-table-wrap">
         <div class="admin-table-head"><span class="admin-table-title">Recent Orders</span></div>
@@ -677,7 +687,13 @@ tr:hover td{background:rgba(255,255,255,.02);}
             <div class="aform-field"><label>Username</label><input type="text" id="ns-user" placeholder="e.g. jenni"><div class="field-hint">Used to sign in — no spaces</div></div>
             <div class="aform-field"><label>Display Name</label><input type="text" id="ns-display" placeholder="e.g. Jenni"><div class="field-hint">Shown on receipts</div></div>
             <div class="aform-field"><label>Temporary Password</label><input type="password" id="ns-pass" placeholder="Min 6 characters"></div>
-            <div class="aform-field"><label>Role</label><select id="ns-role"><option value="staff">Staff — Order tool only</option><option value="admin">Admin — Full dashboard access</option></select></div>
+            <div class="aform-field"><label>Role</label><select id="ns-role">
+              <option value="trainee">🔰 Trainee</option>
+              <option value="mechanic">🔧 Mechanic</option>
+              <option value="senior_mechanic">⭐ Senior Mechanic</option>
+              <option value="manager">📋 Manager</option>
+              <option value="owner">👑 Owner</option>
+            </select><div class="field-hint">Senior Mechanic+ get dashboard access</div></div>
           </div>
           <div class="aform-actions"><button class="aform-submit green" onclick="createStaff()">✓ Create Account</button></div>
         </div>
@@ -762,7 +778,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
 <!-- STAFF ANALYTICS SCREEN -->
 <div class="screen" id="analyticsScreen">
   <div class="header">
-    <div><div class="header-tag">📈 My Analytics v2.2.0</div><h1>Benny's <span>MotorWorks</span></h1></div>
+    <div><div class="header-tag">📈 My Analytics v2.3.0</div><h1>Benny's <span>MotorWorks</span></h1></div>
     <div class="header-sub">Your Performance</div>
     <div class="header-btns">
       <span class="user-badge" id="analyticsUserBadge"></span>
@@ -861,15 +877,24 @@ function showWelcome() {
   }, 1100);
 }
 
+// Role hierarchy: senior_mechanic, manager, owner have admin-level access
+const ADMIN_ROLES = ['senior_mechanic', 'manager', 'owner', 'admin'];
+function hasAdminAccess(role) { return ADMIN_ROLES.includes(role); }
+
+function getRoleLabel(role) {
+  const labels = { trainee:'🔰 Trainee', mechanic:'🔧 Mechanic', senior_mechanic:'⭐ Senior Mechanic', manager:'📋 Manager', owner:'👑 Owner', admin:'👑 Admin', staff:'🔧 Staff' };
+  return labels[role] || role;
+}
+
 async function afterLogin() {
   scheduleTokenRefresh();
   await loadItems();
   // FIX 3: Set staff display name from login, no input field
   const staffName = currentUser.displayName || currentUser.username;
   document.getElementById('staffDisplayName').textContent = staffName;
-  const badge = `<strong>${currentUser.displayName}</strong><span class="role-tag">${currentUser.role.toUpperCase()}</span>`;
+  const badge = `<strong>${currentUser.displayName}</strong><span class="role-tag">${getRoleLabel(currentUser.role)}</span>`;
   ['userBadge','adminUserBadge','analyticsUserBadge'].forEach(id => { const el = document.getElementById(id); if(el) el.innerHTML = badge; });
-  if (currentUser.role === 'admin') {
+  if (hasAdminAccess(currentUser.role)) {
     document.getElementById('adminDashBtn').style.display = '';
     document.getElementById('adminDashBtn').textContent = '📊 Dashboard';
     document.getElementById('adminDashBtn').onclick = showAdmin;
@@ -942,6 +967,7 @@ async function loadItems() {
     renderLayout();
     setupDropTargets();
     applyColWidths();
+    applyDefaultColWidths();
     // Populate category dropdowns
     populateCatDropdowns();
   } catch (err) { showToast('Failed to load items: ' + err.message, 'error'); }
@@ -1005,7 +1031,7 @@ function getDefaultLayout() {
   return [col0, col1, col2];
 }
 
-const LAYOUT_VERSION = '2.2.0';
+const LAYOUT_VERSION = '2.3.0';
 if (localStorage.getItem('bmw-layout-version') !== LAYOUT_VERSION) { localStorage.removeItem('bmw-layout'); localStorage.removeItem('bmw-col-widths'); localStorage.setItem('bmw-layout-version', LAYOUT_VERSION); }
 let currentLayout = null; // will be set after buildSections
 let layoutMode = false, dragSrc = null, layoutSnapshot = null;
@@ -1209,11 +1235,45 @@ const collapsedSections = new Set(JSON.parse(localStorage.getItem('bmw-collapsed
 function toggleCollapse(secId, card) { const body = card.querySelector('.section-card-body'); if (collapsedSections.has(secId)) { collapsedSections.delete(secId); card.classList.remove('collapsed'); body.style.maxHeight = '0px'; void body.offsetHeight; body.style.maxHeight = body.scrollHeight + 'px'; body.addEventListener('transitionend', () => { if (!card.classList.contains('collapsed')) body.style.maxHeight = 'none'; }, { once: true }); } else { collapsedSections.add(secId); body.style.maxHeight = body.scrollHeight + 'px'; void body.offsetHeight; card.classList.add('collapsed'); body.style.maxHeight = '0px'; } localStorage.setItem('bmw-collapsed', JSON.stringify([...collapsedSections])); }
 
 // ─── RENDER HELPERS ───
+// ─── ITEM EMOJI MAP ───
+const ITEM_EMOJIS = {
+  // Body
+  'roof': '🏠', 'hood': '🔼', 'front bumper': '🛡️', 'rear bumper': '🔙',
+  'skirt': '📐', 'frame': '🔲', 'fender': '🔧', 'spoiler': '🏁',
+  // Parts
+  'exhaust': '💨', 'window tint': '🕶️', 'headlights': '💡', 'underglow': '🌈',
+  'tyre smokes': '💨', 'license plate': '🪪', 'horn': '📯',
+  // Paints
+  'paint: primary': '🎨', 'paint: secondary': '🖌️', 'paint: pearlascent': '✨',
+  'paint: wheels': '🛞', 'livery': '🎭', 'interior paint': '🪑', 'dashboard': '📊',
+  // Matt Finish
+  'matt finish: primary': '🖤', 'matt finish: secondary': '⬛',
+  // Wheels
+  'sport': '🏎️', 'muscle': '💪', 'lowrider': '⬇️', 'suv': '🚙',
+  'offroad': '🏔️', 'tuner': '⚡', 'bike': '🏍️', 'high end': '👑',
+  // Performance
+  'engine': '🔥', 'transmission': '⚙️', 'brake': '🛑', 'suspension': '🌀',
+  // Security
+  'car security': '🔒',
+  // Repairs
+  'free repair': '🆓', 'repair': '🔧', 'tow service': '🚛', 'full package': '📦',
+};
+
+function getItemEmoji(name) {
+  const key = name.toLowerCase().trim();
+  if (ITEM_EMOJIS[key]) return ITEM_EMOJIS[key];
+  // Partial match fallback
+  for (const [k, v] of Object.entries(ITEM_EMOJIS)) {
+    if (key.includes(k) || k.includes(key)) return v;
+  }
+  return '🔹';
+}
+
 function renderSimpleInto(container, items, cat) {
   if (!sel[cat] || !(sel[cat] instanceof Set)) sel[cat] = new Set();
   items.forEach((item, i) => {
     const b = document.createElement('button'); b.className = 'item-btn';
-    b.innerHTML = `<span>${item.name}</span><span class="p">$${fmt(item.price)}</span>`;
+    b.innerHTML = `<span>${getItemEmoji(item.name)} ${item.name}</span><span class="p">$${fmt(item.price)}</span>`;
     b.draggable = false;
     b.addEventListener('dragstart', e => { if (!layoutMode) { e.preventDefault(); return; } e.stopPropagation(); e.dataTransfer.setData('item-drag', JSON.stringify({ cat, idx: i })); e.dataTransfer.effectAllowed = 'move'; setTimeout(() => b.classList.add('dragging'), 0); });
     b.addEventListener('dragend', () => b.classList.remove('dragging'));
@@ -1237,7 +1297,7 @@ function renderLevelInto(container, items, cat) {
   items.forEach((item, i) => {
     sel[cat][i] = sel[cat][i] || 0;
     const d = document.createElement('div'); d.className = 'lvl-item'; d.id = `${cat}-${i}`;
-    d.innerHTML = `<div class="lvl-top" onclick="if(!layoutMode){toggleLvl('${cat}',${i})}"><span class="lvl-name">${item.name}</span><span class="lvl-ptag">$${fmt(item.price)}/lvl</span></div><div class="lvl-ctrl"><button class="lb" onclick="if(!layoutMode){chLvl('${cat}',${i},-1,${item.maxLvl||1})}">−</button><span class="lvl-d" id="ld-${cat}-${i}">OFF</span><button class="lb" onclick="if(!layoutMode){chLvl('${cat}',${i},1,${item.maxLvl||1})}">+</button><span class="lvl-t" id="lt-${cat}-${i}"></span></div>`;
+    d.innerHTML = `<div class="lvl-top" onclick="if(!layoutMode){toggleLvl('${cat}',${i})}"><span class="lvl-name">${getItemEmoji(item.name)} ${item.name}</span><span class="lvl-ptag">$${fmt(item.price)}/lvl</span></div><div class="lvl-ctrl"><button class="lb" onclick="if(!layoutMode){chLvl('${cat}',${i},-1,${item.maxLvl||1})}">−</button><span class="lvl-d" id="ld-${cat}-${i}">OFF</span><button class="lb" onclick="if(!layoutMode){chLvl('${cat}',${i},1,${item.maxLvl||1})}">+</button><span class="lvl-t" id="lt-${cat}-${i}"></span></div>`;
     container.appendChild(d);
     if (sel[cat][i] > 0) updLvl(cat, i);
   });
@@ -1438,41 +1498,74 @@ function switchAdminTab(tab) {
   else if (tab === 'presets') loadAdminPresets();
 }
 
+let dashPeriod = 'week';
+function setChartPeriod(p) {
+  dashPeriod = p;
+  document.getElementById('periodWeekBtn').style.borderColor = p === 'week' ? 'var(--accent)' : 'var(--border)';
+  document.getElementById('periodWeekBtn').style.color = p === 'week' ? 'var(--accent)' : 'var(--muted)';
+  document.getElementById('periodMonthBtn').style.borderColor = p === 'month' ? 'var(--accent)' : 'var(--border)';
+  document.getElementById('periodMonthBtn').style.color = p === 'month' ? 'var(--accent)' : 'var(--muted)';
+  const label = p === 'week' ? 'Week' : 'Month';
+  document.getElementById('chartRevenueTitle').textContent = `Revenue by Staff (${label})`;
+  document.getElementById('chartOrdersTitle').textContent = `Orders by Staff (${label})`;
+  document.getElementById('chartItemsTitle').textContent = `Top Items (${label})`;
+  loadDashboard();
+}
+
 async function loadDashboard() {
   try {
-    const d = await api('GET', '/api/admin/dashboard');
+    const d = await api('GET', `/api/admin/dashboard?period=${dashPeriod}`);
     document.getElementById('st-today').textContent = d.counts.today;
     document.getElementById('st-week').textContent = d.counts.week;
     document.getElementById('st-month').textContent = d.counts.month;
     document.getElementById('st-mrev').textContent = '$' + fmt(d.revenue.month);
     document.getElementById('st-trev').textContent = '$' + fmt(d.revenue.total);
     document.getElementById('st-staff').textContent = d.activeStaff + '/' + d.staffCount;
-    if (d.staffStats?.length) {
+    const statsData = dashPeriod === 'week' ? (d.staffStatsWeek || d.staffStats) : d.staffStats;
+    const topData = dashPeriod === 'week' ? (d.topItemsWeek || d.topItems) : d.topItems;
+    if (statsData?.length) {
       destroyChart('chartStaffRevenue');
       const ctx = document.getElementById('chartStaffRevenue').getContext('2d');
-      chartInstances['chartStaffRevenue'] = new Chart(ctx, { type:'bar', data:{ labels:d.staffStats.map(s=>s.staffName), datasets:[{data:d.staffStats.map(s=>s.revenue),backgroundColor:'rgba(245,200,66,.7)',borderColor:'#f5c842',borderWidth:1,borderRadius:3}] }, options:{...chartDefaults,scales:{...chartDefaults.scales,y:{...chartDefaults.scales.y,ticks:{...chartDefaults.scales.y.ticks,callback:v=>'$'+fmt(v)}}}} });
+      chartInstances['chartStaffRevenue'] = new Chart(ctx, { type:'bar', data:{ labels:statsData.map(s=>s.staffName), datasets:[{data:statsData.map(s=>s.revenue),backgroundColor:'rgba(245,200,66,.7)',borderColor:'#f5c842',borderWidth:1,borderRadius:3}] }, options:{...chartDefaults,scales:{...chartDefaults.scales,y:{...chartDefaults.scales.y,ticks:{...chartDefaults.scales.y.ticks,callback:v=>'$'+fmt(v)}}}} });
       destroyChart('chartStaffOrders');
       const ctx2 = document.getElementById('chartStaffOrders').getContext('2d');
-      chartInstances['chartStaffOrders'] = new Chart(ctx2, { type:'bar', data:{ labels:d.staffStats.map(s=>s.staffName), datasets:[{data:d.staffStats.map(s=>s.orders),backgroundColor:'rgba(230,57,80,.7)',borderColor:'#e63950',borderWidth:1,borderRadius:3}] }, options:{...chartDefaults} });
+      chartInstances['chartStaffOrders'] = new Chart(ctx2, { type:'bar', data:{ labels:statsData.map(s=>s.staffName), datasets:[{data:statsData.map(s=>s.orders),backgroundColor:'rgba(230,57,80,.7)',borderColor:'#e63950',borderWidth:1,borderRadius:3}] }, options:{...chartDefaults} });
     }
-    if (d.topItems?.length) {
+    if (topData?.length) {
       destroyChart('chartTopItems');
       const ctx3 = document.getElementById('chartTopItems').getContext('2d');
-      chartInstances['chartTopItems'] = new Chart(ctx3, { type:'bar', data:{ labels:d.topItems.map(i=>i._id), datasets:[{data:d.topItems.map(i=>i.revenue),backgroundColor:'rgba(39,174,96,.7)',borderColor:'#27ae60',borderWidth:1,borderRadius:3}] }, options:{...chartDefaults,indexAxis:'y',scales:{...chartDefaults.scales,x:{...chartDefaults.scales.x,ticks:{...chartDefaults.scales.x.ticks,callback:v=>'$'+fmt(v)}}}} });
+      chartInstances['chartTopItems'] = new Chart(ctx3, { type:'bar', data:{ labels:topData.map(i=>i._id), datasets:[{data:topData.map(i=>i.revenue),backgroundColor:'rgba(39,174,96,.7)',borderColor:'#27ae60',borderWidth:1,borderRadius:3}] }, options:{...chartDefaults,indexAxis:'y',scales:{...chartDefaults.scales,x:{...chartDefaults.scales.x,ticks:{...chartDefaults.scales.x.ticks,callback:v=>'$'+fmt(v)}}}} });
     }
     document.getElementById('recentOrdersTable').innerHTML = d.recentOrders.map(o =>
-      `<tr><td style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">${new Date(o.createdAt).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</td><td>${o.staffName}</td><td>${o.customerName}</td><td>${o.vehicle}</td><td style="color:var(--gold)">$${fmt(o.total)}</td><td>${o.discordPosted?'<span style="color:var(--green)">✓</span>':'<span style="color:var(--accent)">✗</span>'}</td><td><button class="act-btn danger" onclick="deleteOrder('${o._id||o.id}')">Delete</button></td></tr>`
+      `<tr id="order-row-${o._id||o.id}"><td style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">${new Date(o.createdAt).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</td><td>${o.staffName}</td><td>${o.customerName}</td><td>${o.vehicle}</td><td style="color:var(--gold)">$${fmt(o.total)}</td><td>${o.discordPosted?'<span style="color:var(--green)">✓</span>':'<span style="color:var(--accent)">✗</span>'}</td><td><button class="act-btn danger" onclick="deleteOrder('${o._id||o.id}','recent')">Delete</button></td></tr>`
     ).join('') || '<tr><td colspan="7" style="color:var(--muted);text-align:center">No orders yet</td></tr>';
   } catch(err) { showToast('Dashboard error: ' + err.message, 'error'); }
 }
 
-async function deleteOrder(id) { if (!confirm('Delete this order?')) return; setLoading(true); try { await api('DELETE', `/api/admin/orders/${id}`); showToast('Order deleted', 'success'); loadDashboard(); } catch(err) { showToast('Error: ' + err.message, 'error'); } finally { setLoading(false); } }
+async function deleteOrder(id, context) {
+  if (!confirm('Delete this order? This cannot be undone.')) return;
+  setLoading(true);
+  try {
+    await api('DELETE', `/api/admin/orders/${id}`);
+    showToast('Order deleted', 'success');
+    // Remove the row from DOM immediately — no reload needed
+    const row = document.getElementById(`order-row-${id}`);
+    if (row) row.remove();
+    // If orders tab is active, also remove from there
+    const ordersRow = document.getElementById(`all-order-row-${id}`);
+    if (ordersRow) { ordersRow.remove(); allOrdersTotal = Math.max(0, allOrdersTotal - 1); document.getElementById('ordersTotal').textContent = `${allOrdersTotal} total`; }
+    // Update stat card
+    const todayEl = document.getElementById('st-today');
+    if (todayEl && context === 'recent') { const v = parseInt(todayEl.textContent) || 0; if (v > 0) todayEl.textContent = v - 1; }
+  } catch(err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
 
 async function loadAdminStaff() {
   try {
     const staff = await api('GET', '/api/admin/staff');
     document.getElementById('staffTable').innerHTML = staff.map(s =>
-      `<tr><td style="font-family:'Share Tech Mono',monospace;font-size:12px">${s.username}</td><td>${s.displayName||'—'}</td><td><span class="badge badge-${s.role}">${s.role}</span></td><td><span class="badge badge-${s.isActive?'active':'inactive'}">${s.isActive?'Active':'Disabled'}</span></td><td style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">${s.lastLogin?new Date(s.lastLogin).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):'Never'}</td><td style="display:flex;gap:5px;flex-wrap:wrap"><button class="act-btn" onclick="resetStaffPassword('${s._id}','${s.username}')">Reset PW</button><button class="act-btn" onclick="toggleStaffActive('${s._id}',${!s.isActive})">${s.isActive?'Disable':'Enable'}</button><button class="act-btn danger" onclick="deleteStaff('${s._id}','${s.username}')">Delete</button></td></tr>`
+      `<tr><td style="font-family:'Share Tech Mono',monospace;font-size:12px">${s.username}</td><td>${s.displayName||'—'}</td><td><span class="badge badge-${s.role}">${getRoleLabel(s.role)}</span></td><td><span class="badge badge-${s.isActive?'active':'inactive'}">${s.isActive?'Active':'Disabled'}</span></td><td style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">${s.lastLogin?new Date(s.lastLogin).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):'Never'}</td><td style="display:flex;gap:5px;flex-wrap:wrap"><button class="act-btn" onclick="changeStaffRole('${s._id}','${s.username}','${s.role}')">Role</button><button class="act-btn" onclick="resetStaffPassword('${s._id}','${s.username}')">Reset PW</button><button class="act-btn" onclick="toggleStaffActive('${s._id}',${!s.isActive})">${s.isActive?'Disable':'Enable'}</button><button class="act-btn danger" onclick="deleteStaff('${s._id}','${s.username}')">Delete</button></td></tr>`
     ).join('');
   } catch(err) { showToast('Error: ' + err.message, 'error'); }
 }
@@ -1480,12 +1573,26 @@ async function createStaff() { const username=document.getElementById('ns-user')
 async function resetStaffPassword(id,username) { const newPw=prompt(`Reset password for ${username}:\nNew password (min 6 chars):`); if(!newPw)return; if(newPw.length<6){showToast('Password too short','error');return;} setLoading(true); try{await api('POST',`/api/admin/staff/${id}/reset-password`,{newPassword:newPw});showToast(`Password reset for ${username}`,'success');}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
 async function toggleStaffActive(id,active) { setLoading(true); try{await api('PATCH',`/api/admin/staff/${id}`,{isActive:active});showToast(active?'Account enabled':'Account disabled','success');loadAdminStaff();}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
 async function deleteStaff(id,username) { if(!confirm(`Permanently delete "${username}"?`))return; setLoading(true); try{await api('DELETE',`/api/admin/staff/${id}`);showToast(`${username} deleted`,'success');loadAdminStaff();}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
+async function changeStaffRole(id, username, currentRole) {
+  const roles = ['trainee','mechanic','senior_mechanic','manager','owner'];
+  const labels = roles.map(r => `${getRoleLabel(r)} ${r === currentRole ? '(current)' : ''}`);
+  const choice = prompt(`Change role for ${username}:\n\n${roles.map((r,i) => `${i+1}. ${labels[i]}`).join('\n')}\n\nEnter number (1-${roles.length}):`);
+  if (!choice) return;
+  const idx = parseInt(choice) - 1;
+  if (idx < 0 || idx >= roles.length) { showToast('Invalid selection', 'error'); return; }
+  const newRole = roles[idx];
+  if (newRole === currentRole) return;
+  setLoading(true);
+  try { await api('PATCH', `/api/admin/staff/${id}`, { role: newRole }); showToast(`${username} is now ${getRoleLabel(newRole)}`, 'success'); loadAdminStaff(); }
+  catch(err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
 
 async function loadAdminOrders(append = false) {
   try {
     const {orders,total} = await api('GET', `/api/admin/orders?limit=50&skip=${ordersSkip}`);
     allOrdersTotal = total; document.getElementById('ordersTotal').textContent = `${total} total`;
-    const rows = orders.map(o => `<tr><td style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">${new Date(o.createdAt).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</td><td>${o.staffName}</td><td>${o.customerName}</td><td>${o.plate}</td><td>${o.vehicle}</td><td style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">${(o.items||[]).length} items</td><td style="color:var(--gold)">$${fmt(o.total)}</td><td>${o.discordPosted?'<span style="color:var(--green)">✓</span>':'<span style="color:var(--accent)">✗</span>'}</td><td><button class="act-btn danger" onclick="deleteOrder('${o._id||o.id}')">Delete</button></td></tr>`).join('');
+    const rows = orders.map(o => `<tr id="all-order-row-${o._id||o.id}"><td style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">${new Date(o.createdAt).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</td><td>${o.staffName}</td><td>${o.customerName}</td><td>${o.plate}</td><td>${o.vehicle}</td><td style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">${(o.items||[]).length} items</td><td style="color:var(--gold)">$${fmt(o.total)}</td><td>${o.discordPosted?'<span style="color:var(--green)">✓</span>':'<span style="color:var(--accent)">✗</span>'}</td><td><button class="act-btn danger" onclick="deleteOrder('${o._id||o.id}','orders')">Delete</button></td></tr>`).join('');
     const tbody = document.getElementById('allOrdersTable');
     if (append) { tbody.innerHTML += rows; } else { tbody.innerHTML = rows || '<tr><td colspan="9" style="color:var(--muted);text-align:center">No orders yet</td></tr>'; }
     const loadMoreBtn = document.getElementById('loadMoreBtn');
