@@ -214,9 +214,11 @@ textarea::placeholder{color:var(--muted);}
 
 /* CUSTOM ITEMS */
 .custom-item-row{display:flex;gap:5px;margin-bottom:5px;align-items:center;}
-.ci-name-input{flex:1;min-width:0;background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:500;padding:5px 8px;outline:none;transition:border-color .2s;width:100%;}
+.ci-name-input{flex:1;min-width:60px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:500;padding:5px 8px;outline:none;transition:border-color .2s;}
+.ci-name-input::placeholder{color:var(--muted);font-weight:400;}
 .ci-name-input:focus{border-color:var(--accent);}
-.ci-price-input{width:70px;flex-shrink:0;background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:500;padding:5px 6px;outline:none;transition:border-color .2s;}
+.ci-price-input{width:72px;flex-shrink:0;background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Share Tech Mono',monospace;font-size:12px;font-weight:500;padding:5px 6px;outline:none;transition:border-color .2s;}
+.ci-price-input::placeholder{color:var(--muted);}
 .ci-price-input:focus{border-color:var(--accent);}
 .custom-add-btn{background:var(--accent);border:none;border-radius:4px;color:white;font-size:16px;cursor:pointer;padding:0 10px;transition:all .15s;flex-shrink:0;height:30px;width:30px;display:flex;align-items:center;justify-content:center;}
 .custom-add-btn:hover{background:#ff4d63;}
@@ -408,8 +410,56 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .cat-item-name{flex:1;font-weight:600;}
 .cat-item-key{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);}
 
-/* LOAD MORE */
-.load-more-row{display:flex;gap:8px;margin-top:10px;justify-content:center;}
+/* PRESET TAG MANAGEMENT */
+.ptag-manage-row{display:flex;align-items:center;gap:8px;padding:7px 12px;border-bottom:1px solid rgba(51,51,51,.4);}
+.ptag-manage-row:last-child{border-bottom:none;}
+.ptag-color-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.ptag-manage-name{flex:1;font-size:13px;font-weight:600;}
+.ptag-manage-count{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);margin-right:4px;}
+/* Tag color presets */
+.tag-color-picker{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;}
+.tag-color-swatch{width:18px;height:18px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:border-color .12s;}
+.tag-color-swatch:hover,.tag-color-swatch.selected{border-color:white;}
+
+/* SALARY SCREEN */
+.salary-hero{background:linear-gradient(135deg,rgba(245,200,66,.08) 0%,rgba(39,174,96,.06) 100%);border:1px solid rgba(245,200,66,.2);border-radius:8px;padding:20px;margin-bottom:16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+.salary-hero-icon{font-size:40px;flex-shrink:0;}
+.salary-hero-text{}
+.salary-hero-title{font-size:18px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--gold);}
+.salary-hero-sub{font-size:11px;color:var(--muted);font-family:'Share Tech Mono',monospace;margin-top:4px;}
+.salary-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:16px;}
+.salary-card-head{padding:12px 16px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.salary-card-title{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-family:'Share Tech Mono',monospace;}
+.salary-card-body{padding:16px;display:flex;flex-direction:column;gap:12px;}
+.salary-staff-row{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;flex-wrap:wrap;transition:border-color .15s;}
+.salary-staff-row:hover{border-color:rgba(245,200,66,.3);}
+.salary-staff-name{font-size:14px;font-weight:700;flex:1;min-width:100px;}
+.salary-staff-meta{display:flex;flex-direction:column;gap:1px;min-width:80px;}
+.salary-staff-orders{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-family:'Share Tech Mono',monospace;}
+.salary-staff-rev{font-size:12px;font-weight:600;color:var(--text);font-family:'Share Tech Mono',monospace;}
+.salary-pct-wrap{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.salary-pct-label{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-family:'Share Tech Mono',monospace;white-space:nowrap;}
+.salary-pct-input{width:65px;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--gold);font-family:'Share Tech Mono',monospace;font-size:13px;font-weight:700;padding:5px 8px;outline:none;text-align:right;transition:border-color .2s;}
+.salary-pct-input:focus{border-color:var(--gold);}
+.salary-amount{min-width:90px;text-align:right;}
+.salary-amount-val{font-size:20px;font-weight:700;color:var(--green);font-family:'Rajdhani',sans-serif;line-height:1;}
+.salary-amount-note{font-size:9px;color:var(--muted);font-family:'Share Tech Mono',monospace;}
+.salary-pay-btn{background:var(--green);border:none;border-radius:4px;color:white;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:7px 14px;cursor:pointer;transition:all .15s;flex-shrink:0;}
+.salary-pay-btn:hover{background:#219a52;}
+.salary-pay-btn:disabled{background:var(--bg3);color:var(--muted);border:1px solid var(--border);cursor:not-allowed;}
+.salary-paid-badge{font-size:9px;letter-spacing:.1em;color:var(--green);font-family:'Share Tech Mono',monospace;border:1px solid rgba(39,174,96,.4);border-radius:20px;padding:2px 8px;background:rgba(39,174,96,.08);white-space:nowrap;}
+.salary-week-nav{display:flex;align-items:center;gap:8px;}
+.salary-week-btn{background:transparent;border:1px solid var(--border);border-radius:4px;color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:12px;padding:4px 10px;cursor:pointer;transition:all .12s;}
+.salary-week-btn:hover{border-color:var(--gold);color:var(--gold);}
+.salary-week-label{font-size:11px;font-family:'Share Tech Mono',monospace;color:var(--text);min-width:120px;text-align:center;}
+.salary-totals-row{display:flex;gap:12px;flex-wrap:wrap;}
+.salary-total-chip{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:10px 16px;display:flex;flex-direction:column;gap:2px;}
+.salary-total-chip-label{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);font-family:'Share Tech Mono',monospace;}
+.salary-total-chip-val{font-size:20px;font-weight:700;color:var(--gold);font-family:'Rajdhani',sans-serif;}
+.salary-total-chip.green .salary-total-chip-val{color:var(--green);}
+.salary-history-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(51,51,51,.3);font-size:12px;gap:8px;}
+.salary-history-row:last-child{border-bottom:none;}
+
 .load-more-btn{background:var(--bg2);border:1px solid var(--border);border-radius:4px;color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:8px 24px;cursor:pointer;transition:all .15s;}
 .load-more-btn:hover{border-color:var(--accent);color:var(--accent);}
 
@@ -497,7 +547,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
 <div class="screen active" id="loginScreen">
   <div class="login-wrap">
     <div class="login-brand">
-      <div class="header-tag">🔧 Staff Order System v2.3.2</div>
+      <div class="header-tag">🔧 Staff Order System v2.3.3</div>
       <h1>Benny's <span>MotorWorks</span></h1>
       <div class="lb-sub">Internal Staff Portal — Authorised Access Only</div>
     </div>
@@ -571,7 +621,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
 
   <div class="header">
     <div>
-      <div class="header-tag">🔧 Order System v2.3.2 By Jenni</div>
+      <div class="header-tag">🔧 Order System v2.3.3 By Jenni</div>
       <h1>Benny's <span>MotorWorks</span></h1>
     </div>
     <div class="header-sub">Staff Order Tool</div>
@@ -662,7 +712,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
 <div class="screen" id="adminScreen">
   <div class="header">
     <div>
-      <div class="header-tag">📊 Admin Dashboard v2.3.2</div>
+      <div class="header-tag">📊 Admin Dashboard v2.3.3</div>
       <h1>Benny's <span>MotorWorks</span></h1>
     </div>
     <div class="header-sub">Admin Panel</div>
@@ -675,6 +725,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
   <div class="admin-tabs">
     <button class="atab active" data-tab="overview" onclick="switchAdminTab('overview')">📊 Overview</button>
     <button class="atab" data-tab="staff" onclick="switchAdminTab('staff')">👥 Staff</button>
+    <button class="atab" data-tab="salary" onclick="switchAdminTab('salary')">💰 Salary</button>
     <button class="atab" data-tab="orders" onclick="switchAdminTab('orders')">📋 Orders</button>
     <button class="atab" data-tab="items" onclick="switchAdminTab('items')">🔩 Items</button>
     <button class="atab" data-tab="categories" onclick="switchAdminTab('categories')">📂 Categories</button>
@@ -691,7 +742,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
         <div class="stat-card green"><div class="stat-label">Total Revenue</div><div class="stat-val" id="st-trev">—</div></div>
         <div class="stat-card accent"><div class="stat-label">Active Staff</div><div class="stat-val" id="st-staff">—</div></div>
       </div>
-      <div style="display:flex;gap:6px;align-items:center;margin-bottom:12px;">
+      <div style="display:flex;gap:6px;align-items:center;margin-top:16px;margin-bottom:12px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;">
         <span style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-family:'Share Tech Mono',monospace;">Chart period:</span>
         <button id="periodWeekBtn" class="act-btn" style="border-color:var(--accent);color:var(--accent);" onclick="setChartPeriod('week')">This Week</button>
         <button id="periodMonthBtn" class="act-btn" onclick="setChartPeriod('month')">This Month</button>
@@ -731,6 +782,48 @@ tr:hover td{background:rgba(255,255,255,.02);}
         <table><thead><tr><th>Username</th><th>Display Name</th><th>Role</th><th>Status</th><th>Last Login</th><th>Actions</th></tr></thead><tbody id="staffTable"></tbody></table>
       </div>
     </div>
+    <!-- SALARY -->
+    <div class="atab-pane" id="pane-salary">
+      <div class="salary-hero">
+        <div class="salary-hero-icon">💰</div>
+        <div class="salary-hero-text">
+          <div class="salary-hero-title">Weekly Salary Calculator</div>
+          <div class="salary-hero-sub">Set each staff member's commission % → mark as paid → that week's revenue is locked and won't be counted again</div>
+        </div>
+      </div>
+      <div class="salary-card">
+        <div class="salary-card-head">
+          <span class="salary-card-title">📅 Pay Period</span>
+          <div class="salary-week-nav">
+            <button class="salary-week-btn" onclick="salaryNavWeek(-1)">◀ Prev</button>
+            <span class="salary-week-label" id="salaryWeekLabel">—</span>
+            <button class="salary-week-btn" onclick="salaryNavWeek(1)" id="salaryNextBtn">Next ▶</button>
+          </div>
+        </div>
+        <div class="salary-card-body">
+          <div class="salary-totals-row">
+            <div class="salary-total-chip"><span class="salary-total-chip-label">Week Revenue</span><span class="salary-total-chip-val" id="salWeekRev">—</span></div>
+            <div class="salary-total-chip"><span class="salary-total-chip-label">Total Orders</span><span class="salary-total-chip-val" id="salWeekOrders">—</span></div>
+            <div class="salary-total-chip green"><span class="salary-total-chip-label">Total Payable</span><span class="salary-total-chip-val" id="salWeekPayable">$0</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="salary-card">
+        <div class="salary-card-head">
+          <span class="salary-card-title">👥 Staff Commission</span>
+          <span style="font-size:9px;color:var(--muted);font-family:'Share Tech Mono',monospace;" id="salaryOwnerNote"></span>
+        </div>
+        <div class="salary-card-body" id="salaryStaffList"><div style="color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:11px;">Loading...</div></div>
+      </div>
+      <div class="chart-card" style="margin-bottom:16px;">
+        <div class="chart-head"><span class="chart-title">📈 Live Salary Accrual — This Week (daily)</span><span class="chart-sub" id="salaryChartSub">Unpaid revenue only</span></div>
+        <div class="chart-body"><canvas id="chartSalaryWeek"></canvas></div>
+      </div>
+      <div class="admin-table-wrap">
+        <div class="admin-table-head"><span class="admin-table-title">Payment History</span></div>
+        <table><thead><tr><th>Week</th><th>Staff</th><th>Revenue</th><th>%</th><th>Salary</th><th>Paid By</th><th>Date</th></tr></thead><tbody id="salaryHistoryTable"></tbody></table>
+      </div>
+    </div>
     <!-- ORDERS -->
     <div class="atab-pane" id="pane-orders">
       <div class="admin-table-wrap">
@@ -746,6 +839,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
         <div class="acard-body">
           <div class="aform-grid">
             <div class="aform-field"><label>Item Name</label><input type="text" id="ni-name" placeholder="e.g. Spoiler"></div>
+            <div class="aform-field"><label>Emoji</label><input type="text" id="ni-emoji" placeholder="e.g. 🏁" maxlength="4"><div class="field-hint">Single emoji shown next to item name</div></div>
             <div class="aform-field"><label>Price ($)</label><input type="number" id="ni-price" placeholder="1500" min="0"></div>
             <div class="aform-field"><label>Category</label><select id="ni-cat"></select></div>
             <div class="aform-field"><label>Max Level <span style="color:var(--border)">(optional)</span></label><input type="number" id="ni-maxlvl" placeholder="e.g. 3" min="1"><div class="field-hint">Only for levelled items</div></div>
@@ -778,19 +872,38 @@ tr:hover td{background:rgba(255,255,255,.02);}
     </div>
     <!-- PRESETS ADMIN -->
     <div class="atab-pane" id="pane-presets">
+      <!-- TAG MANAGEMENT -->
+      <div class="acard" style="margin-bottom:16px;">
+        <div class="acard-head"><span class="acard-icon">🏷️</span><div><div class="acard-title">Manage Preset Tags</div><div class="acard-sub">Create, rename or delete tags used to categorise presets</div></div></div>
+        <div class="acard-body">
+          <div style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;margin-bottom:12px;">
+            <div class="aform-field" style="flex:1;min-width:140px;"><label>New Tag Name</label><input type="text" id="nt-name" placeholder="e.g. Weekend" maxlength="24"></div>
+            <div class="aform-field" style="min-width:120px;"><label>Tag Colour</label>
+              <div class="tag-color-picker" id="ntColorPicker">
+                <span class="tag-color-swatch selected" data-color="#43b581" style="background:#43b581;" title="Green"></span>
+                <span class="tag-color-swatch" data-color="#e05252" style="background:#e05252;" title="Red"></span>
+                <span class="tag-color-swatch" data-color="#f5a623" style="background:#f5a623;" title="Orange"></span>
+                <span class="tag-color-swatch" data-color="#7289da" style="background:#7289da;" title="Indigo"></span>
+                <span class="tag-color-swatch" data-color="#f5c842" style="background:#f5c842;" title="Gold"></span>
+                <span class="tag-color-swatch" data-color="#e63950" style="background:#e63950;" title="Red-pink"></span>
+                <span class="tag-color-swatch" data-color="#5dade2" style="background:#5dade2;" title="Sky"></span>
+                <span class="tag-color-swatch" data-color="#a29bfe" style="background:#a29bfe;" title="Purple"></span>
+              </div>
+            </div>
+            <button class="aform-submit" style="flex-shrink:0;" onclick="createPresetTag()">➕ Add Tag</button>
+          </div>
+          <div class="admin-table-wrap">
+            <table><thead><tr><th>Tag</th><th>Presets Using</th><th>Actions</th></tr></thead><tbody id="tagsAdminTable"></tbody></table>
+          </div>
+        </div>
+      </div>
       <div class="acard">
         <div class="acard-head"><span class="acard-icon">📢</span><div><div class="acard-title">Add Advertisement Preset</div><div class="acard-sub">All presets are stored in MongoDB — no hardcoded text</div></div></div>
         <div class="acard-body">
           <div class="aform-field"><label>Preset Text</label><textarea id="np-text" rows="5" placeholder="Type your advertisement text here...&#10;&#10;e.g. 🚗 Benny's MotorWorks is now OPEN!&#10;📍 Postal 9038 | Message us on Services App"></textarea></div>
           <div class="aform-field">
             <label>Tags</label>
-            <div class="tag-checkbox-group" id="npTagGroup">
-              <label class="tag-cb" data-tag="Opening"><input type="checkbox" value="Opening"> Opening</label>
-              <label class="tag-cb" data-tag="Closing"><input type="checkbox" value="Closing"> Closing</label>
-              <label class="tag-cb" data-tag="Repair"><input type="checkbox" value="Repair"> Repair</label>
-              <label class="tag-cb" data-tag="Tow"><input type="checkbox" value="Tow"> Tow</label>
-              <label class="tag-cb" data-tag="Offers"><input type="checkbox" value="Offers"> Offers</label>
-            </div>
+            <div class="tag-checkbox-group" id="npTagGroup"></div>
           </div>
           <div class="aform-actions"><button class="aform-submit" onclick="createPreset()">➕ Add Preset</button></div>
         </div>
@@ -806,7 +919,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
 <!-- STAFF ANALYTICS SCREEN -->
 <div class="screen" id="analyticsScreen">
   <div class="header">
-    <div><div class="header-tag">📈 My Analytics v2.3.2</div><h1>Benny's <span>MotorWorks</span></h1></div>
+    <div><div class="header-tag">📈 My Analytics v2.3.3</div><h1>Benny's <span>MotorWorks</span></h1></div>
     <div class="header-sub">Your Performance</div>
     <div class="header-btns">
       <span class="user-badge" id="analyticsUserBadge"></span>
@@ -916,6 +1029,9 @@ function getRoleLabel(role) {
 
 async function afterLogin() {
   scheduleTokenRefresh();
+  await loadPresetTags();
+  renderDynamicTagStyle();
+  rebuildNpTagGroup();
   await loadItems();
   // FIX 3: Set staff display name from login, no input field
   const staffName = currentUser.displayName || currentUser.username;
@@ -1000,7 +1116,7 @@ async function loadItems() {
     Object.keys(grouped).forEach(cat => {
       if (!categoryMeta[cat]) categoryMeta[cat] = { label: cat, type: 'simple' };
       if (!data[cat]) data[cat] = [];
-      data[cat] = (grouped[cat] || []).map(i => ({ name: i.name, price: i.price, maxLvl: i.maxLvl || null, _id: i.id }));
+      data[cat] = (grouped[cat] || []).map(i => ({ name: i.name, price: i.price, maxLvl: i.maxLvl || null, emoji: i.emoji || '🔹', _id: i.id }));
     });
     // Build SECTIONS dynamically from categoryMeta
     buildSections();
@@ -1071,7 +1187,7 @@ function getDefaultLayout() {
   return [col0, col1, col2];
 }
 
-const LAYOUT_VERSION = '2.3.2';
+const LAYOUT_VERSION = '2.3.3';
 if (localStorage.getItem('bmw-layout-version') !== LAYOUT_VERSION) { localStorage.removeItem('bmw-layout'); localStorage.removeItem('bmw-col-widths'); localStorage.setItem('bmw-layout-version', LAYOUT_VERSION); }
 let currentLayout = null; // will be set after buildSections
 let layoutMode = false, dragSrc = null, layoutSnapshot = null;
@@ -1114,7 +1230,7 @@ function chLvl(cat, i, d, max) { event.stopPropagation(); if (!sel[cat]) sel[cat
 function updLvl(cat, i) { const v = (sel[cat] || {})[i] || 0, item = (data[cat] || [])[i]; if (!item) return; const div = document.getElementById(`${cat}-${i}`), ld = document.getElementById(`ld-${cat}-${i}`), lt = document.getElementById(`lt-${cat}-${i}`); if (!div || !ld || !lt) return; div.classList.toggle('on', v > 0); ld.textContent = v > 0 ? `LVL ${v}` : 'OFF'; lt.textContent = v > 0 ? `$${fmt(item.price * v)}` : ''; }
 
 // ─── CUSTOM ITEMS ───
-function renderCustomSection(container) { container.innerHTML = `<div class="custom-item-row"><input class="ci-name-input" type="text" id="ci-name" placeholder="Item name..."/><input class="ci-price-input" type="number" id="ci-price" placeholder="$0" min="0"/><button class="custom-add-btn" onclick="addCustomItem()" title="Add item">+</button></div><div class="custom-item-list" id="ci-list"></div>`; renderCustomList(); }
+function renderCustomSection(container) { container.innerHTML = `<div style="display:flex;gap:5px;margin-bottom:3px;"><span style="flex:1;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-family:'Share Tech Mono',monospace;">Item Name</span><span style="width:72px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-family:'Share Tech Mono',monospace;">Price $</span><span style="width:30px;"></span></div><div class="custom-item-row"><input class="ci-name-input" type="text" id="ci-name" placeholder="e.g. Extra work..." autocomplete="off"/><input class="ci-price-input" type="number" id="ci-price" placeholder="0" min="0"/><button class="custom-add-btn" onclick="addCustomItem()" title="Add item">+</button></div><div class="custom-item-list" id="ci-list"></div>`; renderCustomList(); }
 function renderCustomList() { const list = document.getElementById('ci-list'); if (!list) return; list.innerHTML = ''; customItems.forEach((item, i) => { const div = document.createElement('div'); div.className = 'custom-item-entry'; div.innerHTML = `<span title="${item.name}">${item.name}</span><span class="ci-price">$${fmt(item.price)}</span><button class="ci-del" onclick="removeCustomItem(${i})">×</button>`; list.appendChild(div); }); }
 function addCustomItem() { const name = document.getElementById('ci-name')?.value?.trim(); const price = parseInt(document.getElementById('ci-price')?.value) || 0; if (!name || price <= 0) return; customItems.push({ name, price }); document.getElementById('ci-name').value = ''; document.getElementById('ci-price').value = ''; renderCustomList(); update(); }
 function removeCustomItem(i) { customItems.splice(i, 1); renderCustomList(); update(); }
@@ -1278,45 +1394,16 @@ const collapsedSections = new Set(JSON.parse(localStorage.getItem('bmw-collapsed
 function toggleCollapse(secId, card) { const body = card.querySelector('.section-card-body'); if (collapsedSections.has(secId)) { collapsedSections.delete(secId); card.classList.remove('collapsed'); body.style.maxHeight = '0px'; void body.offsetHeight; body.style.maxHeight = body.scrollHeight + 'px'; body.addEventListener('transitionend', () => { if (!card.classList.contains('collapsed')) body.style.maxHeight = 'none'; }, { once: true }); } else { collapsedSections.add(secId); body.style.maxHeight = body.scrollHeight + 'px'; void body.offsetHeight; card.classList.add('collapsed'); body.style.maxHeight = '0px'; } localStorage.setItem('bmw-collapsed', JSON.stringify([...collapsedSections])); }
 
 // ─── RENDER HELPERS ───
-// ─── ITEM EMOJI MAP ───
-const ITEM_EMOJIS = {
-  // Body
-  'roof': '🏠', 'hood': '🔼', 'front bumper': '🛡️', 'rear bumper': '🔙',
-  'skirt': '📐', 'frame': '🔲', 'fender': '🔧', 'spoiler': '🏁',
-  // Parts
-  'exhaust': '💨', 'window tint': '🕶️', 'headlights': '💡', 'underglow': '🌈',
-  'tyre smokes': '💨', 'license plate': '🪪', 'horn': '📯',
-  // Paints
-  'paint: primary': '🎨', 'paint: secondary': '🖌️', 'paint: pearlascent': '✨',
-  'paint: wheels': '🛞', 'livery': '🎭', 'interior paint': '🪑', 'dashboard': '📊',
-  // Matt Finish
-  'matt finish: primary': '🖤', 'matt finish: secondary': '⬛',
-  // Wheels
-  'sport': '🏎️', 'muscle': '💪', 'lowrider': '⬇️', 'suv': '🚙',
-  'offroad': '🏔️', 'tuner': '⚡', 'bike': '🏍️', 'high end': '👑',
-  // Performance
-  'engine': '🔥', 'transmission': '⚙️', 'brake': '🛑', 'suspension': '🌀',
-  // Security
-  'car security': '🔒',
-  // Repairs
-  'free repair': '🆓', 'repair': '🔧', 'tow service': '🚛', 'full package': '📦',
-};
-
-function getItemEmoji(name) {
-  const key = name.toLowerCase().trim();
-  if (ITEM_EMOJIS[key]) return ITEM_EMOJIS[key];
-  // Partial match fallback
-  for (const [k, v] of Object.entries(ITEM_EMOJIS)) {
-    if (key.includes(k) || k.includes(key)) return v;
-  }
-  return '🔹';
+// Emojis are now stored directly on item.emoji in MongoDB (set via admin Items tab)
+function getItemEmoji(item) {
+  return item.emoji || '🔹';
 }
 
 function renderSimpleInto(container, items, cat) {
   if (!sel[cat] || !(sel[cat] instanceof Set)) sel[cat] = new Set();
   items.forEach((item, i) => {
     const b = document.createElement('button'); b.className = 'item-btn';
-    b.innerHTML = `<span>${getItemEmoji(item.name)} ${item.name}</span><span class="p">$${fmt(item.price)}</span>`;
+    b.innerHTML = `<span>${getItemEmoji(item)} ${item.name}</span><span class="p">$${fmt(item.price)}</span>`;
     b.draggable = false;
     b.addEventListener('dragstart', e => { if (!layoutMode) { e.preventDefault(); return; } e.stopPropagation(); e.dataTransfer.setData('item-drag', JSON.stringify({ cat, idx: i })); e.dataTransfer.effectAllowed = 'move'; setTimeout(() => b.classList.add('dragging'), 0); });
     b.addEventListener('dragend', () => b.classList.remove('dragging'));
@@ -1340,7 +1427,7 @@ function renderLevelInto(container, items, cat) {
   items.forEach((item, i) => {
     sel[cat][i] = sel[cat][i] || 0;
     const d = document.createElement('div'); d.className = 'lvl-item'; d.id = `${cat}-${i}`;
-    d.innerHTML = `<div class="lvl-top" onclick="if(!layoutMode){toggleLvl('${cat}',${i})}"><span class="lvl-name">${getItemEmoji(item.name)} ${item.name}</span><span class="lvl-ptag">$${fmt(item.price)}/lvl</span></div><div class="lvl-ctrl"><button class="lb" onclick="if(!layoutMode){chLvl('${cat}',${i},-1,${item.maxLvl||1})}">−</button><span class="lvl-d" id="ld-${cat}-${i}">OFF</span><button class="lb" onclick="if(!layoutMode){chLvl('${cat}',${i},1,${item.maxLvl||1})}">+</button><span class="lvl-t" id="lt-${cat}-${i}"></span></div>`;
+    d.innerHTML = `<div class="lvl-top" onclick="if(!layoutMode){toggleLvl('${cat}',${i})}"><span class="lvl-name">${getItemEmoji(item)} ${item.name}</span><span class="lvl-ptag">$${fmt(item.price)}/lvl</span></div><div class="lvl-ctrl"><button class="lb" onclick="if(!layoutMode){chLvl('${cat}',${i},-1,${item.maxLvl||1})}">−</button><span class="lvl-d" id="ld-${cat}-${i}">OFF</span><button class="lb" onclick="if(!layoutMode){chLvl('${cat}',${i},1,${item.maxLvl||1})}">+</button><span class="lvl-t" id="lt-${cat}-${i}"></span></div>`;
     container.appendChild(d);
     if (sel[cat][i] > 0) updLvl(cat, i);
   });
@@ -1461,16 +1548,439 @@ function applyDefaultColWidths() {
   });
 }
 
-// ─── PRESETS — FIX 4+6: All from MongoDB, usage/last-used tracked in backend ───
+// ─── PRESET TAGS — dynamic, loaded from API or fallback ───
+let ALL_TAGS = ['Opening','Closing','Repair','Tow','Offers'];
+let tagColors = { Opening:'#43b581', Closing:'#e05252', Repair:'#f5a623', Tow:'#7289da', Offers:'#f5c842' };
+let selectedTagColor = '#43b581';
 let dbPresets = [], activeTagFilter = 'All';
-const ALL_TAGS = ['Opening','Closing','Repair','Tow','Offers'];
+
+async function loadPresetTags() {
+  try {
+    const tags = await api('GET', '/api/preset-tags');
+    if (Array.isArray(tags) && tags.length) {
+      ALL_TAGS = tags.map(t => t.name || t);
+      tagColors = {};
+      tags.forEach(t => { tagColors[t.name||t] = t.color || '#777'; });
+    }
+  } catch {
+    // fallback defaults already set
+  }
+}
+
+function getTagStyle(tag) {
+  const c = tagColors[tag] || '#777';
+  const hex2rgba = (h, a) => { const r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16); return `rgba(${r},${g},${b},${a})`; };
+  return `color:${c};border-color:${hex2rgba(c,.4)};background:${hex2rgba(c,.08)};`;
+}
+
+function renderDynamicTagStyle() {
+  let css = '';
+  ALL_TAGS.forEach(tag => {
+    const c = tagColors[tag] || '#777';
+    const hex2rgba = (h, a) => { try { const r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16); return `rgba(${r},${g},${b},${a})`; } catch { return 'rgba(128,128,128,'+a+')'; } };
+    css += `.ptag-${tag.replace(/\s+/g,'-')}{color:${c};border-color:${hex2rgba(c,.4)};background:${hex2rgba(c,.08)};}\n`;
+    css += `.tag-filter-btn.active-${tag.replace(/\s+/g,'-')}{color:${c};border-color:${c};background:${hex2rgba(c,.1)};}\n`;
+    css += `.tag-cb.checked-${tag.replace(/\s+/g,'-')}{color:${c};border-color:${hex2rgba(c,.5)};background:${hex2rgba(c,.1)};}\n`;
+  });
+  let styleEl = document.getElementById('dynamicTagStyles');
+  if (!styleEl) { styleEl = document.createElement('style'); styleEl.id = 'dynamicTagStyles'; document.head.appendChild(styleEl); }
+  styleEl.textContent = css;
+}
+
+function rebuildNpTagGroup() {
+  const group = document.getElementById('npTagGroup'); if (!group) return;
+  group.innerHTML = ALL_TAGS.map(tag => `<label class="tag-cb" data-tag="${tag}"><input type="checkbox" value="${tag}"> ${tag}</label>`).join('');
+  group.querySelectorAll('.tag-cb').forEach(cb => {
+    const inp = cb.querySelector('input');
+    inp.addEventListener('change', () => {
+      const t = cb.dataset.tag;
+      if (inp.checked) cb.classList.add(`checked-${t.replace(/\s+/g,'-')}`);
+      else cb.classList.remove(`checked-${t.replace(/\s+/g,'-')}`);
+    });
+  });
+}
+
+// Tag admin
+async function loadTagsAdmin() {
+  const tbody = document.getElementById('tagsAdminTable'); if (!tbody) return;
+  await loadPresetTags();
+  renderDynamicTagStyle(); rebuildNpTagGroup();
+  let presetCounts = {};
+  try {
+    const ps = await api('GET', '/api/presets');
+    ps.forEach(p => (p.tags||[]).forEach(t => { presetCounts[t] = (presetCounts[t]||0) + 1; }));
+  } catch {}
+  const c = tagColors;
+  tbody.innerHTML = ALL_TAGS.map(tag => {
+    const col = c[tag] || '#777';
+    return `<tr>
+      <td><span class="ptag" style="${getTagStyle(tag)}">${tag}</span></td>
+      <td style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">${presetCounts[tag]||0} preset${(presetCounts[tag]||0)!==1?'s':''}</td>
+      <td style="display:flex;gap:5px;">
+        <button class="act-btn" onclick="renamePresetTag('${tag}')">Rename</button>
+        <button class="act-btn danger" onclick="deletePresetTag('${tag}')">Delete</button>
+      </td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="3" style="color:var(--muted);text-align:center">No tags yet</td></tr>';
+}
+
+// ─── COLOR SWATCH PICKER INIT ───
+(function initColorSwatches() {
+  document.querySelectorAll('.tag-color-swatch').forEach(sw => {
+    sw.addEventListener('click', () => {
+      document.querySelectorAll('.tag-color-swatch').forEach(s => s.classList.remove('selected'));
+      sw.classList.add('selected');
+      selectedTagColor = sw.dataset.color;
+    });
+  });
+})();
+
+async function createPresetTag() {
+  const name = document.getElementById('nt-name').value.trim();
+  if (!name) { showToast('Tag name required', 'error'); return; }
+  if (ALL_TAGS.includes(name)) { showToast(`Tag "${name}" already exists`, 'error'); return; }
+  setLoading(true);
+  try {
+    try { await api('POST', '/api/preset-tags', { name, color: selectedTagColor }); } catch {}
+    ALL_TAGS.push(name);
+    tagColors[name] = selectedTagColor;
+    renderDynamicTagStyle(); rebuildNpTagGroup();
+    document.getElementById('nt-name').value = '';
+    showToast(`Tag "${name}" created!`, 'success');
+    loadTagsAdmin();
+  } catch(err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
+
+async function renamePresetTag(oldName) {
+  const newName = await imodalPrompt({ title: 'Rename Tag', sub: `Current: "${oldName}"`, label: 'New Tag Name', placeholder: oldName, defaultVal: oldName, btnLabel: 'Rename', btnClass: 'success' });
+  if (!newName || newName === oldName) return;
+  setLoading(true);
+  try {
+    try { await api('PATCH', `/api/preset-tags/${encodeURIComponent(oldName)}`, { name: newName }); } catch {}
+    const idx = ALL_TAGS.indexOf(oldName);
+    if (idx >= 0) ALL_TAGS[idx] = newName;
+    tagColors[newName] = tagColors[oldName]; delete tagColors[oldName];
+    renderDynamicTagStyle(); rebuildNpTagGroup();
+    showToast(`Tag renamed to "${newName}"`, 'success');
+    loadTagsAdmin();
+    if (activeTagFilter === oldName) { activeTagFilter = 'All'; }
+  } catch(err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
+
+async function deletePresetTag(tag) {
+  const ok = await imodalConfirm({ title: `Delete tag "${tag}"?`, sub: 'This will remove the tag from all presets.', btnLabel: 'Delete Tag', btnClass: 'primary' });
+  if (!ok) return;
+  setLoading(true);
+  try {
+    try { await api('DELETE', `/api/preset-tags/${encodeURIComponent(tag)}`); } catch {}
+    ALL_TAGS = ALL_TAGS.filter(t => t !== tag);
+    delete tagColors[tag];
+    renderDynamicTagStyle(); rebuildNpTagGroup();
+    showToast(`Tag "${tag}" deleted`, 'success');
+    loadTagsAdmin();
+    if (activeTagFilter === tag) activeTagFilter = 'All';
+  } catch(err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
+
+// ─── SALARY SYSTEM ───
+let salaryWeekOffset = 0; // 0 = current week, -1 = last week, etc.
+let salaryData = null; // cache for current view
+let salaryPercentages = {}; // staffId → pct (owned set per session, synced to backend)
+
+function getSalaryWeekBounds(offset = 0) {
+  const now = new Date();
+  // Week starts Monday
+  const day = now.getDay(); // 0=Sun,1=Mon,...
+  const diffToMon = (day === 0 ? -6 : 1 - day);
+  const mon = new Date(now);
+  mon.setDate(now.getDate() + diffToMon + offset * 7);
+  mon.setHours(0,0,0,0);
+  const sun = new Date(mon);
+  sun.setDate(mon.getDate() + 6);
+  sun.setHours(23,59,59,999);
+  return { start: mon, end: sun };
+}
+
+function salaryWeekLabel(offset) {
+  const { start, end } = getSalaryWeekBounds(offset);
+  const fmt2 = d => d.toLocaleDateString('en-GB', { day:'2-digit', month:'short' });
+  if (offset === 0) return `This Week (${fmt2(start)} – ${fmt2(end)})`;
+  if (offset === -1) return `Last Week (${fmt2(start)} – ${fmt2(end)})`;
+  return `${fmt2(start)} – ${fmt2(end)}`;
+}
+
+function salaryNavWeek(dir) {
+  salaryWeekOffset = Math.min(0, salaryWeekOffset + dir);
+  document.getElementById('salaryNextBtn').disabled = salaryWeekOffset >= 0;
+  loadSalaryTab();
+}
+
+async function loadSalaryTab() {
+  const isOwner = currentUser?.role === 'owner' || currentUser?.role === 'admin';
+  document.getElementById('salaryWeekLabel').textContent = salaryWeekLabel(salaryWeekOffset);
+  document.getElementById('salaryNextBtn').disabled = salaryWeekOffset >= 0;
+  const lbl = document.getElementById('salaryOwnerNote');
+  if (lbl) lbl.textContent = isOwner ? 'Owner — set percentages & mark as paid' : 'View only — contact owner to adjust commission';
+
+  const { start, end } = getSalaryWeekBounds(salaryWeekOffset);
+
+  try {
+    // Load orders for this week from admin endpoint
+    let allOrders = [];
+    try {
+      const d = await api('GET', '/api/admin/orders?limit=500&skip=0');
+      allOrders = d.orders || [];
+    } catch { allOrders = []; }
+
+    // Load salary payment records
+    let payments = [];
+    try { payments = await api('GET', '/api/salary/payments'); } catch { payments = []; }
+
+    // Load salary percentages per staff
+    let pctMap = {};
+    try { pctMap = await api('GET', '/api/salary/percentages'); } catch {}
+
+    // Load staff list
+    let staffList = [];
+    try { staffList = await api('GET', '/api/admin/staff'); } catch {}
+
+    // Filter orders for this week that are NOT already in a paid salary record
+    const paidOrderIds = new Set();
+    payments.forEach(p => { (p.orderIds||[]).forEach(id => paidOrderIds.add(id)); });
+
+    const weekOrders = allOrders.filter(o => {
+      const d = new Date(o.createdAt);
+      return d >= start && d <= end;
+    });
+
+    const unpaidWeekOrders = weekOrders.filter(o => !paidOrderIds.has(o._id||o.id));
+
+    // Group by staff
+    const staffRevMap = {}; // staffId → { name, revenue, orders, unpaidRevenue, unpaidOrders }
+    weekOrders.forEach(o => {
+      const sid = o.staffId || o.staffName;
+      if (!staffRevMap[sid]) staffRevMap[sid] = { name: o.staffName, revenue: 0, orders: 0, unpaidRevenue: 0, unpaidOrders: 0 };
+      staffRevMap[sid].revenue += o.total || 0;
+      staffRevMap[sid].orders++;
+    });
+    unpaidWeekOrders.forEach(o => {
+      const sid = o.staffId || o.staffName;
+      if (!staffRevMap[sid]) staffRevMap[sid] = { name: o.staffName, revenue: 0, orders: 0, unpaidRevenue: 0, unpaidOrders: 0 };
+      staffRevMap[sid].unpaidRevenue += o.total || 0;
+      staffRevMap[sid].unpaidOrders++;
+    });
+
+    // Total stats
+    const totalWeekRev = weekOrders.reduce((s,o) => s + (o.total||0), 0);
+    const totalWeekOrders = weekOrders.length;
+    document.getElementById('salWeekRev').textContent = '$' + fmt(totalWeekRev);
+    document.getElementById('salWeekOrders').textContent = totalWeekOrders;
+
+    // Render staff salary rows
+    const staffEntries = Object.entries(staffRevMap).filter(([,v]) => v.orders > 0);
+    // Check which staff were paid this week
+    const weekPaidStaff = new Set();
+    payments.filter(p => {
+      const d = new Date(p.weekStart);
+      return d >= start && d <= end;
+    }).forEach(p => weekPaidStaff.add(p.staffId||p.staffName));
+
+    let totalPayable = 0;
+
+    const salaryList = document.getElementById('salaryStaffList');
+    if (!staffEntries.length) {
+      salaryList.innerHTML = `<div style="color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:11px;">No orders found for this week.</div>`;
+      document.getElementById('salWeekPayable').textContent = '$0';
+    } else {
+      salaryList.innerHTML = '';
+      staffEntries.forEach(([sid, sd]) => {
+        const savedPct = pctMap[sid] !== undefined ? pctMap[sid] : (salaryPercentages[sid] !== undefined ? salaryPercentages[sid] : 10);
+        const pct = savedPct;
+        const salaryAmt = Math.round(sd.unpaidRevenue * pct / 100);
+        totalPayable += salaryAmt;
+        const isPaid = weekPaidStaff.has(sid);
+
+        const row = document.createElement('div');
+        row.className = 'salary-staff-row';
+        row.id = `sal-row-${sid}`;
+        row.innerHTML = `
+          <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:120px;">
+            <span style="font-size:18px;">🔧</span>
+            <div>
+              <div class="salary-staff-name">${sd.name}</div>
+              <div class="salary-staff-orders">${sd.orders} orders · $${fmt(sd.revenue)} total · <span style="color:var(--gold)">$${fmt(sd.unpaidRevenue)} unpaid</span></div>
+            </div>
+          </div>
+          <div class="salary-pct-wrap">
+            <span class="salary-pct-label">Commission %</span>
+            ${isOwner ? `<input class="salary-pct-input" type="number" id="sal-pct-${sid}" value="${pct}" min="0" max="100" step="0.5" ${isPaid?'disabled':''} onchange="onSalaryPctChange('${sid}',this.value)">` : `<span style="font-family:'Share Tech Mono',monospace;font-size:14px;color:var(--gold);font-weight:700;">${pct}%</span>`}
+          </div>
+          <div class="salary-amount">
+            <div class="salary-amount-val" id="sal-amt-${sid}">$${fmt(salaryAmt)}</div>
+            <div class="salary-amount-note">${isPaid ? '' : 'of unpaid rev'}</div>
+          </div>
+          ${isOwner ? (isPaid
+            ? `<span class="salary-paid-badge">✓ Paid</span>`
+            : `<button class="salary-pay-btn" id="sal-pay-${sid}" onclick="markSalaryPaid('${sid}','${sd.name}')">Mark Paid</button>`
+          ) : (isPaid ? `<span class="salary-paid-badge">✓ Paid</span>` : `<span style="font-size:9px;color:var(--muted);font-family:'Share Tech Mono',monospace;">Pending</span>`)}
+        `;
+        salaryList.appendChild(row);
+      });
+      document.getElementById('salWeekPayable').textContent = '$' + fmt(totalPayable);
+    }
+
+    // Build live salary accrual chart (this week only, by day, unpaid orders)
+    if (salaryWeekOffset === 0) {
+      const days = {};
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(start); d.setDate(start.getDate() + i);
+        if (d <= new Date()) days[d.toLocaleDateString('en-GB', { weekday:'short', day:'2-digit' })] = 0;
+      }
+      unpaidWeekOrders.forEach(o => {
+        const key = new Date(o.createdAt).toLocaleDateString('en-GB', { weekday:'short', day:'2-digit' });
+        if (days[key] !== undefined) days[key] += o.total||0;
+      });
+      // Accumulate
+      let running = 0;
+      const accum = Object.values(days).map(v => { running += v; return running; });
+      destroyChart('chartSalaryWeek');
+      const ctxSal = document.getElementById('chartSalaryWeek')?.getContext('2d');
+      if (ctxSal) {
+        chartInstances['chartSalaryWeek'] = new Chart(ctxSal, {
+          type: 'line',
+          data: {
+            labels: Object.keys(days),
+            datasets: [{
+              label: 'Unpaid Revenue',
+              data: accum,
+              borderColor: '#27ae60',
+              backgroundColor: 'rgba(39,174,96,.1)',
+              fill: true, tension: .3,
+              pointBackgroundColor: '#27ae60', pointRadius: 4
+            }]
+          },
+          options: { ...chartDefaults, scales: { ...chartDefaults.scales, y: { ...chartDefaults.scales.y, ticks: { ...chartDefaults.scales.y.ticks, callback: v => '$'+fmt(v) } } } }
+        });
+      }
+    } else {
+      destroyChart('chartSalaryWeek');
+      const ctxSal = document.getElementById('chartSalaryWeek')?.getContext('2d');
+      if (ctxSal) {
+        const days = {};
+        for (let i = 0; i < 7; i++) {
+          const d = new Date(start); d.setDate(start.getDate() + i);
+          days[d.toLocaleDateString('en-GB', { weekday:'short', day:'2-digit' })] = 0;
+        }
+        weekOrders.forEach(o => {
+          const key = new Date(o.createdAt).toLocaleDateString('en-GB', { weekday:'short', day:'2-digit' });
+          if (days[key] !== undefined) days[key] += o.total||0;
+        });
+        chartInstances['chartSalaryWeek'] = new Chart(ctxSal, {
+          type: 'bar',
+          data: { labels: Object.keys(days), datasets: [{ data: Object.values(days), backgroundColor: 'rgba(245,200,66,.5)', borderColor: '#f5c842', borderWidth: 1, borderRadius: 3 }] },
+          options: { ...chartDefaults, scales: { ...chartDefaults.scales, y: { ...chartDefaults.scales.y, ticks: { ...chartDefaults.scales.y.ticks, callback: v => '$'+fmt(v) } } } }
+        });
+      }
+    }
+
+    // Render payment history
+    const weekPayments = payments.filter(p => {
+      const d = new Date(p.weekStart);
+      return d >= start && d <= end;
+    });
+    const histPaid = weekPayments.sort((a,b) => new Date(b.paidAt)-new Date(a.paidAt));
+    document.getElementById('salaryHistoryTable').innerHTML = histPaid.length
+      ? histPaid.map(p => `<tr>
+          <td style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">${new Date(p.weekStart).toLocaleDateString('en-GB',{day:'2-digit',month:'short'})} – ${new Date(p.weekEnd).toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}</td>
+          <td style="font-weight:600">${p.staffName}</td>
+          <td style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">$${fmt(p.revenue)}</td>
+          <td style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--gold)">${p.percentage}%</td>
+          <td style="font-family:'Share Tech Mono',monospace;font-size:13px;color:var(--green);font-weight:700">$${fmt(p.salaryAmount)}</td>
+          <td style="font-size:11px;color:var(--muted)">${p.paidByName||'—'}</td>
+          <td style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">${new Date(p.paidAt).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</td>
+        </tr>`)
+        .join('')
+      : `<tr><td colspan="7" style="color:var(--muted);text-align:center;font-family:'Share Tech Mono',monospace;font-size:11px;">No payments recorded for this week</td></tr>`;
+
+  } catch(err) { showToast('Salary error: ' + err.message, 'error'); }
+}
+
+async function onSalaryPctChange(sid, val) {
+  salaryPercentages[sid] = parseFloat(val) || 0;
+  // Recalculate this staff's salary amount live
+  try { await api('POST', '/api/salary/percentages', { staffId: sid, percentage: salaryPercentages[sid] }); } catch {}
+  // Update displayed amount without full reload
+  const pctEl = document.getElementById(`sal-pct-${sid}`);
+  const amtEl = document.getElementById(`sal-amt-${sid}`);
+  if (!pctEl || !amtEl) return;
+  // Get revenue from the row text (crude but avoids full reload)
+  const rowText = document.getElementById(`sal-row-${sid}`)?.querySelector('.salary-staff-orders')?.textContent || '';
+  const unpaidMatch = rowText.match(/\$([0-9,]+)\s+unpaid/);
+  if (unpaidMatch) {
+    const unpaidRev = parseInt(unpaidMatch[1].replace(/,/g,'')) || 0;
+    amtEl.textContent = '$' + fmt(Math.round(unpaidRev * salaryPercentages[sid] / 100));
+  }
+  // Update payable total
+  let newTotal = 0;
+  document.querySelectorAll('[id^="sal-amt-"]').forEach(el => {
+    newTotal += parseInt(el.textContent.replace(/[$,]/g,'')) || 0;
+  });
+  document.getElementById('salWeekPayable').textContent = '$' + fmt(newTotal);
+}
+
+async function markSalaryPaid(sid, staffName) {
+  const { start, end } = getSalaryWeekBounds(salaryWeekOffset);
+  const pct = salaryPercentages[sid] !== undefined ? salaryPercentages[sid] : parseFloat(document.getElementById(`sal-pct-${sid}`)?.value || 10);
+  const amtText = document.getElementById(`sal-amt-${sid}`)?.textContent || '$0';
+  const salaryAmt = parseInt(amtText.replace(/[$,]/g,'')) || 0;
+
+  const ok = await imodalConfirm({
+    title: `Mark ${staffName} as Paid?`,
+    sub: `Salary: $${fmt(salaryAmt)} (${pct}% commission). This week's unpaid orders will be locked and won't count again.`,
+    btnLabel: 'Confirm Payment',
+    btnClass: 'success'
+  });
+  if (!ok) return;
+  setLoading(true);
+  try {
+    // Get unpaid orders for this staff this week
+    const d2 = await api('GET', '/api/admin/orders?limit=500&skip=0');
+    const allOrders = d2.orders || [];
+    let payments2 = [];
+    try { payments2 = await api('GET', '/api/salary/payments'); } catch {}
+    const paidOrderIds2 = new Set();
+    payments2.forEach(p => (p.orderIds||[]).forEach(id => paidOrderIds2.add(id)));
+    const weekOrders2 = allOrders.filter(o => {
+      const dd = new Date(o.createdAt);
+      return dd >= start && dd <= end && (o.staffId||o.staffName) === sid && !paidOrderIds2.has(o._id||o.id);
+    });
+    const orderIds = weekOrders2.map(o => o._id||o.id);
+    const revenue = weekOrders2.reduce((s,o) => s+(o.total||0), 0);
+    await api('POST', '/api/salary/payments', {
+      staffId: sid, staffName,
+      weekStart: start.toISOString(), weekEnd: end.toISOString(),
+      revenue, percentage: pct, salaryAmount: Math.round(revenue * pct / 100),
+      orderIds,
+      paidById: currentUser._id||currentUser.id, paidByName: currentUser.displayName||currentUser.username,
+      paidAt: new Date().toISOString()
+    });
+    showToast(`✓ ${staffName} marked as paid — $${fmt(Math.round(revenue*pct/100))}`, 'success');
+    loadSalaryTab();
+  } catch(err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
+
+// Patch switchAdminTab to handle new tabs
 
 async function loadDbPresets() {
   try { dbPresets = await api('GET', '/api/presets'); }
   catch { dbPresets = []; showToast('Could not load presets', 'error'); }
 }
 
-function openPresets() { document.getElementById('presetsModal').classList.add('show'); renderPresetsLoading(); loadDbPresets().then(renderPresets); }
+function openPresets() { document.getElementById('presetsModal').classList.add('show'); renderPresetsLoading(); Promise.all([loadPresetTags(), loadDbPresets()]).then(() => { renderDynamicTagStyle(); rebuildNpTagGroup(); renderPresets(); }); }
 function closePresets() { document.getElementById('presetsModal').classList.remove('show'); }
 
 function renderPresetsLoading() {
@@ -1480,9 +1990,19 @@ function renderPresetsLoading() {
 
 function buildTagFilterBar() {
   const bar = document.getElementById('tagFilterBar'); bar.innerHTML = '';
-  ['All',...ALL_TAGS].forEach(tag => {
-    const btn = document.createElement('button'); btn.className = 'tag-filter-btn' + (activeTagFilter === tag ? ' active' : '');
-    btn.textContent = tag; btn.onclick = () => { activeTagFilter = tag; renderPresets(); }; bar.appendChild(btn);
+  const allBtn = document.createElement('button'); allBtn.className = 'tag-filter-btn' + (activeTagFilter === 'All' ? ' active' : '');
+  allBtn.textContent = 'All'; allBtn.onclick = () => { activeTagFilter = 'All'; renderPresets(); }; bar.appendChild(allBtn);
+  ALL_TAGS.forEach(tag => {
+    const btn = document.createElement('button');
+    const isActive = activeTagFilter === tag;
+    btn.className = 'tag-filter-btn';
+    if (isActive) {
+      const c = tagColors[tag] || '#e63950';
+      btn.style.cssText = `color:${c};border-color:${c};background:${c}18;`;
+    }
+    btn.textContent = tag;
+    btn.onclick = () => { activeTagFilter = tag; renderPresets(); };
+    bar.appendChild(btn);
   });
 }
 
@@ -1501,7 +2021,7 @@ function renderPresets() {
   filtered.forEach(p => {
     const card = document.createElement('div'); card.className = 'preset-item';
     const tagsRow = document.createElement('div'); tagsRow.className = 'preset-item-tags';
-    (p.tags||[]).forEach(tag => { const span = document.createElement('span'); span.className = `ptag ptag-${tag}`; span.textContent = tag; tagsRow.appendChild(span); });
+    (p.tags||[]).forEach(tag => { const span = document.createElement('span'); span.className = `ptag`; span.style.cssText = getTagStyle(tag); span.textContent = tag; tagsRow.appendChild(span); });
     card.appendChild(tagsRow);
     const textDiv = document.createElement('div'); textDiv.className = 'preset-text-area'; textDiv.textContent = p.text||''; card.appendChild(textDiv);
     const foot = document.createElement('div'); foot.className = 'preset-item-foot';
@@ -1542,17 +2062,7 @@ async function randomPreset() {
 
 document.getElementById('presetsModal').addEventListener('click', e => { if (e.target === document.getElementById('presetsModal')) closePresets(); });
 
-// ─── TAG CHECKBOX INIT ───
-// Use 'change' on the input (not 'click' on the label) to avoid double-toggle
-// Labels naturally trigger input change, so we just react to the change
-document.querySelectorAll('.tag-cb').forEach(cb => {
-  const inp = cb.querySelector('input');
-  inp.addEventListener('change', () => {
-    const tag = cb.dataset.tag;
-    if (inp.checked) cb.classList.add(`checked-${tag}`);
-    else cb.classList.remove(`checked-${tag}`);
-  });
-});
+// ─── TAG CHECKBOX INIT (now handled dynamically by rebuildNpTagGroup) ───
 
 // ─── CHART INSTANCES ───
 let chartInstances = {};
@@ -1573,10 +2083,11 @@ function switchAdminTab(tab) {
   document.getElementById(`pane-${tab}`).classList.add('active');
   if (tab === 'overview') loadDashboard();
   else if (tab === 'staff') loadAdminStaff();
+  else if (tab === 'salary') { salaryWeekOffset = 0; loadSalaryTab(); }
   else if (tab === 'orders') { ordersSkip = 0; loadAdminOrders(); }
   else if (tab === 'items') loadAdminItems();
   else if (tab === 'categories') loadAdminCategories();
-  else if (tab === 'presets') loadAdminPresets();
+  else if (tab === 'presets') { loadAdminPresets(); loadTagsAdmin(); }
 }
 
 let dashPeriod = 'week';
@@ -1656,7 +2167,7 @@ async function loadAdminItems() {
     ).join('');
   } catch(err) { showToast('Error: ' + err.message, 'error'); }
 }
-async function createItem() { const name=document.getElementById('ni-name').value.trim(),price=parseInt(document.getElementById('ni-price').value)||0,category=document.getElementById('ni-cat').value,maxLvl=parseInt(document.getElementById('ni-maxlvl').value)||null; if(!name||price<0){showToast('Name and price required','error');return;} setLoading(true); try{await api('POST','/api/items',{name,price,category,maxLvl});showToast('Item added!','success');['ni-name','ni-price','ni-maxlvl'].forEach(id=>document.getElementById(id).value='');loadAdminItems();await loadItems();}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
+async function createItem() { const name=document.getElementById('ni-name').value.trim(),emoji=document.getElementById('ni-emoji').value.trim()||'🔹',price=parseInt(document.getElementById('ni-price').value)||0,category=document.getElementById('ni-cat').value,maxLvl=parseInt(document.getElementById('ni-maxlvl').value)||null; if(!name||price<0){showToast('Name and price required','error');return;} setLoading(true); try{await api('POST','/api/items',{name,emoji,price,category,maxLvl});showToast('Item added!','success');['ni-name','ni-emoji','ni-price','ni-maxlvl'].forEach(id=>document.getElementById(id).value='');loadAdminItems();await loadItems();}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
 async function toggleItem(id,active) { setLoading(true); try{await api('PATCH',`/api/items/${id}`,{isActive:active});showToast(active?'Item shown':'Item hidden','success');loadAdminItems();await loadItems();}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
 
 // CATEGORY MANAGEMENT
@@ -1708,7 +2219,7 @@ async function loadAdminPresets() {
     document.getElementById('presetsAdminTable').innerHTML = ps.map(p =>
       `<tr>
         <td style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.text?.substring(0,80)}...</td>
-        <td>${(p.tags||[]).map(t=>`<span class="ptag ptag-${t}">${t}</span>`).join(' ')}</td>
+        <td>${(p.tags||[]).map(t=>`<span class="ptag" style="${getTagStyle(t)}">${t}</span>`).join(' ')}</td>
         <td style="font-family:'Share Tech Mono',monospace;font-size:11px">${p.usageCount||0}</td>
         <td style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">${p.lastUsedAt?fmtLastUsed(p.lastUsedAt):'—'}</td>
         <td><button class="act-btn danger" onclick="deleteDbPreset('${p._id}')">Delete</button></td>
