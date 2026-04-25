@@ -413,6 +413,32 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .load-more-btn{background:var(--bg2);border:1px solid var(--border);border-radius:4px;color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:8px 24px;cursor:pointer;transition:all .15s;}
 .load-more-btn:hover{border-color:var(--accent);color:var(--accent);}
 
+/* ── INLINE MODAL (replaces all prompt/confirm dialogs) ── */
+#inlineModal{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:99990;display:none;align-items:center;justify-content:center;}
+#inlineModal.show{display:flex;}
+.imodal-box{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:28px 28px 22px;width:420px;max-width:94vw;display:flex;flex-direction:column;gap:16px;box-shadow:0 20px 60px rgba(0,0,0,.6);}
+.imodal-title{font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text);}
+.imodal-sub{font-size:12px;color:var(--muted);font-family:'Share Tech Mono',monospace;margin-top:-8px;}
+.imodal-field{display:flex;flex-direction:column;gap:6px;}
+.imodal-field label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-family:'Share Tech Mono',monospace;}
+.imodal-field input,.imodal-field select,.imodal-field textarea{background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;padding:8px 11px;outline:none;transition:border-color .2s;width:100%;}
+.imodal-field input:focus,.imodal-field select:focus,.imodal-field textarea:focus{border-color:var(--accent);}
+.imodal-err{font-size:11px;color:var(--accent);font-family:'Share Tech Mono',monospace;min-height:14px;}
+.imodal-actions{display:flex;gap:8px;justify-content:flex-end;}
+.imodal-btn{border:none;border-radius:4px;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:9px 20px;cursor:pointer;transition:all .15s;}
+.imodal-btn.primary{background:var(--accent);color:white;}
+.imodal-btn.primary:hover{background:#ff4d63;}
+.imodal-btn.success{background:var(--green);color:white;}
+.imodal-btn.success:hover{background:#219a52;}
+.imodal-btn.cancel{background:transparent;border:1px solid var(--border);color:var(--muted);}
+.imodal-btn.cancel:hover{border-color:var(--muted);color:var(--text);}
+.imodal-role-list{display:flex;flex-direction:column;gap:6px;}
+.imodal-role-item{display:flex;align-items:center;gap:10px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:8px 12px;cursor:pointer;transition:all .12s;}
+.imodal-role-item:hover{border-color:var(--accent);}
+.imodal-role-item.selected{border-color:var(--accent);background:rgba(230,57,80,.1);}
+.imodal-role-item .role-name{font-size:13px;font-weight:600;color:var(--text);flex:1;}
+.imodal-role-item .role-hint{font-size:10px;color:var(--muted);font-family:'Share Tech Mono',monospace;}
+
 /* MOBILE */
 @media (max-width:700px){
   body{overflow:auto;height:auto;min-height:100vh;}
@@ -458,6 +484,8 @@ tr:hover td{background:rgba(255,255,255,.02);}
 <div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div></div>
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
+<!-- INLINE MODAL (replaces all browser prompt/confirm) -->
+<div id="inlineModal"><div class="imodal-box" id="imodalBox"></div></div>
 <!-- FIX 2: Welcome overlay — covers everything including login screen during transition -->
 <div id="welcomeOverlay">
   <div class="welcome-name">Welcome, <span id="welcomeName">—</span></div>
@@ -469,7 +497,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
 <div class="screen active" id="loginScreen">
   <div class="login-wrap">
     <div class="login-brand">
-      <div class="header-tag">🔧 Staff Order System v2.3.0</div>
+      <div class="header-tag">🔧 Staff Order System v2.3.2</div>
       <h1>Benny's <span>MotorWorks</span></h1>
       <div class="lb-sub">Internal Staff Portal — Authorised Access Only</div>
     </div>
@@ -543,7 +571,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
 
   <div class="header">
     <div>
-      <div class="header-tag">🔧 Order System v2.3.0 By Jenni</div>
+      <div class="header-tag">🔧 Order System v2.3.2 By Jenni</div>
       <h1>Benny's <span>MotorWorks</span></h1>
     </div>
     <div class="header-sub">Staff Order Tool</div>
@@ -551,7 +579,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
       <span class="user-badge" id="userBadge"></span>
       <button class="hdr-btn" onclick="openPresets()">📋 Presets</button>
       <button class="hdr-btn layout-btn" id="settingsBtn" onclick="toggleLayoutMode()">⚙️ Layout</button>
-      <button class="hdr-btn" id="adminDashBtn" style="display:none" onclick="showAdmin()">📊 Dashboard</button>
+      <button class="hdr-btn" id="adminDashBtn" style="display:none">📊 Dashboard</button>
       <button class="hdr-btn danger" onclick="doLogout()">Sign Out</button>
     </div>
   </div>
@@ -634,7 +662,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
 <div class="screen" id="adminScreen">
   <div class="header">
     <div>
-      <div class="header-tag">📊 Admin Dashboard v2.3.0</div>
+      <div class="header-tag">📊 Admin Dashboard v2.3.2</div>
       <h1>Benny's <span>MotorWorks</span></h1>
     </div>
     <div class="header-sub">Admin Panel</div>
@@ -645,12 +673,12 @@ tr:hover td{background:rgba(255,255,255,.02);}
     </div>
   </div>
   <div class="admin-tabs">
-    <button class="atab active" onclick="switchAdminTab('overview')">📊 Overview</button>
-    <button class="atab" onclick="switchAdminTab('staff')">👥 Staff</button>
-    <button class="atab" onclick="switchAdminTab('orders')">📋 Orders</button>
-    <button class="atab" onclick="switchAdminTab('items')">🔩 Items</button>
-    <button class="atab" onclick="switchAdminTab('categories')">📂 Categories</button>
-    <button class="atab" onclick="switchAdminTab('presets')">📢 Presets</button>
+    <button class="atab active" data-tab="overview" onclick="switchAdminTab('overview')">📊 Overview</button>
+    <button class="atab" data-tab="staff" onclick="switchAdminTab('staff')">👥 Staff</button>
+    <button class="atab" data-tab="orders" onclick="switchAdminTab('orders')">📋 Orders</button>
+    <button class="atab" data-tab="items" onclick="switchAdminTab('items')">🔩 Items</button>
+    <button class="atab" data-tab="categories" onclick="switchAdminTab('categories')">📂 Categories</button>
+    <button class="atab" data-tab="presets" onclick="switchAdminTab('presets')">📢 Presets</button>
   </div>
   <div class="admin-body">
     <!-- OVERVIEW -->
@@ -778,7 +806,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
 <!-- STAFF ANALYTICS SCREEN -->
 <div class="screen" id="analyticsScreen">
   <div class="header">
-    <div><div class="header-tag">📈 My Analytics v2.3.0</div><h1>Benny's <span>MotorWorks</span></h1></div>
+    <div><div class="header-tag">📈 My Analytics v2.3.2</div><h1>Benny's <span>MotorWorks</span></h1></div>
     <div class="header-sub">Your Performance</div>
     <div class="header-btns">
       <span class="user-badge" id="analyticsUserBadge"></span>
@@ -922,9 +950,21 @@ async function doChangePassword() {
   finally { setLoading(false); }
 }
 
-async function doLogout() { clearTimeout(tokenRefreshTimer); try { await api('POST', '/api/auth/logout'); } catch {} authToken = null; currentUser = null; document.getElementById('loginUser').value = ''; document.getElementById('loginPass').value = ''; document.getElementById('loginErr').textContent = ''; document.getElementById('welcomeBarFill').style.width = '0'; showScreen('loginScreen'); }
+async function doLogout() {
+  clearTimeout(tokenRefreshTimer);
+  try { await api('POST', '/api/auth/logout'); } catch {}
+  authToken = null; currentUser = null;
+  // Reset all order state so next user starts clean
+  sel = {}; customItems = []; discountAmount = 0; lastTotal = 0;
+  SECTIONS = []; categoryMeta = {}; data = {}; currentLayout = null; dbPresets = [];
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+  document.getElementById('loginErr').textContent = '';
+  document.getElementById('welcomeBarFill').style.width = '0';
+  showScreen('loginScreen');
+}
 function forceLogout() { showToast('Session expired. Please sign in again.', 'error'); setTimeout(doLogout, 1500); }
-function showAdmin() { loadDashboard(); showScreen('adminScreen'); }
+function showAdmin() { showScreen('adminScreen'); setChartPeriod(dashPeriod); }
 function showStaff() { showScreen('staffScreen'); }
 async function showStaffAnalytics() { showScreen('analyticsScreen'); await loadStaffAnalytics(); }
 
@@ -1031,20 +1071,20 @@ function getDefaultLayout() {
   return [col0, col1, col2];
 }
 
-const LAYOUT_VERSION = '2.3.0';
+const LAYOUT_VERSION = '2.3.2';
 if (localStorage.getItem('bmw-layout-version') !== LAYOUT_VERSION) { localStorage.removeItem('bmw-layout'); localStorage.removeItem('bmw-col-widths'); localStorage.setItem('bmw-layout-version', LAYOUT_VERSION); }
 let currentLayout = null; // will be set after buildSections
 let layoutMode = false, dragSrc = null, layoutSnapshot = null;
 
-const sel = {};
+let sel = {};
 let customItems = [], discountAmount = 0, lastTotal = 0;
 const fmt = n => Number(n).toLocaleString();
 
 function populateCatDropdowns() {
   const catKeys = Object.keys(categoryMeta);
-  ['ni-cat'].forEach(id => {
-    const sel = document.getElementById(id); if (!sel) return;
-    sel.innerHTML = catKeys.map(k => `<option value="${k}">${categoryMeta[k].label || k}</option>`).join('');
+  ['ni-cat'].forEach(elId => {
+    const el = document.getElementById(elId); if (!el) return;
+    el.innerHTML = catKeys.map(k => `<option value="${k}">${categoryMeta[k].label || k}</option>`).join('');
   });
 }
 
@@ -1225,9 +1265,12 @@ function closeMobilePanel() { document.getElementById('mobileRpanel').classList.
 // ─── KEYBOARD SHORTCUTS ───
 let kbdVisible = false;
 document.addEventListener('keydown', e => {
-  if (e.altKey && e.key === 'r') { e.preventDefault(); resetAll(); }
-  else if (e.altKey && e.key === 'p') { e.preventDefault(); openPresets(); }
+  const tag = document.activeElement?.tagName;
+  const isTyping = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
+  if (e.altKey && e.key === 'r' && !isTyping) { e.preventDefault(); resetAll(); }
+  else if (e.altKey && e.key === 'p' && !isTyping) { e.preventDefault(); openPresets(); }
   else if (e.altKey && e.key === '?') { e.preventDefault(); kbdVisible = !kbdVisible; document.getElementById('kbdHint').classList.toggle('show', kbdVisible); }
+  else if (e.key === 'Escape') { closeInlineModal(); }
 });
 
 // ─── COLLAPSIBLE ───
@@ -1332,7 +1375,7 @@ function renderLayout() {
   const used = new Set(currentLayout.flat());
   SECTIONS.forEach((_, i) => { if (!used.has(i)) currentLayout[2].push(i); });
   for (let c = 0; c < 3; c++) {
-    const drop = document.getElementById(`drop-${c}`); if (!drop) return;
+    const drop = document.getElementById(`drop-${c}`); if (!drop) continue;
     drop.innerHTML = '';
     currentLayout[c].forEach(secIdx => drop.appendChild(buildCard(secIdx)));
   }
@@ -1356,8 +1399,9 @@ function snapshotState() { layoutSnapshot = { layout: JSON.parse(JSON.stringify(
 function restoreSnapshot() { if (!layoutSnapshot) return; currentLayout = JSON.parse(JSON.stringify(layoutSnapshot.layout)); }
 function toggleLayoutMode() { layoutMode = !layoutMode; const btn = document.getElementById('settingsBtn'), banner = document.getElementById('layoutBanner'); if (layoutMode) { btn.classList.add('active'); btn.textContent = '✕ Cancel'; banner.style.display = 'flex'; snapshotState(); document.querySelector('.app').classList.add('layout-mode'); document.querySelectorAll('.section-card').forEach(c => c.draggable = true); document.querySelectorAll('.item-btn').forEach(b => b.draggable = true); setupDropTargets(); } else { btn.classList.remove('active'); btn.textContent = '⚙️ Layout'; banner.style.display = 'none'; document.querySelector('.app').classList.remove('layout-mode'); restoreSnapshot(); renderLayout(); setupDropTargets(); } }
 function saveLayout() { localStorage.setItem('bmw-layout', JSON.stringify(currentLayout)); localStorage.setItem('bmw-col-widths', JSON.stringify(getColWidths())); layoutMode = false; document.getElementById('settingsBtn').classList.remove('active'); document.getElementById('settingsBtn').textContent = '⚙️ Layout'; document.getElementById('layoutBanner').style.display = 'none'; document.querySelector('.app').classList.remove('layout-mode'); renderLayout(); setupDropTargets(); showToast('Layout saved!', 'success'); }
-function resetLayout() {
-  if (!confirm('Reset layout to default?')) return;
+async function resetLayout() {
+  const ok = await imodalConfirm({ title: 'Reset layout to default?', sub: 'Column positions and widths will be restored.', btnLabel: 'Reset Layout', btnClass: 'primary' });
+  if (!ok) return;
   localStorage.removeItem('bmw-layout');
   localStorage.removeItem('bmw-col-widths');
   // Clear any inline widths first
@@ -1499,11 +1543,14 @@ async function randomPreset() {
 document.getElementById('presetsModal').addEventListener('click', e => { if (e.target === document.getElementById('presetsModal')) closePresets(); });
 
 // ─── TAG CHECKBOX INIT ───
+// Use 'change' on the input (not 'click' on the label) to avoid double-toggle
+// Labels naturally trigger input change, so we just react to the change
 document.querySelectorAll('.tag-cb').forEach(cb => {
-  cb.addEventListener('click', () => {
-    const inp = cb.querySelector('input'); inp.checked = !inp.checked;
+  const inp = cb.querySelector('input');
+  inp.addEventListener('change', () => {
     const tag = cb.dataset.tag;
-    if (inp.checked) cb.classList.add(`checked-${tag}`); else cb.classList.remove(`checked-${tag}`);
+    if (inp.checked) cb.classList.add(`checked-${tag}`);
+    else cb.classList.remove(`checked-${tag}`);
   });
 });
 
@@ -1521,8 +1568,7 @@ const chartDefaults = {
 // ─── ADMIN ───
 let ordersSkip = 0, allOrdersTotal = 0;
 function switchAdminTab(tab) {
-  const tabs = ['overview','staff','orders','items','categories','presets'];
-  document.querySelectorAll('.atab').forEach((t,i) => t.classList.toggle('active', tabs[i] === tab));
+  document.querySelectorAll('.atab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
   document.querySelectorAll('.atab-pane').forEach(p => p.classList.remove('active'));
   document.getElementById(`pane-${tab}`).classList.add('active');
   if (tab === 'overview') loadDashboard();
@@ -1536,14 +1582,14 @@ function switchAdminTab(tab) {
 let dashPeriod = 'week';
 function setChartPeriod(p) {
   dashPeriod = p;
-  document.getElementById('periodWeekBtn').style.borderColor = p === 'week' ? 'var(--accent)' : 'var(--border)';
-  document.getElementById('periodWeekBtn').style.color = p === 'week' ? 'var(--accent)' : 'var(--muted)';
-  document.getElementById('periodMonthBtn').style.borderColor = p === 'month' ? 'var(--accent)' : 'var(--border)';
-  document.getElementById('periodMonthBtn').style.color = p === 'month' ? 'var(--accent)' : 'var(--muted)';
+  const wb = document.getElementById('periodWeekBtn');
+  const mb = document.getElementById('periodMonthBtn');
+  if (wb) { wb.style.borderColor = p === 'week' ? 'var(--accent)' : 'var(--border)'; wb.style.color = p === 'week' ? 'var(--accent)' : 'var(--muted)'; }
+  if (mb) { mb.style.borderColor = p === 'month' ? 'var(--accent)' : 'var(--border)'; mb.style.color = p === 'month' ? 'var(--accent)' : 'var(--muted)'; }
   const label = p === 'week' ? 'Week' : 'Month';
-  document.getElementById('chartRevenueTitle').textContent = `Revenue by Staff (${label})`;
-  document.getElementById('chartOrdersTitle').textContent = `Orders by Staff (${label})`;
-  document.getElementById('chartItemsTitle').textContent = `Top Items (${label})`;
+  const rt = document.getElementById('chartRevenueTitle'); if (rt) rt.textContent = `Revenue by Staff (${label})`;
+  const ot = document.getElementById('chartOrdersTitle'); if (ot) ot.textContent = `Orders by Staff (${label})`;
+  const it = document.getElementById('chartItemsTitle'); if (it) it.textContent = `Top Items (${label})`;
   loadDashboard();
 }
 
@@ -1577,24 +1623,6 @@ async function loadDashboard() {
   } catch(err) { showToast('Dashboard error: ' + err.message, 'error'); }
 }
 
-async function deleteOrder(id, context) {
-  if (!confirm('Delete this order? This cannot be undone.')) return;
-  setLoading(true);
-  try {
-    await api('DELETE', `/api/admin/orders/${id}`);
-    showToast('Order deleted', 'success');
-    // Remove the row from DOM immediately — no reload needed
-    const row = document.getElementById(`order-row-${id}`);
-    if (row) row.remove();
-    // If orders tab is active, also remove from there
-    const ordersRow = document.getElementById(`all-order-row-${id}`);
-    if (ordersRow) { ordersRow.remove(); allOrdersTotal = Math.max(0, allOrdersTotal - 1); document.getElementById('ordersTotal').textContent = `${allOrdersTotal} total`; }
-    // Update stat card
-    const todayEl = document.getElementById('st-today');
-    if (todayEl && context === 'recent') { const v = parseInt(todayEl.textContent) || 0; if (v > 0) todayEl.textContent = v - 1; }
-  } catch(err) { showToast('Error: ' + err.message, 'error'); }
-  finally { setLoading(false); }
-}
 
 async function loadAdminStaff() {
   try {
@@ -1605,23 +1633,7 @@ async function loadAdminStaff() {
   } catch(err) { showToast('Error: ' + err.message, 'error'); }
 }
 async function createStaff() { const username=document.getElementById('ns-user').value.trim(),displayName=document.getElementById('ns-display').value.trim(),password=document.getElementById('ns-pass').value,role=document.getElementById('ns-role').value; if(!username||!password){showToast('Username and password required','error');return;} setLoading(true); try{await api('POST','/api/admin/staff',{username,displayName,password,role});showToast(`Account created for ${username}`,'success');['ns-user','ns-display','ns-pass'].forEach(id=>document.getElementById(id).value='');loadAdminStaff();}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
-async function resetStaffPassword(id,username) { const newPw=prompt(`Reset password for ${username}:\nNew password (min 6 chars):`); if(!newPw)return; if(newPw.length<6){showToast('Password too short','error');return;} setLoading(true); try{await api('POST',`/api/admin/staff/${id}/reset-password`,{newPassword:newPw});showToast(`Password reset for ${username}`,'success');}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
 async function toggleStaffActive(id,active) { setLoading(true); try{await api('PATCH',`/api/admin/staff/${id}`,{isActive:active});showToast(active?'Account enabled':'Account disabled','success');loadAdminStaff();}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
-async function deleteStaff(id,username) { if(!confirm(`Permanently delete "${username}"?`))return; setLoading(true); try{await api('DELETE',`/api/admin/staff/${id}`);showToast(`${username} deleted`,'success');loadAdminStaff();}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
-async function changeStaffRole(id, username, currentRole) {
-  const roles = ['trainee','mechanic','senior_mechanic','manager','owner'];
-  const labels = roles.map(r => `${getRoleLabel(r)} ${r === currentRole ? '(current)' : ''}`);
-  const choice = prompt(`Change role for ${username}:\n\n${roles.map((r,i) => `${i+1}. ${labels[i]}`).join('\n')}\n\nEnter number (1-${roles.length}):`);
-  if (!choice) return;
-  const idx = parseInt(choice) - 1;
-  if (idx < 0 || idx >= roles.length) { showToast('Invalid selection', 'error'); return; }
-  const newRole = roles[idx];
-  if (newRole === currentRole) return;
-  setLoading(true);
-  try { await api('PATCH', `/api/admin/staff/${id}`, { role: newRole }); showToast(`${username} is now ${getRoleLabel(newRole)}`, 'success'); loadAdminStaff(); }
-  catch(err) { showToast('Error: ' + err.message, 'error'); }
-  finally { setLoading(false); }
-}
 
 async function loadAdminOrders(append = false) {
   try {
@@ -1645,11 +1657,9 @@ async function loadAdminItems() {
   } catch(err) { showToast('Error: ' + err.message, 'error'); }
 }
 async function createItem() { const name=document.getElementById('ni-name').value.trim(),price=parseInt(document.getElementById('ni-price').value)||0,category=document.getElementById('ni-cat').value,maxLvl=parseInt(document.getElementById('ni-maxlvl').value)||null; if(!name||price<0){showToast('Name and price required','error');return;} setLoading(true); try{await api('POST','/api/items',{name,price,category,maxLvl});showToast('Item added!','success');['ni-name','ni-price','ni-maxlvl'].forEach(id=>document.getElementById(id).value='');loadAdminItems();await loadItems();}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
-async function editItemPrice(id,name,cur) { const np=prompt(`Edit price for "${name}":\nCurrent: $${fmt(cur)}\nNew price:`); if(np===null)return; const price=parseInt(np); if(isNaN(price)||price<0){showToast('Invalid price','error');return;} setLoading(true); try{await api('PATCH',`/api/items/${id}`,{price});showToast('Price updated!','success');loadAdminItems();await loadItems();}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
 async function toggleItem(id,active) { setLoading(true); try{await api('PATCH',`/api/items/${id}`,{isActive:active});showToast(active?'Item shown':'Item hidden','success');loadAdminItems();await loadItems();}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
-async function deleteItem(id,name) { if(!confirm(`Permanently delete "${name}"?`))return; setLoading(true); try{await api('DELETE',`/api/items/${id}`);showToast(`${name} deleted`,'success');loadAdminItems();await loadItems();}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
 
-// FIX 8: CATEGORY MANAGEMENT
+// CATEGORY MANAGEMENT
 async function loadAdminCategories() {
   try {
     let cats;
@@ -1678,16 +1688,12 @@ async function createCategory() {
   if (categoryMeta[key]) { showToast(`Category "${key}" already exists`, 'error'); return; }
   setLoading(true);
   try {
-    // POST to backend if endpoint exists, otherwise update locally
-    try { await api('POST', '/api/categories', { key, label, type }); }
-    catch { /* backend may not have this endpoint yet — add locally */ }
+    try { await api('POST', '/api/categories', { key, label, type }); } catch {}
     categoryMeta[key] = { label, type };
     data[key] = [];
     sel[key] = type === 'level' ? {} : new Set();
-    buildSections();
-    currentLayout = getDefaultLayout();
-    renderLayout(); setupDropTargets();
-    populateCatDropdowns();
+    buildSections(); currentLayout = getDefaultLayout();
+    renderLayout(); setupDropTargets(); populateCatDropdowns();
     showToast(`Category "${label}" created!`, 'success');
     ['nc-key','nc-label'].forEach(id => document.getElementById(id).value = '');
     loadAdminCategories();
@@ -1695,36 +1701,7 @@ async function createCategory() {
   finally { setLoading(false); }
 }
 
-async function editCategoryLabel(key, currentLabel) {
-  const newLabel = prompt(`Rename category "${key}":\nNew label (can include emoji):`, currentLabel);
-  if (!newLabel || newLabel === currentLabel) return;
-  setLoading(true);
-  try {
-    try { await api('PATCH', `/api/categories/${key}`, { label: newLabel }); } catch {}
-    categoryMeta[key].label = newLabel;
-    buildSections(); currentLayout = getDefaultLayout();
-    renderLayout(); setupDropTargets(); populateCatDropdowns();
-    showToast('Category renamed!', 'success');
-    loadAdminCategories();
-  } catch(err) { showToast('Error: ' + err.message, 'error'); }
-  finally { setLoading(false); }
-}
-
-async function deleteCategory(key) {
-  if (!confirm(`Delete category "${key}"? Items in this category will also be hidden.`)) return;
-  setLoading(true);
-  try {
-    try { await api('DELETE', `/api/categories/${key}`); } catch {}
-    delete categoryMeta[key]; delete data[key]; delete sel[key];
-    buildSections(); currentLayout = getDefaultLayout();
-    renderLayout(); setupDropTargets(); populateCatDropdowns();
-    showToast(`Category deleted`, 'success');
-    loadAdminCategories();
-  } catch(err) { showToast('Error: ' + err.message, 'error'); }
-  finally { setLoading(false); }
-}
-
-// ─── PRESETS ADMIN ───
+// PRESETS ADMIN
 async function loadAdminPresets() {
   try {
     const ps = await api('GET', '/api/presets');
@@ -1755,9 +1732,201 @@ async function createPreset() {
   finally { setLoading(false); }
 }
 
-async function deleteDbPreset(id) { if (!confirm('Delete this preset?')) return; setLoading(true); try{await api('DELETE',`/api/presets/${id}`);showToast('Preset deleted','success');loadAdminPresets();}catch(err){showToast('Error: '+err.message,'error');}finally{setLoading(false);} }
+// ─── INLINE MODAL SYSTEM (replaces all browser prompt/confirm/alert) ───
+let _imodalResolve = null;
 
-// ─── STAFF ANALYTICS ───
+function openInlineModal() { document.getElementById('inlineModal').classList.add('show'); }
+function closeInlineModal() {
+  document.getElementById('inlineModal').classList.remove('show');
+  document.getElementById('imodalBox').innerHTML = '';
+  if (_imodalResolve) { _imodalResolve(null); _imodalResolve = null; }
+}
+document.getElementById('inlineModal').addEventListener('click', e => { if (e.target === document.getElementById('inlineModal')) closeInlineModal(); });
+
+// Show a modal with a text input — returns the entered value or null
+function imodalPrompt({ title, sub = '', label, placeholder = '', defaultVal = '', inputType = 'text', btnLabel = 'Confirm', btnClass = 'primary' }) {
+  return new Promise(resolve => {
+    _imodalResolve = resolve;
+    document.getElementById('imodalBox').innerHTML = `
+      <div class="imodal-title">${title}</div>
+      ${sub ? `<div class="imodal-sub">${sub}</div>` : ''}
+      <div class="imodal-field"><label>${label}</label><input type="${inputType}" id="imodal-input" placeholder="${placeholder}" value="${defaultVal}"></div>
+      <div class="imodal-err" id="imodal-err"></div>
+      <div class="imodal-actions">
+        <button class="imodal-btn cancel" onclick="closeInlineModal()">Cancel</button>
+        <button class="imodal-btn ${btnClass}" id="imodal-confirm">${btnLabel}</button>
+      </div>`;
+    openInlineModal();
+    const inp = document.getElementById('imodal-input');
+    const confirm = () => { const v = inp.value.trim(); if (!v) { document.getElementById('imodal-err').textContent = 'This field is required'; return; } _imodalResolve = null; document.getElementById('inlineModal').classList.remove('show'); document.getElementById('imodalBox').innerHTML = ''; resolve(v); };
+    document.getElementById('imodal-confirm').onclick = confirm;
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') confirm(); });
+    setTimeout(() => { inp.focus(); inp.select(); }, 50);
+  });
+}
+
+// Show a confirm modal — returns true/false
+function imodalConfirm({ title, sub = '', btnLabel = 'Confirm', btnClass = 'primary' }) {
+  return new Promise(resolve => {
+    _imodalResolve = resolve;
+    document.getElementById('imodalBox').innerHTML = `
+      <div class="imodal-title">${title}</div>
+      ${sub ? `<div class="imodal-sub">${sub}</div>` : ''}
+      <div class="imodal-actions">
+        <button class="imodal-btn cancel" onclick="closeInlineModal()">Cancel</button>
+        <button class="imodal-btn ${btnClass}" id="imodal-confirm">${btnLabel}</button>
+      </div>`;
+    openInlineModal();
+    document.getElementById('imodal-confirm').onclick = () => { _imodalResolve = null; closeInlineModal(); resolve(true); };
+  });
+}
+
+// Show a role picker modal — returns selected role string or null
+function imodalRolePicker({ username, currentRole }) {
+  const roles = [
+    { value:'trainee', label:'🔰 Trainee', hint:'Order tool only' },
+    { value:'mechanic', label:'🔧 Mechanic', hint:'Order tool only' },
+    { value:'senior_mechanic', label:'⭐ Senior Mechanic', hint:'Dashboard access' },
+    { value:'manager', label:'📋 Manager', hint:'Dashboard access' },
+    { value:'owner', label:'👑 Owner', hint:'Full access' },
+  ];
+  return new Promise(resolve => {
+    _imodalResolve = resolve;
+    let selected = currentRole;
+    const renderItems = () => roles.map(r => `
+      <div class="imodal-role-item${r.value === selected ? ' selected' : ''}" onclick="imodalSelectRole('${r.value}')">
+        <span class="role-name">${r.label}</span>
+        <span class="role-hint">${r.hint}</span>
+      </div>`).join('');
+    document.getElementById('imodalBox').innerHTML = `
+      <div class="imodal-title">Change Role — ${username}</div>
+      <div class="imodal-sub">Current: ${getRoleLabel(currentRole)}</div>
+      <div class="imodal-role-list" id="imodal-role-list">${renderItems()}</div>
+      <div class="imodal-actions">
+        <button class="imodal-btn cancel" onclick="closeInlineModal()">Cancel</button>
+        <button class="imodal-btn success" onclick="imodalConfirmRole()">Apply Role</button>
+      </div>`;
+    openInlineModal();
+    window._imodalSelectedRole = currentRole;
+    window._imodalRoleResolve = (val) => { _imodalResolve = null; closeInlineModal(); resolve(val); };
+  });
+}
+window.imodalSelectRole = function(role) {
+  window._imodalSelectedRole = role;
+  document.querySelectorAll('.imodal-role-item').forEach(el => el.classList.toggle('selected', el.querySelector('.role-name')?.textContent === getRoleLabel(role) || el.onclick?.toString().includes(`'${role}'`)));
+  document.getElementById('imodal-role-list').querySelectorAll('.imodal-role-item').forEach((el, i) => {
+    const roles = ['trainee','mechanic','senior_mechanic','manager','owner'];
+    el.classList.toggle('selected', roles[i] === role);
+  });
+};
+window.imodalConfirmRole = function() {
+  if (window._imodalRoleResolve) window._imodalRoleResolve(window._imodalSelectedRole);
+};
+
+// ─── ADMIN FUNCTIONS (using imodal instead of prompt) ───
+async function resetStaffPassword(id, username) {
+  const newPw = await imodalPrompt({ title: 'Reset Password', sub: `Account: ${username}`, label: 'New Password (min 6 characters)', placeholder: 'Enter new password', inputType: 'password', btnLabel: 'Reset Password', btnClass: 'primary' });
+  if (!newPw) return;
+  if (newPw.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
+  setLoading(true);
+  try { await api('POST', `/api/admin/staff/${id}/reset-password`, { newPassword: newPw }); showToast(`Password reset for ${username}`, 'success'); }
+  catch(err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
+
+async function changeStaffRole(id, username, currentRole) {
+  const newRole = await imodalRolePicker({ username, currentRole });
+  if (!newRole || newRole === currentRole) return;
+  setLoading(true);
+  try { await api('PATCH', `/api/admin/staff/${id}`, { role: newRole }); showToast(`${username} is now ${getRoleLabel(newRole)}`, 'success'); loadAdminStaff(); }
+  catch(err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
+
+async function editItemPrice(id, name, cur) {
+  const val = await imodalPrompt({ title: 'Edit Item Price', sub: name, label: 'New Price ($)', placeholder: String(cur), defaultVal: String(cur), inputType: 'number', btnLabel: 'Save Price', btnClass: 'success' });
+  if (val === null) return;
+  const price = parseInt(val);
+  if (isNaN(price) || price < 0) { showToast('Invalid price', 'error'); return; }
+  setLoading(true);
+  try { await api('PATCH', `/api/items/${id}`, { price }); showToast('Price updated!', 'success'); loadAdminItems(); await loadItems(); }
+  catch(err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
+
+async function editCategoryLabel(key, currentLabel) {
+  const newLabel = await imodalPrompt({ title: 'Rename Category', sub: `Key: ${key}`, label: 'New Display Label (emoji allowed)', placeholder: currentLabel, defaultVal: currentLabel, btnLabel: 'Rename', btnClass: 'success' });
+  if (!newLabel || newLabel === currentLabel) return;
+  setLoading(true);
+  try {
+    try { await api('PATCH', `/api/categories/${key}`, { label: newLabel }); } catch {}
+    categoryMeta[key].label = newLabel;
+    buildSections(); currentLayout = getDefaultLayout();
+    renderLayout(); setupDropTargets(); populateCatDropdowns();
+    showToast('Category renamed!', 'success');
+    loadAdminCategories();
+  } catch(err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
+
+async function deleteStaff(id, username) {
+  const ok = await imodalConfirm({ title: `Delete "${username}"?`, sub: 'This cannot be undone. All their order history will remain.', btnLabel: 'Delete Account', btnClass: 'primary' });
+  if (!ok) return;
+  setLoading(true);
+  try { await api('DELETE', `/api/admin/staff/${id}`); showToast(`${username} deleted`, 'success'); loadAdminStaff(); }
+  catch(err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
+
+async function deleteItem(id, name) {
+  const ok = await imodalConfirm({ title: `Delete "${name}"?`, sub: 'This cannot be undone.', btnLabel: 'Delete Item', btnClass: 'primary' });
+  if (!ok) return;
+  setLoading(true);
+  try { await api('DELETE', `/api/items/${id}`); showToast(`${name} deleted`, 'success'); loadAdminItems(); await loadItems(); }
+  catch(err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
+
+async function deleteDbPreset(id) {
+  const ok = await imodalConfirm({ title: 'Delete this preset?', sub: 'This cannot be undone.', btnLabel: 'Delete Preset', btnClass: 'primary' });
+  if (!ok) return;
+  setLoading(true);
+  try { await api('DELETE', `/api/presets/${id}`); showToast('Preset deleted', 'success'); loadAdminPresets(); }
+  catch(err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
+
+async function deleteOrder(id, context) {
+  const ok = await imodalConfirm({ title: 'Delete this order?', sub: 'This cannot be undone.', btnLabel: 'Delete Order', btnClass: 'primary' });
+  if (!ok) return;
+  setLoading(true);
+  try {
+    await api('DELETE', `/api/admin/orders/${id}`);
+    showToast('Order deleted', 'success');
+    const row = document.getElementById(`order-row-${id}`);
+    if (row) row.remove();
+    const ordersRow = document.getElementById(`all-order-row-${id}`);
+    if (ordersRow) { ordersRow.remove(); allOrdersTotal = Math.max(0, allOrdersTotal - 1); const el = document.getElementById('ordersTotal'); if (el) el.textContent = `${allOrdersTotal} total`; }
+    const todayEl = document.getElementById('st-today');
+    if (todayEl && context === 'recent') { const v = parseInt(todayEl.textContent) || 0; if (v > 0) todayEl.textContent = v - 1; }
+  } catch(err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
+
+async function deleteCategory(key) {
+  const ok = await imodalConfirm({ title: `Delete category "${key}"?`, sub: 'Items in this category will also be hidden.', btnLabel: 'Delete Category', btnClass: 'primary' });
+  if (!ok) return;
+  setLoading(true);
+  try {
+    try { await api('DELETE', `/api/categories/${key}`); } catch {}
+    delete categoryMeta[key]; delete data[key]; delete sel[key];
+    buildSections(); currentLayout = getDefaultLayout();
+    renderLayout(); setupDropTargets(); populateCatDropdowns();
+    showToast('Category deleted', 'success');
+    loadAdminCategories();
+  } catch(err) { showToast('Error: ' + err.message, 'error'); }
+  finally { setLoading(false); }
+}
 async function loadStaffAnalytics() {
   try {
     document.getElementById('analyticsTitle').textContent = `📈 ${currentUser.displayName}'s Performance`;
